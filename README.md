@@ -1,3 +1,3 @@
-# Mitt Projekt
+# GoBet
 
-Detta Ã¤r ett exempelprojekt fÃ¶r att lÃ¤ra sig Git och GitHub.
+Detta är ett projekt för en betting-applikation.
