@@ -1,0 +1,15 @@
+# Filer som ska ignoreras av Git
+
+# Operativsystemsfiler
+.DS_Store
+Thumbs.db
+
+# Node.js-moduler
+node_modules/
+
+# Loggfiler
+*.log
+
+# Tillfälliga filer
+tmp/
+temp/
