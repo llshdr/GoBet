@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prenumerationsplaner - GoBet</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/plans.css">
+  <!-- Lägg till Google Fonts: Inter och Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- Lägg till moderna ikoner med Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="logo">
+          <i class="fa-solid fa-dice logo-icon"></i>
+          <h1>GoBet</h1>
+        </div>
+        
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        
+        <nav class="main-nav" id="mainNav">
+          <ul>
+            <li><a href="index.html"><i class="fa-solid fa-trophy"></i> Bets</a></li>
+            <li><a href="index.html#friend-bets"><i class="fa-solid fa-users"></i> Vänner</a></li>
+            <li><a href="index.html#giveaways"><i class="fa-solid fa-gift"></i> Giveaways</a></li>
+            <li><a href="create-bet.html"><i class="fa-solid fa-plus"></i> Skapa Bet</a></li>
+            <li><a href="plans.html" class="active"><i class="fa-solid fa-crown"></i> Planer</a></li>
+          </ul>
+        </nav>
+        
+        <div class="user-area">
+          <div class="balance">
+            <i class="fa-solid fa-coins"></i>
+            <span>5,000 GoCoins</span>
+          </div>
+          
+          <div class="user-menu">
+            <img src="https://ui-avatars.com/api/?name=Max+Bettman&background=6643b5&color=fff" alt="Avatar" class="avatar">
+            <span class="username">MaxBettman</span>
+            <i class="fa-solid fa-chevron-down"></i>
+            <span class="user-plan-badge free">Gratis</span>
+            
+            <div class="dropdown-menu">
+              <a href="#"><i class="fa-solid fa-user"></i> Profil</a>
+              <a href="#"><i class="fa-solid fa-wallet"></i> Plånbok</a>
+              <a href="#"><i class="fa-solid fa-history"></i> Historik</a>
+              <a href="#"><i class="fa-solid fa-gear"></i> Inställningar</a>
+              <a href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logga ut</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Hero section -->
+        <section class="hero">
+          <div class="hero-content">
+            <h2>Välj en plan som passar dig</h2>
+            <p>Uppgradera till Premium för att få tillgång till fler funktioner och möjligheter. Skapa fler bets, få tillgång till exklusiva bettyper och mycket mer!</p>
+          </div>
+        </section>
+
+        <!-- Plans Section -->
+        <section class="plans-section">
+          <h2 class="section-title">Våra prenumerationsplaner</h2>
+          
+          <div class="plans-container">
+            <!-- Free Plan -->
+            <div class="plan-card" data-plan="free">
+              <div class="plan-header">
+                <h3 class="plan-name">Gratis</h3>
+                <div class="plan-price">0 kr<span>/månad</span></div>
+              </div>
+              
+              <div class="plan-features">
+                <div class="plan-feature">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Skapa bets med vänner</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Delta i offentliga bets</span>
+                </div>
+                <div class="plan-feature highlight">
+                  <i class="fa-solid fa-star"></i>
+                  <span>1 gratis bet per vecka</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Delta i giveaways</span>
+                </div>
+                <div class="plan-feature unavailable">
+                  <i class="fa-solid fa-xmark"></i>
+                  <span>Winner-takes-all bets</span>
+                </div>
+                <div class="plan-feature unavailable">
+                  <i class="fa-solid fa-xmark"></i>
+                  <span>Turneringsbets</span>
+                </div>
+                <div class="plan-feature unavailable">
+                  <i class="fa-solid fa-xmark"></i>
+                  <span>Skapa egna giveaways</span>
+                </div>
+              </div>
+              
+              <button class="plan-select">Din nuvarande plan</button>
+            </div>
+            
+            <!-- Premium Plan -->
+            <div class="plan-card premium" data-plan="premium">
+              <div class="plan-badge">Populär</div>
+              
+              <div class="plan-header">
+                <h3 class="plan-name">Premium</h3>
+                <div class="plan-price">49 kr<span>/månad</span></div>
+              </div>
+              
+              <div class="plan-features">
+                <div class="plan-feature">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Allt i Gratis</span>
+                </div>
+                <div class="plan-feature highlight">
+                  <i class="fa-solid fa-star"></i>
+                  <span>5 gratis bets per vecka</span>
+                </div>
+                <div class="plan-feature highlight">
+                  <i class="fa-solid fa-star"></i>
+                  <span>Winner-takes-all bets</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Skapa giveaways</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fa-solid fa-check"></i>
+                  <span>500 gratis GoCoins/månad</span>
+                </div>
+                <div class="plan-feature unavailable">
+                  <i class="fa-solid fa-xmark"></i>
+                  <span>Turneringsbets</span>
+                </div>
+                <div class="plan-feature unavailable">
+                  <i class="fa-solid fa-xmark"></i>
+                  <span>Exklusiva giveaways</span>
+                </div>
+              </div>
+              
+              <button class="plan-select">Uppgradera nu</button>
+            </div>
+            
+            <!-- Premium+ Plan -->
+            <div class="plan-card premium-plus" data-plan="premium-plus">
+              <div class="plan-header">
+                <h3 class="plan-name">Premium+</h3>
+                <div class="plan-price">99 kr<span>/månad</span></div>
+              </div>
+              
+              <div class="plan-features">
+                <div class="plan-feature">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Allt i Premium</span>
+                </div>
+                <div class="plan-feature highlight">
+                  <i class="fa-solid fa-star"></i>
+                  <span>Obegränsat antal bets</span>
+                </div>
+                <div class="plan-feature highlight">
+                  <i class="fa-solid fa-star"></i>
+                  <span>Turneringsbets</span>
+                </div>
+                <div class="plan-feature highlight">
+                  <i class="fa-solid fa-star"></i>
+                  <span>1000 gratis GoCoins/månad</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Exklusiva giveaways</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Prioriterad support</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Anpassade bet-widgets</span>
+                </div>
+              </div>
+              
+              <button class="plan-select">Uppgradera nu</button>
+            </div>
+          </div>
+          
+          <!-- Plan Compare -->
+          <div class="plan-compare">
+            <h3>Jämförelse av prenumerationsplaner</h3>
+            
+            <div class="plan-info">
+              <p>
+                Med <strong>Premium</strong> och <strong>Premium+</strong> får du tillgång till fler funktioner och möjligheter att skapa bets.
+                Om du är en aktiv bettare rekommenderar vi Premium+-planen för obegränsat antal bets och turneringsfunktioner.
+              </p>
+              
+              <div class="plan-status">
+                <p>
+                  <i class="fa-solid fa-info-circle"></i>
+                  Du använder just nu <strong class="current-plan-name">Gratis</strong>-planen 
+                  och har <strong id="free-bets-remaining">1</strong> gratisbets kvar denna vecka.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- FAQ Section -->
+        <section class="faq-section">
+          <h2 class="section-title">Vanliga frågor</h2>
+          
+          <div class="faq-items">
+            <div class="faq-item glass-card">
+              <h3>Hur många bets kan jag skapa?</h3>
+              <p>
+                Med Gratis-planen kan du skapa 1 bet per vecka. Premium ger dig 5 bets per vecka, och Premium+ ger dig obegränsat antal bets.
+              </p>
+            </div>
+            
+            <div class="faq-item glass-card">
+              <h3>Vad är winner-takes-all bets?</h3>
+              <p>
+                I ett winner-takes-all bet går hela prispotten till vinnaren. Alla deltagare betalar samma insats och den som gissar rätt tar hela potten.
+                Denna funktion är tillgänglig för Premium och Premium+ användare.
+              </p>
+            </div>
+            
+            <div class="faq-item glass-card">
+              <h3>Vad är turneringsbets?</h3>
+              <p>
+                Turneringsbets är specialarrangerade bets kopplat till sportevenemang, e-sports eller andra aktiviteter där deltagarna kan följa resultat i realtid.
+                Denna funktion är exklusiv för Premium+ användare.
+              </p>
+            </div>
+            
+            <div class="faq-item glass-card">
+              <h3>Kan jag byta plan när som helst?</h3>
+              <p>
+                Ja, du kan när som helst uppgradera till en högre plan eller nedgradera till en lägre plan. Din nya plan börjar gälla omedelbart.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <i class="fa-solid fa-dice"></i>
+            <h2>GoBet</h2>
+            <p>Den ultimata plattformen för att skapa och delta i betting-utmaningar med dina vänner. Vinn stora priser och ha kul tillsammans!</p>
+            <div class="social-icons">
+              <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+              <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" class="social-icon"><i class="fa-brands fa-discord"></i></a>
+            </div>
+          </div>
+          
+          <div class="footer-links">
+            <h3>Snabblänkar</h3>
+            <ul>
+              <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Hem</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Om oss</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Hur det fungerar</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Villkor</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Integritetspolicy</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Kontakta oss</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-social">
+            <h3>Kontakt</h3>
+            <ul>
+              <li><a href="#"><i class="fa-solid fa-envelope"></i> support@gobet.com</a></li>
+              <li><a href="#"><i class="fa-solid fa-phone"></i> +46 123 456 789</a></li>
+              <li><a href="#"><i class="fa-solid fa-location-dot"></i> Stockholm, Sverige</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; 2023 GoBet. Alla rättigheter reserverade.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/plans.js"></script>
+</body>
+</html> 

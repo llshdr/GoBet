@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GoBet - Din personliga betting-plattform</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/plans.css">
   <!-- Lägg till Google Fonts: Inter och Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,9 +30,10 @@
         <nav class="main-nav" id="mainNav">
           <ul>
             <li><a href="#" class="active"><i class="fa-solid fa-trophy"></i> Bets</a></li>
-            <li><a href="#"><i class="fa-solid fa-users"></i> Friends</a></li>
-            <li><a href="#"><i class="fa-solid fa-gift"></i> Giveaways</a></li>
-            <li><a href="#"><i class="fa-solid fa-plus"></i> Create Bet</a></li>
+            <li><a href="#friend-bets"><i class="fa-solid fa-users"></i> Vänner</a></li>
+            <li><a href="#giveaways"><i class="fa-solid fa-gift"></i> Giveaways</a></li>
+            <li><a href="create-bet.html"><i class="fa-solid fa-plus"></i> Skapa Bet</a></li>
+            <li><a href="plans.html"><i class="fa-solid fa-crown"></i> Planer</a></li>
           </ul>
         </nav>
         
@@ -45,11 +47,13 @@
             <img src="https://ui-avatars.com/api/?name=Max+Bettman&background=6643b5&color=fff" alt="Avatar" class="avatar">
             <span class="username">MaxBettman</span>
             <i class="fa-solid fa-chevron-down"></i>
+            <span class="user-plan-badge free">Gratis</span>
             
             <div class="dropdown-menu">
               <a href="#"><i class="fa-solid fa-user"></i> Profil</a>
               <a href="#"><i class="fa-solid fa-wallet"></i> Plånbok</a>
               <a href="#"><i class="fa-solid fa-history"></i> Historik</a>
+              <a href="plans.html"><i class="fa-solid fa-crown"></i> Uppgradera</a>
               <a href="#"><i class="fa-solid fa-gear"></i> Inställningar</a>
               <a href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logga ut</a>
             </div>
@@ -67,12 +71,35 @@
             <h2>Utmana dina vänner och vinn stora priser</h2>
             <p>GoBet är den ultimata plattformen för att skapa och delta i betting-utmaningar med vänner. Vinn GoCoins och gaming-föremål genom att förutsäga rätt utgångar på olika händelser.</p>
             <div class="hero-buttons">
-              <a href="#" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Skapa Bet</a>
-              <a href="#" class="btn btn-outline btn-lg"><i class="fa-solid fa-trophy"></i> Utforska Bets</a>
+              <a href="create-bet.html" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Skapa Bet</a>
+              <a href="#public-bets" class="btn btn-outline btn-lg"><i class="fa-solid fa-trophy"></i> Utforska Bets</a>
             </div>
           </div>
           <div class="hero-image">
             <img src="https://images.unsplash.com/photo-1559526324-593bc073d938?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="GoBet Platform">
+          </div>
+        </section>
+
+        <!-- Plans Promo -->
+        <section class="plans-promo glass-card">
+          <div class="promo-content">
+            <h2>Ta dina bets till nästa nivå!</h2>
+            <p>Med premiumplaner får du tillgång till exklusiva funktioner som winner-takes-all och turneringbets.</p>
+            <div class="promo-features">
+              <div class="promo-feature">
+                <i class="fa-solid fa-check"></i>
+                <span>Skapa fler bets varje vecka</span>
+              </div>
+              <div class="promo-feature">
+                <i class="fa-solid fa-check"></i>
+                <span>Vinnaren tar hela potten</span>
+              </div>
+              <div class="promo-feature">
+                <i class="fa-solid fa-check"></i>
+                <span>Turneringsbets för e-sport och sport</span>
+              </div>
+            </div>
+            <a href="plans.html" class="btn btn-primary">Läs mer om våra planer</a>
           </div>
         </section>
 
@@ -97,11 +124,15 @@
               <h2>Populära Bets</h2>
               <div class="filters">
                 <button class="btn btn-sm btn-outline"><i class="fa-solid fa-filter"></i> Filtrera</button>
+                <a href="create-bet.html" class="btn btn-sm btn-primary"><i class="fa-solid fa-plus"></i> Skapa Bet</a>
               </div>
             </div>
             <div class="bets-grid">
               <!-- Sample Bet Cards -->
               <div class="bet-card glass-card">
+                <div class="winner-takes-all-badge">
+                  <i class="fa-solid fa-trophy"></i> Vinnaren tar allt
+                </div>
                 <div class="bet-header">
                   <div class="bet-creator">
                     <img src="https://ui-avatars.com/api/?name=Gaming+King&background=ff7e47&color=fff" alt="Creator" class="avatar-sm">
@@ -137,6 +168,9 @@
               </div>
               
               <div class="bet-card glass-card">
+                <div class="tournament-badge">
+                  <i class="fa-solid fa-trophy"></i> Turnering
+                </div>
                 <div class="bet-header">
                   <div class="bet-creator">
                     <img src="https://ui-avatars.com/api/?name=Football+Fan&background=00c2cb&color=fff" alt="Creator" class="avatar-sm">
@@ -214,13 +248,14 @@
               <h2>Vänners Bets</h2>
               <div class="filters">
                 <button class="btn btn-sm btn-outline"><i class="fa-solid fa-filter"></i> Filtrera</button>
+                <a href="create-bet.html" class="btn btn-sm btn-primary"><i class="fa-solid fa-plus"></i> Skapa Bet</a>
               </div>
             </div>
             <div class="empty-state">
               <i class="fa-solid fa-user-group empty-icon"></i>
               <h3>Inga aktiva vännerbets</h3>
               <p>Skapa ett nytt bet och bjud in dina vänner eller be dem bjuda in dig!</p>
-              <button class="btn btn-primary">Skapa vänbet</button>
+              <a href="create-bet.html" class="btn btn-primary">Skapa vänbet</a>
             </div>
           </div>
 
@@ -320,7 +355,7 @@
             </div>
           </div>
         </div>
-
+        
         <!-- Featured Games -->
         <section class="featured-games">
           <h2>Populära Spel för Betting</h2>
@@ -407,5 +442,6 @@
   <!-- JavaScript -->
   <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/plans.js"></script>
 </body>
 </html> 
