@@ -3,9 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GoBet - Betta med GoCoins och skins</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>GoBet - Din personliga betting-plattform</title>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Lägg till Google Fonts: Inter och Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- Lägg till moderna ikoner med Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="app">
@@ -13,33 +18,40 @@
     <header class="header">
       <div class="container">
         <div class="logo">
-          <i class="fas fa-gamepad logo-icon"></i>
+          <i class="fa-solid fa-dice logo-icon"></i>
           <h1>GoBet</h1>
         </div>
-        <nav class="main-nav">
+        
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        
+        <nav class="main-nav" id="mainNav">
           <ul>
-            <li><a href="#" class="active">Hem</a></li>
-            <li><a href="#public-bets">Offentliga</a></li>
-            <li><a href="#friend-bets">Vänner</a></li>
-            <li><a href="#giveaways">Giveaways</a></li>
-            <li><a href="#sports">Sport</a></li>
+            <li><a href="#" class="active"><i class="fa-solid fa-trophy"></i> Bets</a></li>
+            <li><a href="#"><i class="fa-solid fa-users"></i> Friends</a></li>
+            <li><a href="#"><i class="fa-solid fa-gift"></i> Giveaways</a></li>
+            <li><a href="#"><i class="fa-solid fa-plus"></i> Create Bet</a></li>
           </ul>
         </nav>
+        
         <div class="user-area">
           <div class="balance">
-            <i class="fas fa-coins"></i>
-            <span id="gocoins-balance">1000</span> GoCoins
+            <i class="fa-solid fa-coins"></i>
+            <span>5,000 GoCoins</span>
           </div>
+          
           <div class="user-menu">
-            <img src="images/default-avatar.png" alt="Användare" class="avatar">
-            <span class="username">Användarnamn</span>
-            <i class="fas fa-caret-down"></i>
+            <img src="images/avatar.png" alt="Avatar" class="avatar">
+            <span class="username">MaxBettman</span>
+            <i class="fa-solid fa-chevron-down"></i>
+            
             <div class="dropdown-menu">
-              <a href="#profile"><i class="fas fa-user"></i> Min profil</a>
-              <a href="#inventory"><i class="fas fa-box-open"></i> Inventory</a>
-              <a href="#friends"><i class="fas fa-users"></i> Vänner</a>
-              <a href="#settings"><i class="fas fa-cog"></i> Inställningar</a>
-              <a href="#logout"><i class="fas fa-sign-out-alt"></i> Logga ut</a>
+              <a href="#"><i class="fa-solid fa-user"></i> Profil</a>
+              <a href="#"><i class="fa-solid fa-wallet"></i> Plånbok</a>
+              <a href="#"><i class="fa-solid fa-history"></i> Historik</a>
+              <a href="#"><i class="fa-solid fa-gear"></i> Inställningar</a>
+              <a href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logga ut</a>
             </div>
           </div>
         </div>
@@ -52,28 +64,28 @@
         <!-- Hero section -->
         <section class="hero">
           <div class="hero-content">
-            <h2>Betta med GoCoins och skins</h2>
-            <p>Skapa och delta i bets med dina vänner och resten av communityt. Vinn GoCoins, CS2-skins, Fortnite-skins och mer!</p>
+            <h2>Utmana dina vänner och vinn stora priser</h2>
+            <p>GoBet är den ultimata plattformen för att skapa och delta i betting-utmaningar med vänner. Vinn GoCoins och gaming-föremål genom att förutsäga rätt utgångar på olika händelser.</p>
             <div class="hero-buttons">
-              <a href="#create-bet" class="btn btn-primary"><i class="fas fa-plus"></i> Skapa bet</a>
-              <a href="#explore" class="btn btn-secondary"><i class="fas fa-search"></i> Utforska bets</a>
+              <a href="#" class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i> Skapa Bet</a>
+              <a href="#" class="btn btn-outline btn-lg"><i class="fa-solid fa-trophy"></i> Utforska Bets</a>
             </div>
           </div>
           <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1579547945413-497e1b99dac0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="GoBet Hero">
+            <img src="images/hero-image.jpg" alt="GoBet Platform">
           </div>
         </section>
 
         <!-- Tabs Navigation -->
         <div class="tabs">
           <button class="tab-btn active" data-tab="public-bets">
-            <i class="fas fa-globe"></i> Offentliga bets
+            <i class="fa-solid fa-globe"></i> Offentliga Bets
           </button>
           <button class="tab-btn" data-tab="friend-bets">
-            <i class="fas fa-user-friends"></i> Vännerbets
+            <i class="fa-solid fa-user-group"></i> Vänners Bets
           </button>
           <button class="tab-btn" data-tab="giveaways">
-            <i class="fas fa-gift"></i> Giveaways
+            <i class="fa-solid fa-gift"></i> Giveaways
           </button>
         </div>
 
@@ -82,95 +94,127 @@
           <!-- Public Bets -->
           <div class="tab-pane active" id="public-bets">
             <div class="section-header">
-              <h2>Offentliga bets</h2>
-              <button class="btn btn-sm btn-primary create-bet-btn">
-                <i class="fas fa-plus"></i> Skapa nytt bet
-              </button>
+              <h2>Populära Bets</h2>
+              <div class="filters">
+                <button class="btn btn-sm btn-outline"><i class="fa-solid fa-filter"></i> Filtrera</button>
+              </div>
             </div>
             <div class="bets-grid">
               <!-- Sample Bet Cards -->
-              <div class="bet-card">
+              <div class="bet-card glass-card">
                 <div class="bet-header">
                   <div class="bet-creator">
-                    <img src="images/default-avatar.png" alt="Creator" class="avatar-sm">
-                    <span>BettingKing</span>
+                    <img src="images/avatar1.png" alt="Creator" class="avatar-sm">
+                    <span>GamingKing</span>
                   </div>
                   <div class="bet-type public">
-                    <i class="fas fa-globe"></i>
+                    <i class="fa-solid fa-globe"></i> Offentlig
                   </div>
                 </div>
-                <div class="bet-title">CS2 Turnering Final</div>
-                <div class="bet-description">
-                  Vem kommer att vinna finalen i Stockholm Major?
-                </div>
+                <h3 class="bet-title">Vem vinner CS:GO-turneringen?</h3>
+                <p class="bet-description">Satsa på vilket lag som tar hem segern i helgens stora CS:GO-turnering.</p>
                 <div class="bet-options">
                   <div class="option">
-                    <span class="option-name">NAVI</span>
-                    <span class="option-odds">2.5</span>
+                    <span class="option-name">Ninjas in Pyjamas</span>
+                    <span class="option-odds">2.5x</span>
                   </div>
                   <div class="option">
-                    <span class="option-name">FaZe</span>
-                    <span class="option-odds">1.8</span>
+                    <span class="option-name">Fnatic</span>
+                    <span class="option-odds">1.8x</span>
                   </div>
                 </div>
                 <div class="bet-footer">
                   <div class="bet-prize">
-                    <i class="fas fa-coins"></i> 5000 GoCoins
+                    <i class="fa-solid fa-coins"></i>
+                    1,500 GoCoins
                   </div>
                   <div class="bet-timer">
-                    <i class="fas fa-clock"></i> 2d 5h kvar
+                    <i class="fa-regular fa-clock"></i>
+                    2 dagar kvar
                   </div>
                 </div>
-                <button class="btn btn-join">Delta</button>
+                <a href="#" class="btn btn-join">Delta i Bet</a>
               </div>
               
-              <div class="bet-card">
+              <div class="bet-card glass-card">
                 <div class="bet-header">
                   <div class="bet-creator">
-                    <img src="images/default-avatar.png" alt="Creator" class="avatar-sm">
-                    <span>FortniteGuru</span>
+                    <img src="images/avatar2.png" alt="Creator" class="avatar-sm">
+                    <span>FootballFan</span>
                   </div>
                   <div class="bet-type public">
-                    <i class="fas fa-globe"></i>
+                    <i class="fa-solid fa-globe"></i> Offentlig
                   </div>
                 </div>
-                <div class="bet-title">Fortnite Solo Match</div>
-                <div class="bet-description">
-                  Vem kommer få flest elimineringar i nästa match?
-                </div>
+                <h3 class="bet-title">Fotbolls-VM kvartsfinaler</h3>
+                <p class="bet-description">Vem går till semifinal? Satsa på rätt lag och vinn stora priser!</p>
                 <div class="bet-options">
                   <div class="option">
-                    <span class="option-name">FortniteGuru</span>
-                    <span class="option-odds">3.2</span>
+                    <span class="option-name">Frankrike</span>
+                    <span class="option-odds">1.5x</span>
                   </div>
                   <div class="option">
-                    <span class="option-name">BuildMaster99</span>
-                    <span class="option-odds">1.5</span>
+                    <span class="option-name">England</span>
+                    <span class="option-odds">2.2x</span>
                   </div>
                 </div>
                 <div class="bet-footer">
                   <div class="bet-prize">
-                    <img src="images/skin-icon.png" alt="Skin" class="prize-icon">
-                    Legendary Skin
+                    <i class="fa-solid fa-coins"></i>
+                    2,200 GoCoins
                   </div>
                   <div class="bet-timer">
-                    <i class="fas fa-clock"></i> 6h kvar
+                    <i class="fa-regular fa-clock"></i>
+                    3 dagar kvar
                   </div>
                 </div>
-                <button class="btn btn-join">Delta</button>
+                <a href="#" class="btn btn-join">Delta i Bet</a>
               </div>
               
-              <!-- More bet cards would be dynamically generated -->
+              <div class="bet-card glass-card">
+                <div class="bet-header">
+                  <div class="bet-creator">
+                    <img src="images/avatar3.png" alt="Creator" class="avatar-sm">
+                    <span>TechGuru</span>
+                  </div>
+                  <div class="bet-type public">
+                    <i class="fa-solid fa-globe"></i> Offentlig
+                  </div>
+                </div>
+                <h3 class="bet-title">Nästa stora tekniknyhet från Apple</h3>
+                <p class="bet-description">Vad kommer Apple att presentera på nästa event? Satsa på rätt produkt!</p>
+                <div class="bet-options">
+                  <div class="option">
+                    <span class="option-name">AR Glasögon</span>
+                    <span class="option-odds">3.5x</span>
+                  </div>
+                  <div class="option">
+                    <span class="option-name">iPhone 15</span>
+                    <span class="option-odds">1.2x</span>
+                  </div>
+                </div>
+                <div class="bet-footer">
+                  <div class="bet-prize">
+                    <i class="fa-solid fa-coins"></i>
+                    3,000 GoCoins
+                  </div>
+                  <div class="bet-timer">
+                    <i class="fa-regular fa-clock"></i>
+                    5 dagar kvar
+                  </div>
+                </div>
+                <a href="#" class="btn btn-join">Delta i Bet</a>
+              </div>
             </div>
           </div>
 
           <!-- Friend Bets -->
           <div class="tab-pane" id="friend-bets">
             <div class="section-header">
-              <h2>Vännerbets</h2>
-              <button class="btn btn-sm btn-primary create-bet-btn">
-                <i class="fas fa-plus"></i> Skapa nytt vänbet
-              </button>
+              <h2>Vänners Bets</h2>
+              <div class="filters">
+                <button class="btn btn-sm btn-outline"><i class="fa-solid fa-filter"></i> Filtrera</button>
+              </div>
             </div>
             <div class="empty-state">
               <i class="fas fa-user-friends empty-icon"></i>
@@ -183,72 +227,128 @@
           <!-- Giveaways -->
           <div class="tab-pane" id="giveaways">
             <div class="section-header">
-              <h2>Giveaways</h2>
-              <button class="btn btn-sm btn-primary create-giveaway-btn">
-                <i class="fas fa-plus"></i> Skapa ny giveaway
-              </button>
+              <h2>Aktiva Giveaways</h2>
+              <div class="filters">
+                <button class="btn btn-sm btn-outline"><i class="fa-solid fa-filter"></i> Filtrera</button>
+              </div>
             </div>
             <div class="giveaways-grid">
               <!-- Sample Giveaway Cards -->
-              <div class="giveaway-card">
+              <div class="giveaway-card glass-card">
                 <div class="giveaway-header">
                   <div class="giveaway-creator">
-                    <img src="images/default-avatar.png" alt="Creator" class="avatar-sm">
-                    <span>GenerousGamer</span>
+                    <img src="images/avatar6.png" alt="Creator" class="avatar-sm">
+                    <span>PrizeGiver</span>
                   </div>
                   <div class="giveaway-participants">
-                    <i class="fas fa-users"></i> 156
+                    <i class="fa-solid fa-users"></i>
+                    145 deltagare
                   </div>
                 </div>
-                <div class="giveaway-title">CS2 Kniv Giveaway</div>
+                <h3 class="giveaway-title">Counter-Strike 2 Beta Access + Rare Skin</h3>
                 <div class="giveaway-prize">
-                  <img src="images/knife-icon.png" alt="Knife" class="prize-icon">
+                  <img src="images/cs-icon.png" alt="CS Beta">
                   <div class="prize-details">
-                    <div class="prize-name">Butterfly Knife | Fade</div>
-                    <div class="prize-value">15000 GoCoins</div>
+                    <div class="prize-name">CS2 Beta + AWP Dragon Lore</div>
+                    <div class="prize-value">Värde: 15,000 GoCoins</div>
                   </div>
                 </div>
                 <div class="giveaway-footer">
                   <div class="giveaway-timer">
-                    <i class="fas fa-clock"></i> 3d 12h kvar
+                    <i class="fa-regular fa-clock"></i>
+                    2 dagar kvar
                   </div>
-                  <button class="btn btn-join">Delta</button>
+                  <a href="#" class="btn btn-secondary">Delta</a>
                 </div>
               </div>
               
-              <!-- More giveaway cards would be dynamically generated -->
+              <div class="giveaway-card glass-card">
+                <div class="giveaway-header">
+                  <div class="giveaway-creator">
+                    <img src="images/avatar7.png" alt="Creator" class="avatar-sm">
+                    <span>GiftMaster</span>
+                  </div>
+                  <div class="giveaway-participants">
+                    <i class="fa-solid fa-users"></i>
+                    89 deltagare
+                  </div>
+                </div>
+                <h3 class="giveaway-title">Steam Gift Card Giveaway</h3>
+                <div class="giveaway-prize">
+                  <img src="images/steam-icon.png" alt="Steam Card">
+                  <div class="prize-details">
+                    <div class="prize-name">Steam Gift Card (50€)</div>
+                    <div class="prize-value">Värde: 5,000 GoCoins</div>
+                  </div>
+                </div>
+                <div class="giveaway-footer">
+                  <div class="giveaway-timer">
+                    <i class="fa-regular fa-clock"></i>
+                    3 dagar kvar
+                  </div>
+                  <a href="#" class="btn btn-secondary">Delta</a>
+                </div>
+              </div>
+              
+              <div class="giveaway-card glass-card">
+                <div class="giveaway-header">
+                  <div class="giveaway-creator">
+                    <img src="images/avatar8.png" alt="Creator" class="avatar-sm">
+                    <span>LootDropper</span>
+                  </div>
+                  <div class="giveaway-participants">
+                    <i class="fa-solid fa-users"></i>
+                    212 deltagare
+                  </div>
+                </div>
+                <h3 class="giveaway-title">Gaming Headset Premium</h3>
+                <div class="giveaway-prize">
+                  <img src="images/headset-icon.png" alt="Gaming Headset">
+                  <div class="prize-details">
+                    <div class="prize-name">Razer Kraken Headset</div>
+                    <div class="prize-value">Värde: 8,000 GoCoins</div>
+                  </div>
+                </div>
+                <div class="giveaway-footer">
+                  <div class="giveaway-timer">
+                    <i class="fa-regular fa-clock"></i>
+                    5 dagar kvar
+                  </div>
+                  <a href="#" class="btn btn-secondary">Delta</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Featured Games Section -->
         <section class="featured-games">
-          <h2>Integrerade spel</h2>
+          <h2>Populära Spel för Betting</h2>
           <div class="games-grid">
             <div class="game-card">
-              <img src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="CS2">
+              <img src="images/game1.jpg" alt="Counter-Strike 2">
               <div class="game-info">
                 <h3>Counter-Strike 2</h3>
-                <p>Betta med dina CS2-skins eller vinn nya till din samling.</p>
-                <a href="#cs2-bets" class="btn btn-sm">Visa bets</a>
+                <p>Delta i spännande vadslagningar kring CS2-matcher och turneringar.</p>
+                <a href="#" class="btn btn-primary">Utforska Bets</a>
               </div>
             </div>
             
             <div class="game-card">
-              <img src="https://images.unsplash.com/photo-1589241950824-115709b2fbcf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Fortnite">
+              <img src="images/game2.jpg" alt="League of Legends">
+              <div class="game-info">
+                <h3>League of Legends</h3>
+                <p>Satsa på dina favoritlag i den populära MOBA-titeln.</p>
+                <a href="#" class="btn btn-primary">Utforska Bets</a>
+              </div>
+            </div>
+            
+            <div class="game-card">
+              <img src="images/game3.jpg" alt="Fortnite">
               <div class="game-info">
                 <h3>Fortnite</h3>
-                <p>Använd eller vinn Fortnite-skins, emotes och andra föremål.</p>
-                <a href="#fortnite-bets" class="btn btn-sm">Visa bets</a>
-              </div>
-            </div>
-            
-            <div class="game-card">
-              <img src="https://images.unsplash.com/photo-1560253414-f65d1f5a1a37?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="DOTA 2">
-              <div class="game-info">
-                <h3>DOTA 2</h3>
-                <p>Satsa dina DOTA 2-föremål eller vinn nya till din samling.</p>
-                <a href="#dota-bets" class="btn btn-sm">Visa bets</a>
+                <p>Skapa och delta i Fortnite-relaterade bets med dina vänner.</p>
+                <a href="#" class="btn btn-primary">Utforska Bets</a>
               </div>
             </div>
           </div>
@@ -261,32 +361,38 @@
       <div class="container">
         <div class="footer-content">
           <div class="footer-logo">
-            <i class="fas fa-gamepad logo-icon"></i>
+            <i class="fa-solid fa-dice"></i>
             <h2>GoBet</h2>
-            <p>Din plattform för betting med GoCoins och skins.</p>
+            <p>Den ultimata plattformen för att skapa och delta i betting-utmaningar med dina vänner. Vinn stora priser och ha kul tillsammans!</p>
+            <div class="social-icons">
+              <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+              <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" class="social-icon"><i class="fa-brands fa-discord"></i></a>
+            </div>
           </div>
           <div class="footer-links">
-            <h3>Länkar</h3>
+            <h3>Snabblänkar</h3>
             <ul>
-              <li><a href="#about">Om oss</a></li>
-              <li><a href="#terms">Användarvillkor</a></li>
-              <li><a href="#privacy">Integritetspolicy</a></li>
-              <li><a href="#faq">Vanliga frågor</a></li>
-              <li><a href="#contact">Kontakta oss</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Hem</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Om oss</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Hur det fungerar</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Villkor</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Integritetspolicy</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Kontakta oss</a></li>
             </ul>
           </div>
           <div class="footer-social">
-            <h3>Följ oss</h3>
-            <div class="social-icons">
-              <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
-              <a href="#" class="social-icon"><i class="fab fa-twitch"></i></a>
-              <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-            </div>
+            <h3>Kontakt</h3>
+            <ul>
+              <li><a href="#"><i class="fa-solid fa-envelope"></i> support@gobet.com</a></li>
+              <li><a href="#"><i class="fa-solid fa-phone"></i> +46 123 456 789</a></li>
+              <li><a href="#"><i class="fa-solid fa-location-dot"></i> Stockholm, Sverige</a></li>
+            </ul>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2025 GoBet. Alla rättigheter förbehållna.</p>
+          <p>&copy; 2023 GoBet. Alla rättigheter reserverade.</p>
         </div>
       </div>
     </footer>
@@ -298,5 +404,31 @@
 
   <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
   <script src="js/main.js"></script>
+  <script>
+    // Mobilmeny toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mainNav = document.getElementById('mainNav');
+    
+    mobileMenuToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+    });
+    
+    // Tab funktionalitet
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Ta bort active från alla knappar och panes
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabPanes.forEach(p => p.classList.remove('active'));
+        
+        // Lägg till active på klickad knapp och motsvarande pane
+        btn.classList.add('active');
+        const tabId = btn.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html> 
