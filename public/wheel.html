@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyckohjulet - GoBet</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/wheel.css">
+  <!-- Lägg till Google Fonts: Inter och Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- Lägg till moderna ikoner med Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <i class="fa-solid fa-dice logo-icon"></i>
+          <h1>GoBet</h1>
+        </a>
+        
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        
+        <nav class="main-nav" id="mainNav">
+          <ul>
+            <li><a href="index.html"><i class="fa-solid fa-trophy"></i> Bets</a></li>
+            <li><a href="create-bet.html"><i class="fa-solid fa-plus"></i> Skapa Bet</a></li>
+            <li><a href="wheel.html" class="active"><i class="fa-solid fa-dharmachakra"></i> Lyckohjul</a></li>
+            <li><a href="plans.html"><i class="fa-solid fa-crown"></i> Planer</a></li>
+          </ul>
+        </nav>
+        
+        <div class="user-area">
+          <div class="balance">
+            <i class="fa-solid fa-coins"></i>
+            <span>5,000 GoCoins</span>
+          </div>
+          
+          <div class="user-menu">
+            <img src="https://ui-avatars.com/api/?name=Max+Bettman&background=6643b5&color=fff" alt="Avatar" class="avatar">
+            <span class="username">MaxBettman</span>
+            <i class="fa-solid fa-chevron-down"></i>
+            <span class="user-plan-badge free">Gratis</span>
+            
+            <div class="dropdown-menu">
+              <a href="profile.html"><i class="fa-solid fa-user"></i> Profil</a>
+              <a href="#"><i class="fa-solid fa-wallet"></i> Plånbok</a>
+              <a href="#"><i class="fa-solid fa-history"></i> Historik</a>
+              <a href="plans.html"><i class="fa-solid fa-crown"></i> Uppgradera</a>
+              <a href="#"><i class="fa-solid fa-gear"></i> Inställningar</a>
+              <a href="login.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logga ut</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Hero section -->
+        <section class="hero">
+          <div class="hero-content">
+            <h2>Snurra på Lyckohjulet</h2>
+            <p>Testa din tur och vinn GoCoins, premium-uppgraderingar och andra fantastiska priser!</p>
+          </div>
+        </section>
+
+        <!-- Wheel Section -->
+        <section class="wheel-section">
+          <div class="wheel-container">
+            <div class="wheel-stats">
+              <div class="wheel-stat">
+                <i class="fa-solid fa-sync-alt"></i>
+                <div class="stat-info">
+                  <span class="stat-value" id="remainingSpins">1</span>
+                  <span class="stat-label">Gratis snurr kvar</span>
+                </div>
+              </div>
+              <div class="wheel-stat">
+                <i class="fa-solid fa-clock"></i>
+                <div class="stat-info">
+                  <span class="stat-value" id="nextSpin">5d 12h</span>
+                  <span class="stat-label">Till nästa gratis</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="wheel-of-fortune">
+              <div class="wheel" id="wheel">
+                <!-- Sektioner kommer att skapas med JavaScript -->
+              </div>
+              <div class="wheel-arrow"></div>
+              <button class="spin-button" id="spinButton">
+                <i class="fa-solid fa-play"></i> SNURRA
+              </button>
+              <button class="buy-spin-button" id="buySpinButton">
+                <i class="fa-solid fa-coins"></i> Köp snurr (500 GoCoins)
+              </button>
+            </div>
+
+            <div class="prize-legend">
+              <h3>Möjliga vinster</h3>
+              <div class="legend-items">
+                <div class="legend-item">
+                  <span class="legend-color" style="background-color: #ff7e47;"></span>
+                  <span class="legend-text">250 GoCoins</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color" style="background-color: #ffcc00;"></span>
+                  <span class="legend-text">500 GoCoins</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color" style="background-color: #28a745;"></span>
+                  <span class="legend-text">1000 GoCoins</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color" style="background-color: #007bff;"></span>
+                  <span class="legend-text">Premium 1 dag</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color" style="background-color: #6f42c1;"></span>
+                  <span class="legend-text">Premium 1 vecka</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color" style="background-color: #e83e8c;"></span>
+                  <span class="legend-text">Exklusiv Avatar</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color" style="background-color: #dc3545;"></span>
+                  <span class="legend-text">Sällsynt Item</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color" style="background-color: #6c757d;"></span>
+                  <span class="legend-text">Tyvärr, inget</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wheel-plan-info glass-card">
+            <h3>Få fler snurr med Premium</h3>
+            <div class="plan-comparison">
+              <div class="plan-item">
+                <div class="plan-name">Gratis</div>
+                <div class="plan-benefit">
+                  <i class="fa-solid fa-check"></i>
+                  <span>1 gratis snurr per vecka</span>
+                </div>
+                <div class="plan-benefit">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Köp extra snurr för 500 GoCoins</span>
+                </div>
+              </div>
+              <div class="plan-item featured">
+                <div class="plan-name">Premium</div>
+                <div class="plan-benefit">
+                  <i class="fa-solid fa-check"></i>
+                  <span>3 gratis snurr per vecka</span>
+                </div>
+                <div class="plan-benefit">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Köp extra snurr för 350 GoCoins</span>
+                </div>
+                <div class="plan-benefit">
+                  <i class="fa-solid fa-check"></i>
+                  <span>10% högre vinstchans</span>
+                </div>
+              </div>
+              <div class="plan-item">
+                <div class="plan-name">Premium+</div>
+                <div class="plan-benefit">
+                  <i class="fa-solid fa-check"></i>
+                  <span>5 gratis snurr per vecka</span>
+                </div>
+                <div class="plan-benefit">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Köp extra snurr för 200 GoCoins</span>
+                </div>
+                <div class="plan-benefit">
+                  <i class="fa-solid fa-check"></i>
+                  <span>25% högre vinstchans</span>
+                </div>
+                <div class="plan-benefit">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Exklusiva premium-priser</span>
+                </div>
+              </div>
+            </div>
+            <a href="plans.html" class="btn btn-primary">Uppgradera nu</a>
+          </div>
+        </section>
+        
+        <!-- Recent Winners -->
+        <section class="recent-winners">
+          <h2 class="section-title">Senaste vinnarna</h2>
+          <div class="winners-grid">
+            <div class="winner-card glass-card">
+              <div class="winner-avatar">
+                <img src="https://ui-avatars.com/api/?name=Gaming+King&background=ff7e47&color=fff" alt="Winner">
+              </div>
+              <div class="winner-info">
+                <div class="winner-name">GamingKing</div>
+                <div class="winner-prize">Vann Premium 1 vecka</div>
+                <div class="winner-time">för 2 timmar sedan</div>
+              </div>
+            </div>
+            
+            <div class="winner-card glass-card">
+              <div class="winner-avatar">
+                <img src="https://ui-avatars.com/api/?name=Bet+Master&background=6643b5&color=fff" alt="Winner">
+              </div>
+              <div class="winner-info">
+                <div class="winner-name">BetMaster</div>
+                <div class="winner-prize">Vann 1000 GoCoins</div>
+                <div class="winner-time">för 4 timmar sedan</div>
+              </div>
+            </div>
+            
+            <div class="winner-card glass-card">
+              <div class="winner-avatar">
+                <img src="https://ui-avatars.com/api/?name=Tech+Guru&background=4e32a0&color=fff" alt="Winner">
+              </div>
+              <div class="winner-info">
+                <div class="winner-name">TechGuru</div>
+                <div class="winner-prize">Vann Exklusiv Avatar</div>
+                <div class="winner-time">för 8 timmar sedan</div>
+              </div>
+            </div>
+            
+            <div class="winner-card glass-card">
+              <div class="winner-avatar">
+                <img src="https://ui-avatars.com/api/?name=Football+Fan&background=00c2cb&color=fff" alt="Winner">
+              </div>
+              <div class="winner-info">
+                <div class="winner-name">FootballFan</div>
+                <div class="winner-prize">Vann 500 GoCoins</div>
+                <div class="winner-time">för 10 timmar sedan</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Prize Win Modal -->
+    <div class="modal" id="prizeModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Grattis!</h3>
+          <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="prize-win">
+            <div class="prize-icon">
+              <i class="fa-solid fa-gift"></i>
+            </div>
+            <h2>Du vann <span id="prizeAmount">500 GoCoins</span>!</h2>
+            <p>Din vinst har lagts till på ditt konto.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="claimPrize">Ta emot</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <i class="fa-solid fa-dice"></i>
+            <h2>GoBet</h2>
+            <p>Den ultimata plattformen för att skapa och delta i betting-utmaningar med dina vänner. Vinn stora priser och ha kul tillsammans!</p>
+            <div class="social-icons">
+              <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+              <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" class="social-icon"><i class="fa-brands fa-discord"></i></a>
+            </div>
+          </div>
+          
+          <div class="footer-links">
+            <h3>Snabblänkar</h3>
+            <ul>
+              <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Hem</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Om oss</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Hur det fungerar</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Villkor</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Integritetspolicy</a></li>
+              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Kontakta oss</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-social">
+            <h3>Kontakt</h3>
+            <ul>
+              <li><a href="#"><i class="fa-solid fa-envelope"></i> support@gobet.com</a></li>
+              <li><a href="#"><i class="fa-solid fa-phone"></i> +46 123 456 789</a></li>
+              <li><a href="#"><i class="fa-solid fa-location-dot"></i> Stockholm, Sverige</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; 2023 GoBet. Alla rättigheter reserverade.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/wheel.js"></script>
+</body>
+</html> 

@@ -30,11 +30,9 @@
         <nav class="main-nav" id="mainNav">
           <ul>
             <li><a href="#" class="active"><i class="fa-solid fa-trophy"></i> Bets</a></li>
-            <li><a href="#friend-bets"><i class="fa-solid fa-users"></i> Vänner</a></li>
-            <li><a href="#giveaways"><i class="fa-solid fa-gift"></i> Giveaways</a></li>
             <li><a href="create-bet.html"><i class="fa-solid fa-plus"></i> Skapa Bet</a></li>
+            <li><a href="wheel.html"><i class="fa-solid fa-dharmachakra"></i> Lyckohjul</a></li>
             <li><a href="plans.html"><i class="fa-solid fa-crown"></i> Planer</a></li>
-            <li><a href="friends.html"><i class="fa-solid fa-user-group"></i> Vänlista</a></li>
           </ul>
         </nav>
         
@@ -81,6 +79,29 @@
           </div>
         </section>
 
+        <!-- Wheel Promo -->
+        <section class="wheel-promo glass-card">
+          <div class="promo-content">
+            <h2>Prova lyckan med vårt Lyckohjul!</h2>
+            <p>Snurra hjulet och vinn GoCoins, premium-uppgraderingar och exklusiva föremål. Gratisanvändare får 1 gratis snurr per vecka.</p>
+            <div class="promo-features">
+              <div class="promo-feature">
+                <i class="fa-solid fa-check"></i>
+                <span>1 gratis snurr varje vecka</span>
+              </div>
+              <div class="promo-feature">
+                <i class="fa-solid fa-check"></i>
+                <span>Vinn upp till 1000 GoCoins</span>
+              </div>
+              <div class="promo-feature">
+                <i class="fa-solid fa-check"></i>
+                <span>Chans till gratis Premium-uppgradering</span>
+              </div>
+            </div>
+            <a href="wheel.html" class="btn btn-primary">Prova Lyckohjulet</a>
+          </div>
+        </section>
+
         <!-- Plans Promo -->
         <section class="plans-promo glass-card">
           <div class="promo-content">
@@ -104,258 +125,129 @@
           </div>
         </section>
 
-        <!-- Tabs Navigation -->
-        <div class="tabs">
-          <button class="tab-btn active" data-tab="public-bets">
-            <i class="fa-solid fa-globe"></i> Offentliga Bets
-          </button>
-          <button class="tab-btn" data-tab="friend-bets">
-            <i class="fa-solid fa-user-group"></i> Vänners Bets
-          </button>
-          <button class="tab-btn" data-tab="giveaways">
-            <i class="fa-solid fa-gift"></i> Giveaways
-          </button>
-        </div>
-
-        <!-- Tab Content -->
-        <div class="tab-content">
-          <!-- Public Bets -->
-          <div class="tab-pane active" id="public-bets">
-            <div class="section-header">
-              <h2>Populära Bets</h2>
-              <div class="filters">
-                <button class="btn btn-sm btn-outline"><i class="fa-solid fa-filter"></i> Filtrera</button>
-                <a href="create-bet.html" class="btn btn-sm btn-primary"><i class="fa-solid fa-plus"></i> Skapa Bet</a>
-              </div>
-            </div>
-            <div class="bets-grid">
-              <!-- Sample Bet Cards -->
-              <div class="bet-card glass-card">
-                <div class="winner-takes-all-badge">
-                  <i class="fa-solid fa-trophy"></i> Vinnaren tar allt
-                </div>
-                <div class="bet-header">
-                  <div class="bet-creator">
-                    <img src="https://ui-avatars.com/api/?name=Gaming+King&background=ff7e47&color=fff" alt="Creator" class="avatar-sm">
-                    <span>GamingKing</span>
-                  </div>
-                  <div class="bet-type public">
-                    <i class="fa-solid fa-globe"></i> Offentlig
-                  </div>
-                </div>
-                <h3 class="bet-title">Vem vinner CS:GO-turneringen?</h3>
-                <p class="bet-description">Satsa på vilket lag som tar hem segern i helgens stora CS:GO-turnering.</p>
-                <div class="bet-options">
-                  <div class="option">
-                    <span class="option-name">Ninjas in Pyjamas</span>
-                    <span class="option-odds">2.5x</span>
-                  </div>
-                  <div class="option">
-                    <span class="option-name">Fnatic</span>
-                    <span class="option-odds">1.8x</span>
-                  </div>
-                </div>
-                <div class="bet-footer">
-                  <div class="bet-prize">
-                    <i class="fa-solid fa-coins"></i>
-                    1,500 GoCoins
-                  </div>
-                  <div class="bet-timer">
-                    <i class="fa-regular fa-clock"></i>
-                    2 dagar kvar
-                  </div>
-                </div>
-                <a href="#" class="btn btn-join">Delta i Bet</a>
-              </div>
-              
-              <div class="bet-card glass-card">
-                <div class="tournament-badge">
-                  <i class="fa-solid fa-trophy"></i> Turnering
-                </div>
-                <div class="bet-header">
-                  <div class="bet-creator">
-                    <img src="https://ui-avatars.com/api/?name=Football+Fan&background=00c2cb&color=fff" alt="Creator" class="avatar-sm">
-                    <span>FootballFan</span>
-                  </div>
-                  <div class="bet-type public">
-                    <i class="fa-solid fa-globe"></i> Offentlig
-                  </div>
-                </div>
-                <h3 class="bet-title">Fotbolls-VM kvartsfinaler</h3>
-                <p class="bet-description">Vem går till semifinal? Satsa på rätt lag och vinn stora priser!</p>
-                <div class="bet-options">
-                  <div class="option">
-                    <span class="option-name">Frankrike</span>
-                    <span class="option-odds">1.5x</span>
-                  </div>
-                  <div class="option">
-                    <span class="option-name">England</span>
-                    <span class="option-odds">2.2x</span>
-                  </div>
-                </div>
-                <div class="bet-footer">
-                  <div class="bet-prize">
-                    <i class="fa-solid fa-coins"></i>
-                    2,200 GoCoins
-                  </div>
-                  <div class="bet-timer">
-                    <i class="fa-regular fa-clock"></i>
-                    3 dagar kvar
-                  </div>
-                </div>
-                <a href="#" class="btn btn-join">Delta i Bet</a>
-              </div>
-              
-              <div class="bet-card glass-card">
-                <div class="bet-header">
-                  <div class="bet-creator">
-                    <img src="https://ui-avatars.com/api/?name=Tech+Guru&background=4e32a0&color=fff" alt="Creator" class="avatar-sm">
-                    <span>TechGuru</span>
-                  </div>
-                  <div class="bet-type public">
-                    <i class="fa-solid fa-globe"></i> Offentlig
-                  </div>
-                </div>
-                <h3 class="bet-title">Nästa stora tekniknyhet från Apple</h3>
-                <p class="bet-description">Vad kommer Apple att presentera på nästa event? Satsa på rätt produkt!</p>
-                <div class="bet-options">
-                  <div class="option">
-                    <span class="option-name">AR Glasögon</span>
-                    <span class="option-odds">3.5x</span>
-                  </div>
-                  <div class="option">
-                    <span class="option-name">iPhone 15</span>
-                    <span class="option-odds">1.2x</span>
-                  </div>
-                </div>
-                <div class="bet-footer">
-                  <div class="bet-prize">
-                    <i class="fa-solid fa-coins"></i>
-                    3,000 GoCoins
-                  </div>
-                  <div class="bet-timer">
-                    <i class="fa-regular fa-clock"></i>
-                    5 dagar kvar
-                  </div>
-                </div>
-                <a href="#" class="btn btn-join">Delta i Bet</a>
-              </div>
+        <!-- Bets Section -->
+        <section class="bets-section">
+          <div class="section-header">
+            <h2>Populära Bets</h2>
+            <div class="filters">
+              <button class="btn btn-sm btn-outline"><i class="fa-solid fa-filter"></i> Filtrera</button>
+              <a href="create-bet.html" class="btn btn-sm btn-primary"><i class="fa-solid fa-plus"></i> Skapa Bet</a>
             </div>
           </div>
-
-          <!-- Friend Bets -->
-          <div class="tab-pane" id="friend-bets">
-            <div class="section-header">
-              <h2>Vänners Bets</h2>
-              <div class="filters">
-                <button class="btn btn-sm btn-outline"><i class="fa-solid fa-filter"></i> Filtrera</button>
-                <a href="create-bet.html" class="btn btn-sm btn-primary"><i class="fa-solid fa-plus"></i> Skapa Bet</a>
+          <div class="bets-grid">
+            <!-- Sample Bet Cards -->
+            <div class="bet-card glass-card">
+              <div class="winner-takes-all-badge">
+                <i class="fa-solid fa-trophy"></i> Vinnaren tar allt
               </div>
+              <div class="bet-header">
+                <div class="bet-creator">
+                  <img src="https://ui-avatars.com/api/?name=Gaming+King&background=ff7e47&color=fff" alt="Creator" class="avatar-sm">
+                  <span>GamingKing</span>
+                </div>
+                <div class="bet-type public">
+                  <i class="fa-solid fa-globe"></i> Offentlig
+                </div>
+              </div>
+              <h3 class="bet-title">Vem vinner CS:GO-turneringen?</h3>
+              <p class="bet-description">Satsa på vilket lag som tar hem segern i helgens stora CS:GO-turnering.</p>
+              <div class="bet-options">
+                <div class="option">
+                  <span class="option-name">Ninjas in Pyjamas</span>
+                  <span class="option-odds">2.5x</span>
+                </div>
+                <div class="option">
+                  <span class="option-name">Fnatic</span>
+                  <span class="option-odds">1.8x</span>
+                </div>
+              </div>
+              <div class="bet-footer">
+                <div class="bet-prize">
+                  <i class="fa-solid fa-coins"></i>
+                  1,500 GoCoins
+                </div>
+                <div class="bet-timer">
+                  <i class="fa-regular fa-clock"></i>
+                  2 dagar kvar
+                </div>
+              </div>
+              <a href="#" class="btn btn-join">Delta i Bet</a>
             </div>
-            <div class="empty-state">
-              <i class="fa-solid fa-user-group empty-icon"></i>
-              <h3>Inga aktiva vännerbets</h3>
-              <p>Skapa ett nytt bet och bjud in dina vänner eller be dem bjuda in dig!</p>
-              <a href="create-bet.html" class="btn btn-primary">Skapa vänbet</a>
+            
+            <div class="bet-card glass-card">
+              <div class="tournament-badge">
+                <i class="fa-solid fa-trophy"></i> Turnering
+              </div>
+              <div class="bet-header">
+                <div class="bet-creator">
+                  <img src="https://ui-avatars.com/api/?name=Football+Fan&background=00c2cb&color=fff" alt="Creator" class="avatar-sm">
+                  <span>FootballFan</span>
+                </div>
+                <div class="bet-type public">
+                  <i class="fa-solid fa-globe"></i> Offentlig
+                </div>
+              </div>
+              <h3 class="bet-title">Fotbolls-VM kvartsfinaler</h3>
+              <p class="bet-description">Vem går till semifinal? Satsa på rätt lag och vinn stora priser!</p>
+              <div class="bet-options">
+                <div class="option">
+                  <span class="option-name">Frankrike</span>
+                  <span class="option-odds">1.5x</span>
+                </div>
+                <div class="option">
+                  <span class="option-name">England</span>
+                  <span class="option-odds">2.2x</span>
+                </div>
+              </div>
+              <div class="bet-footer">
+                <div class="bet-prize">
+                  <i class="fa-solid fa-coins"></i>
+                  2,200 GoCoins
+                </div>
+                <div class="bet-timer">
+                  <i class="fa-regular fa-clock"></i>
+                  3 dagar kvar
+                </div>
+              </div>
+              <a href="#" class="btn btn-join">Delta i Bet</a>
+            </div>
+            
+            <div class="bet-card glass-card">
+              <div class="bet-header">
+                <div class="bet-creator">
+                  <img src="https://ui-avatars.com/api/?name=Tech+Guru&background=4e32a0&color=fff" alt="Creator" class="avatar-sm">
+                  <span>TechGuru</span>
+                </div>
+                <div class="bet-type public">
+                  <i class="fa-solid fa-globe"></i> Offentlig
+                </div>
+              </div>
+              <h3 class="bet-title">Nästa stora tekniknyhet från Apple</h3>
+              <p class="bet-description">Vad kommer Apple att presentera på nästa event? Satsa på rätt produkt!</p>
+              <div class="bet-options">
+                <div class="option">
+                  <span class="option-name">AR Glasögon</span>
+                  <span class="option-odds">3.5x</span>
+                </div>
+                <div class="option">
+                  <span class="option-name">iPhone 15</span>
+                  <span class="option-odds">1.2x</span>
+                </div>
+              </div>
+              <div class="bet-footer">
+                <div class="bet-prize">
+                  <i class="fa-solid fa-coins"></i>
+                  3,000 GoCoins
+                </div>
+                <div class="bet-timer">
+                  <i class="fa-regular fa-clock"></i>
+                  5 dagar kvar
+                </div>
+              </div>
+              <a href="#" class="btn btn-join">Delta i Bet</a>
             </div>
           </div>
-
-          <!-- Giveaways -->
-          <div class="tab-pane" id="giveaways">
-            <div class="section-header">
-              <h2>Aktiva Giveaways</h2>
-              <div class="filters">
-                <button class="btn btn-sm btn-outline"><i class="fa-solid fa-filter"></i> Filtrera</button>
-              </div>
-            </div>
-            <div class="giveaways-grid">
-              <!-- Sample Giveaway Cards -->
-              <div class="giveaway-card glass-card">
-                <div class="giveaway-header">
-                  <div class="giveaway-creator">
-                    <img src="https://ui-avatars.com/api/?name=Prize+Giver&background=e05f23&color=fff" alt="Creator" class="avatar-sm">
-                    <span>PrizeGiver</span>
-                  </div>
-                  <div class="giveaway-participants">
-                    <i class="fa-solid fa-users"></i>
-                    145 deltagare
-                  </div>
-                </div>
-                <h3 class="giveaway-title">Counter-Strike 2 Beta Access + Rare Skin</h3>
-                <div class="giveaway-prize">
-                  <img src="https://placehold.co/120/6643b5/FFFFFF?text=CS2" alt="CS Beta">
-                  <div class="prize-details">
-                    <div class="prize-name">CS2 Beta + AWP Dragon Lore</div>
-                    <div class="prize-value">Värde: 15,000 GoCoins</div>
-                  </div>
-                </div>
-                <div class="giveaway-footer">
-                  <div class="giveaway-timer">
-                    <i class="fa-regular fa-clock"></i>
-                    2 dagar kvar
-                  </div>
-                  <a href="#" class="btn btn-secondary">Delta</a>
-                </div>
-              </div>
-              
-              <div class="giveaway-card glass-card">
-                <div class="giveaway-header">
-                  <div class="giveaway-creator">
-                    <img src="https://ui-avatars.com/api/?name=Gift+Master&background=00c2cb&color=fff" alt="Creator" class="avatar-sm">
-                    <span>GiftMaster</span>
-                  </div>
-                  <div class="giveaway-participants">
-                    <i class="fa-solid fa-users"></i>
-                    89 deltagare
-                  </div>
-                </div>
-                <h3 class="giveaway-title">Steam Gift Card Giveaway</h3>
-                <div class="giveaway-prize">
-                  <img src="https://placehold.co/120/2a475e/FFFFFF?text=STEAM" alt="Steam Card">
-                  <div class="prize-details">
-                    <div class="prize-name">Steam Gift Card (50€)</div>
-                    <div class="prize-value">Värde: 5,000 GoCoins</div>
-                  </div>
-                </div>
-                <div class="giveaway-footer">
-                  <div class="giveaway-timer">
-                    <i class="fa-regular fa-clock"></i>
-                    3 dagar kvar
-                  </div>
-                  <a href="#" class="btn btn-secondary">Delta</a>
-                </div>
-              </div>
-              
-              <div class="giveaway-card glass-card">
-                <div class="giveaway-header">
-                  <div class="giveaway-creator">
-                    <img src="https://ui-avatars.com/api/?name=Loot+Dropper&background=ff7e47&color=fff" alt="Creator" class="avatar-sm">
-                    <span>LootDropper</span>
-                  </div>
-                  <div class="giveaway-participants">
-                    <i class="fa-solid fa-users"></i>
-                    212 deltagare
-                  </div>
-                </div>
-                <h3 class="giveaway-title">Gaming Headset Premium</h3>
-                <div class="giveaway-prize">
-                  <img src="https://placehold.co/120/222222/FFFFFF?text=HEADSET" alt="Gaming Headset">
-                  <div class="prize-details">
-                    <div class="prize-name">Razer Kraken Headset</div>
-                    <div class="prize-value">Värde: 8,000 GoCoins</div>
-                  </div>
-                </div>
-                <div class="giveaway-footer">
-                  <div class="giveaway-timer">
-                    <i class="fa-regular fa-clock"></i>
-                    5 dagar kvar
-                  </div>
-                  <a href="#" class="btn btn-secondary">Delta</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </section>
         
         <!-- Featured Games -->
         <section class="featured-games">

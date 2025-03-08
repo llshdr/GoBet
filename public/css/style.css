@@ -1329,4 +1329,51 @@ img {
     right: 1rem;
     bottom: 1rem;
   }
+}
+
+/* Wheel Promo */
+.wheel-promo {
+  margin-bottom: 30px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #6f42c1, #007bff);
+  position: relative;
+}
+
+.wheel-promo::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: url('/images/wheel-icon.png') no-repeat center;
+  background-size: contain;
+  opacity: 0.1;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.wheel-promo .promo-content h2 {
+  color: white;
+}
+
+.wheel-promo .promo-content p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.wheel-promo .promo-feature {
+  color: white;
+}
+
+.wheel-promo .promo-feature i {
+  color: #FFD700;
+}
+
+.wheel-promo .btn-primary {
+  background-color: white;
+  color: #6f42c1;
+}
+
+.wheel-promo .btn-primary:hover {
+  background-color: #f8f9fa;
+  color: #6f42c1;
 } 
