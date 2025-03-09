@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialisera komponenter
   initializeWheel();
+  checkWheelRendering();
   initializeButtons();
   initializePrizeModal();
   
@@ -88,7 +89,13 @@ function simulateNextSpinCountdown() {
  */
 function initializeWheel() {
   const wheel = document.getElementById('wheel');
-  if (!wheel) return;
+  if (!wheel) {
+    console.error('Wheel element not found!');
+    return;
+  }
+  
+  // Rensa eventuella befintliga sektioner
+  wheel.innerHTML = '';
   
   // Prisdata: pris, färg, sannolikhet
   const prizes = [
@@ -109,6 +116,13 @@ function initializeWheel() {
   prizes.forEach((prize, index) => {
     createWheelSection(wheel, prize, index, prizes.length);
   });
+  
+  // Bekräfta att sektionerna skapades
+  const sectionCount = wheel.querySelectorAll('.wheel-slice').length;
+  console.log(`Wheel initialized with ${sectionCount} sections`);
+  
+  // Sätt en grundläggande rotation för att se till att hjulet börjar i rätt position
+  wheel.style.transform = 'rotate(0deg)';
 }
 
 /**
@@ -117,12 +131,12 @@ function initializeWheel() {
 function createWheelSection(wheel, prize, index, totalSections) {
   const sectionAngle = 360 / totalSections;
   const section = document.createElement('div');
-  section.className = 'wheel-section';
+  section.className = 'wheel-slice';
   section.style.backgroundColor = prize.color;
   section.style.transform = `rotate(${index * sectionAngle}deg)`;
   
   const content = document.createElement('div');
-  content.className = 'wheel-section-content';
+  content.className = 'wheel-slice-content';
   content.textContent = prize.name;
   
   section.appendChild(content);
@@ -203,7 +217,7 @@ function spinWheel() {
   spinButton.disabled = true;
   
   // Hämta sektioner
-  const sections = wheel.querySelectorAll('.wheel-section');
+  const sections = wheel.querySelectorAll('.wheel-slice');
   const prizes = Array.from(sections).map(section => ({
     name: section.dataset.prize,
     probability: parseFloat(section.dataset.probability)
@@ -341,5 +355,35 @@ function processPrize(prizeName) {
   else if (prizeName.includes('Item')) {
     // Simulera föremålsbelöning
     console.log('Sällsynt föremål tillagd i inventarium');
+  }
+}
+
+/**
+ * Kontrollera hjulets rendering
+ */
+function checkWheelRendering() {
+  const wheel = document.getElementById('wheel');
+  if (!wheel) return;
+  
+  // Kontrollera om hjulet har rätt storlek och synlighet
+  console.log('Wheel dimensions:', wheel.offsetWidth, 'x', wheel.offsetHeight);
+  
+  // Kontrollera om hjulet har sektioner
+  const sections = wheel.querySelectorAll('.wheel-slice');
+  console.log('Number of wheel sections:', sections.length);
+  
+  // Kontrollera att hjulet är synligt
+  const computedStyle = window.getComputedStyle(wheel);
+  if (computedStyle.display === 'none' || computedStyle.visibility === 'hidden') {
+    console.warn('Warning: Wheel may be hidden by CSS!');
+    // Försök åtgärda visningsproblemet
+    wheel.style.display = 'block';
+    wheel.style.visibility = 'visible';
+  }
+  
+  // Om hjulet saknar sektioner, skapa dem igen
+  if (sections.length === 0) {
+    console.warn('Warning: Wheel has no sections, reinitializing...');
+    initializeWheel();
   }
 } 
