@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "public/**/*", "use": "@vercel/static" },
+    { "src": "api/**/*.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/(.*)", "dest": "/public/$1" }
+  ],
+  "env": {
+    "EMAIL_HOST": "smtp.sendgrid.net",
+    "EMAIL_PORT": "587",
+    "EMAIL_SECURE": "false",
+    "EMAIL_USER": "apikey",
+    "EMAIL_FROM": "noreply@gobet.com"
+  }
+} 

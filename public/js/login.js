@@ -306,23 +306,60 @@ function initFormSubmission() {
         
         localStorage.setItem('gobet_temp_user', JSON.stringify(tempUserData));
         
-        // Simulera skicka verifikationskod till användarens e-post
-        console.log('Verifikationskod skickad till', email, ':', verificationCode);
-        
-        // Visa verifieringsformuläret
-        showVerificationForm(email);
-        
-        // Visa verifikationstabben
-        const verificationTab = document.querySelector('.auth-tab[data-tab="verification"]');
-        if (verificationTab) {
-          verificationTab.style.display = 'block';
-        }
-        
-        // Återställ registreringsknappen
-        setTimeout(() => {
-          submitButton.disabled = false;
-          submitButton.innerHTML = 'Skapa konto';
-        }, 1500);
+        // Skicka verifieringsmail via vår API
+        fetch('/api/email/send-verification', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email,
+            username,
+            verificationCode
+          }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            console.log('Verifikationskod skickad till', email, ':', verificationCode);
+            showSuccessMessage('Verifikationskod skickad till din e-post!');
+            
+            // Visa verifieringsformuläret
+            showVerificationForm(email);
+            
+            // Visa verifikationstabben
+            const verificationTab = document.querySelector('.auth-tab[data-tab="verification"]');
+            if (verificationTab) {
+              verificationTab.style.display = 'block';
+            }
+          } else {
+            throw new Error(data.error || 'Kunde inte skicka verifikationskod');
+          }
+        })
+        .catch(error => {
+          console.error('Fel vid skickande av verifikationskod:', error);
+          alert('Det uppstod ett fel vid sändning av verifikationskod. Försök igen senare.');
+          
+          // Fallback: Visa upp verifikationskoden direkt om API-anropet misslyckas
+          console.log('FALLBACK: Verifikationskod för', email, ':', verificationCode);
+          showSuccessMessage('Verifikationskod genererad (se konsolen)');
+          
+          // Visa verifieringsformuläret ändå
+          showVerificationForm(email);
+          
+          // Visa verifikationstabben
+          const verificationTab = document.querySelector('.auth-tab[data-tab="verification"]');
+          if (verificationTab) {
+            verificationTab.style.display = 'block';
+          }
+        })
+        .finally(() => {
+          // Återställ registreringsknappen
+          setTimeout(() => {
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Skapa konto';
+          }, 1500);
+        });
       } catch (error) {
         console.error('Fel vid registrering:', error);
         alert('Ett fel inträffade vid registrering. Vänligen försök igen.');

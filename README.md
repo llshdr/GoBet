@@ -1,72 +1,75 @@
 # GoBet
 
-En personlig betting-plattform där du kan betta med GoCoins, skins och andra virtuella föremål från olika spel.
+En social plattform för att skapa och delta i betting-utmaningar med dina vänner.
 
 ## Funktioner
 
-- **GoCoins-system**: Använd plattformens egen valuta för att betta
-- **Vännersystem**: Lägg till vänner och skapa privata bets med dem
-- **Spelintegrationer**: Integrerat med Steam, Epic Games och andra spelplattformar
-- **Skinn-betting**: Betta med dina CS2-skins, Fortnite-skins och andra virtuella föremål
-- **Flera bettyper**:
-  - Offentliga bets - öppna för alla
-  - Vännerbets - endast för dig och dina vänner
-  - Giveaways - dela ut föremål till communityt
-- **Flexibla valmöjligheter**: Välj om deltagare behöver betala för att gå med i bets
-- **Traditionella bets**: Betta på fotbollsmatcher och andra sportevenemang
+- Skapa och delta i bets med vänner
+- Betta med GoCoins eller in-game-föremål
+- Winner-takes-all bets, turneringsbets och mer
+- Lyckohjul med priser
+- Vänlista
+- Användarprofiler
+- Olika prenumerationsplaner
 
-## Betting-typer
+## E-postverifiering
 
-### Offentliga bets
-Skapa bets öppna för hela communityt. Välj om det ska kosta att delta eller om det ska vara gratis.
+GoBet använder nu en äkta e-postverifiering för nya användare. När en användare registrerar sig skickas en 6-siffrig verifikationskod till deras e-postadress.
 
-### Vännerbets
-Skapa privata bets med dina vänner. Perfekt för gruppspel eller utmaningar mellan vänner.
+### Konfigurera e-post (med SendGrid)
 
-### Giveaways
-Skapa giveaways för att dela ut föremål till communityt. Ställ in krav för deltagande.
+För att konfigurera e-postutskick, följ dessa steg:
 
-## Integrerade plattformar
-
-- **Steam**: Betta med CS2-skins, Dota 2-föremål, m.m.
-- **Epic Games**: Använd Fortnite-skins och andra föremål från Epic Store
-- **Esport**: Betta på CS2, League of Legends, Dota 2-matcher och mer
-- **Traditionell sport**: Fotboll, basket, tennis och mer
-
-## Teknisk information
-
-- Frontend: HTML, CSS, JavaScript
-- Backend: Node.js, Express
-- Databas: MongoDB
-- Realtidskommunikation: Socket.io
-- Autentisering: JWT
-
-## Installation
-
-1. Klona repositoryt:
+1. Registrera dig för ett [SendGrid-konto](https://sendgrid.com/) (du får 100 gratis mail per dag)
+2. Skapa en API-nyckel i SendGrid-dashboarden
+3. Kopiera API-nyckeln och lägg till den i `.env.local` och i Vercel-miljövariablerna:
    ```
-   git clone https://github.com/llshdr/GoBet.git
+   EMAIL_PASSWORD=din_sendgrid_api_nyckel
+   ```
+
+4. (Valfritt) Verifiera din egen domän i SendGrid för bättre leveransgrad
+
+### Andra e-posttjänster
+
+Vill du använda en annan e-posttjänst? Ändra följande i `.env.local` och på Vercel:
+
+```
+EMAIL_HOST=din_smtp_server
+EMAIL_PORT=din_smtp_port
+EMAIL_USER=din_smtp_användare
+EMAIL_PASSWORD=ditt_smtp_lösenord
+EMAIL_FROM=din_från_adress
+```
+
+## Driftsätta på Vercel
+
+1. Pusha dina ändringar till GitHub
+2. Koppla Vercel till ditt GitHub-repository
+3. Lägg till följande miljövariabel i Vercel:
+   - `EMAIL_PASSWORD`: Din SendGrid API-nyckel
+
+Vercel kommer automatiskt att bygga och driftsätta din applikation med både frontend och serverless functions.
+
+## Lokal utveckling
+
+1. Klona repository:
+   ```
+   git clone https://github.com/yourusername/gobet.git
    ```
 
 2. Installera beroenden:
    ```
-   cd GoBet
    npm install
    ```
 
-3. Skapa en .env-fil med följande variabler:
-   ```
-   MONGO_URI=din_mongodb_connection_string
-   JWT_SECRET=din_hemliga_nyckel
-   PORT=3000
-   ```
+3. Skapa en `.env.local` fil med dina e-postinställningar
 
-4. Starta servern:
+4. Starta utvecklingsservern:
    ```
    npm run dev
    ```
 
-5. Besök `http://localhost:3000` i din webbläsare
+5. Öppna [http://localhost:3000](http://localhost:3000) i din webbläsare
 
 ## Licens
 
