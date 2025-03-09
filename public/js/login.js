@@ -275,15 +275,10 @@ function initFormSubmission() {
         }
         
         // Validera lösenordsstyrka
-        if (typeof calculatePasswordStrength !== 'function') {
-          console.error('calculatePasswordStrength är inte definierad');
-          const strength = { percent: 50 }; // standardvärde om funktionen saknas
-        } else {
-          const strength = calculatePasswordStrength(password);
-          if (strength.percent < 40) {
-            if (!confirm('Ditt lösenord är svagt. Vill du fortsätta ändå?')) {
-              return;
-            }
+        const strength = calculatePasswordStrength(password);
+        if (strength.percent < 40) {
+          if (!confirm('Ditt lösenord är svagt. Vill du fortsätta ändå?')) {
+            return;
           }
         }
         
@@ -292,74 +287,41 @@ function initFormSubmission() {
         submitButton.disabled = true;
         submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Skapar konto...';
         
-        // Skapa en verifikationskod (6 siffror)
-        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-        
-        // Spara tillfällig användardata
-        const tempUserData = {
-          username,
-          email,
-          password,
-          verificationCode,
-          createdAt: new Date().toISOString()
+        // Skapa användardata direkt utan verifikation
+        const userData = {
+          username: username,
+          email: email,
+          avatar: 'https://ui-avatars.com/api/?name=' + username + '&background=6643b5&color=fff',
+          joinDate: new Date().toISOString(),
+          bio: 'Hej! Jag är en ny GoBet-användare.'
         };
         
-        localStorage.setItem('gobet_temp_user', JSON.stringify(tempUserData));
-        
-        // Skicka verifieringsmail via vår API
-        fetch('/api/email/send-verification', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email,
-            username,
-            verificationCode
-          }),
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            console.log('Verifikationskod skickad till', email, ':', verificationCode);
-            showSuccessMessage('Verifikationskod skickad till din e-post!');
-            
-            // Visa verifieringsformuläret
-            showVerificationForm(email);
-            
-            // Visa verifikationstabben
-            const verificationTab = document.querySelector('.auth-tab[data-tab="verification"]');
-            if (verificationTab) {
-              verificationTab.style.display = 'block';
-            }
-          } else {
-            throw new Error(data.error || 'Kunde inte skicka verifikationskod');
-          }
-        })
-        .catch(error => {
-          console.error('Fel vid skickande av verifikationskod:', error);
-          alert('Det uppstod ett fel vid sändning av verifikationskod. Försök igen senare.');
-          
-          // Fallback: Visa upp verifikationskoden direkt om API-anropet misslyckas
-          console.log('FALLBACK: Verifikationskod för', email, ':', verificationCode);
-          showSuccessMessage('Verifikationskod genererad (se konsolen)');
-          
-          // Visa verifieringsformuläret ändå
-          showVerificationForm(email);
-          
-          // Visa verifikationstabben
-          const verificationTab = document.querySelector('.auth-tab[data-tab="verification"]');
-          if (verificationTab) {
-            verificationTab.style.display = 'block';
-          }
-        })
-        .finally(() => {
-          // Återställ registreringsknappen
-          setTimeout(() => {
-            submitButton.disabled = false;
-            submitButton.innerHTML = 'Skapa konto';
-          }, 1500);
+        // Spara användaren i registrerade användare
+        registeredUsers.push({
+          email: email,
+          password: password,
+          userData: userData
         });
+        localStorage.setItem('gobet_registered_users', JSON.stringify(registeredUsers));
+        
+        // Spara inloggningsstatus och data
+        localStorage.setItem('gobet_logged_in', 'true');
+        localStorage.setItem('gobet_user', JSON.stringify(userData));
+        
+        // Sätt startbeloppet av GoCoins för användaren
+        localStorage.setItem('gobet_user_coins', '5000');
+        
+        // Initiera användarstatistik
+        initializeUserStats();
+        
+        // Visa bekräftelsemeddelande
+        showSuccessMessage('Konto skapat! Du loggas in automatiskt...');
+        
+        // Omdirigera till hemsidan efter en kort fördröjning
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+        
       } catch (error) {
         console.error('Fel vid registrering:', error);
         alert('Ett fel inträffade vid registrering. Vänligen försök igen.');
@@ -380,112 +342,9 @@ function initFormSubmission() {
   if (verificationForm) {
     verificationForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      
-      const verificationCodeInput = document.getElementById('verificationCode');
-      if (!verificationCodeInput) return;
-      
-      const enteredCode = verificationCodeInput.value.trim();
-      if (!enteredCode) {
-        alert('Vänligen ange verifikationskoden.');
-        return;
-      }
-      
-      // Hämta temporär användardata
-      const tempUser = JSON.parse(localStorage.getItem('gobet_temp_user') || '{}');
-      if (!tempUser.verificationCode) {
-        alert('Någonting gick fel. Vänligen försök registrera dig igen.');
-        return;
-      }
-      
-      // Kontrollera verifikationskoden
-      if (enteredCode !== tempUser.verificationCode) {
-        alert('Felaktig verifikationskod. Försök igen.');
-        return;
-      }
-      
-      // Simulera laddning
-      const submitButton = verificationForm.querySelector('button[type="submit"]');
-      submitButton.disabled = true;
-      submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifierar...';
-      
-      // Skapa användardata
-      const userData = {
-        username: tempUser.username,
-        email: tempUser.email,
-        avatar: 'https://ui-avatars.com/api/?name=' + tempUser.username + '&background=6643b5&color=fff',
-        joinDate: tempUser.createdAt,
-        bio: 'Hej! Jag är en ny GoBet-användare.'
-      };
-      
-      // Spara användaren i registrerade användare
-      const registeredUsers = JSON.parse(localStorage.getItem('gobet_registered_users') || '[]');
-      registeredUsers.push({
-        email: tempUser.email,
-        password: tempUser.password,
-        userData
-      });
-      localStorage.setItem('gobet_registered_users', JSON.stringify(registeredUsers));
-      
-      // Rensa temporär användardata
-      localStorage.removeItem('gobet_temp_user');
-      
-      // Spara inloggningsstatus och data
-      localStorage.setItem('gobet_logged_in', 'true');
-      localStorage.setItem('gobet_user', JSON.stringify(userData));
-      
-      // Sätt startbeloppet av GoCoins för användaren
-      localStorage.setItem('gobet_user_coins', '5000');
-      
-      // Initiera användarstatistik
-      initializeUserStats();
-      
-      // Visa bekräftelsemeddelande
-      showSuccessMessage('Konto verifierat! Du loggas in automatiskt...');
-      
-      // Omdirigera till hemsidan efter en kort fördröjning
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 1500);
+      // Koden inaktiverad temporärt
+      console.log('Verifikation tillfälligt inaktiverad');
     });
-  }
-}
-
-/**
- * Visar verifieringsformuläret
- */
-function showVerificationForm(email) {
-  const loginForm = document.getElementById('login');
-  const registerForm = document.getElementById('register');
-  const verificationForm = document.getElementById('verification');
-  
-  if (!loginForm || !registerForm || !verificationForm) return;
-  
-  // Dölj andra formulär
-  loginForm.classList.remove('active');
-  registerForm.classList.remove('active');
-  
-  // Visa verifieringsformuläret
-  verificationForm.classList.add('active');
-  
-  // Uppdatera e-postadress i meddelandet
-  const emailDisplay = document.getElementById('verificationEmail');
-  if (emailDisplay) {
-    emailDisplay.textContent = email;
-  }
-  
-  // Uppdatera flikar
-  const authTabs = document.querySelectorAll('.auth-tab');
-  authTabs.forEach(tab => {
-    tab.classList.remove('active');
-    if (tab.dataset.tab === 'verification') {
-      tab.classList.add('active');
-    }
-  });
-  
-  // Fokusera på verifikationskoden
-  const codeInput = document.getElementById('verificationCode');
-  if (codeInput) {
-    codeInput.focus();
   }
 }
 
