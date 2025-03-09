@@ -8,16 +8,221 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('GoBet app initialized');
     
     // Initialisera komponenter
+    initUserMenu();
+    checkLoginStatus();
     initMobileMenu();
     initTabs();
     initOptions();
     initSocket();
-    initUserDropdown();
     initAnimations();
     
     // Ladda demo-data (ersätts senare med API-anrop)
     loadDemoData();
 });
+
+/**
+ * Kontrollera användarens inloggningsstatus
+ */
+function checkLoginStatus() {
+    const isLoggedIn = localStorage.getItem('gobet_logged_in') === 'true';
+    const userData = JSON.parse(localStorage.getItem('gobet_user') || '{}');
+    
+    // Uppdatera användarmenyn
+    updateUserMenu(isLoggedIn, userData);
+    
+    // Hantera åtkomstrestriktioner för inloggningskrävande sidor
+    handleAccessRestrictions(isLoggedIn);
+    
+    // Initiera utloggningsknapp
+    initLogout();
+}
+
+/**
+ * Uppdatera användarmenyn baserat på inloggningsstatus
+ */
+function updateUserMenu(isLoggedIn, userData) {
+    const userMenuButton = document.querySelector('.user-menu-btn');
+    const userAvatar = document.getElementById('userAvatar');
+    const userDisplayName = document.getElementById('userDisplayName');
+    const userPlanBadge = document.querySelector('.user-plan-badge');
+    const balanceDisplay = document.querySelector('.balance span');
+    
+    if (!userMenuButton) return;
+    
+    if (isLoggedIn && userData) {
+        // Användaren är inloggad, visa användarinformation
+        if (userAvatar && userData.avatar) {
+            userAvatar.src = userData.avatar;
+            userAvatar.alt = userData.username || 'Avatar';
+        }
+        
+        if (userDisplayName) {
+            userDisplayName.textContent = userData.username || 'Användare';
+        }
+        
+        if (userPlanBadge) {
+            const plan = localStorage.getItem('gobet_user_plan') || 'free';
+            userPlanBadge.className = 'user-plan-badge ' + plan;
+            userPlanBadge.textContent = plan === 'free' ? 'Gratis' : 
+                                     plan === 'premium' ? 'Premium' : 'Premium+';
+        }
+        
+        if (balanceDisplay) {
+            const coins = localStorage.getItem('gobet_user_coins') || '5000';
+            balanceDisplay.textContent = `${coins} GoCoins`;
+        }
+    } else {
+        // Användaren är inte inloggad, visa standardinformation
+        if (userAvatar) {
+            userAvatar.src = "https://ui-avatars.com/api/?name=Gäst&background=6c757d&color=fff";
+            userAvatar.alt = "Gäst";
+        }
+        
+        if (userDisplayName) {
+            userDisplayName.textContent = "Gäst";
+        }
+        
+        if (userPlanBadge) {
+            userPlanBadge.className = 'user-plan-badge guest';
+            userPlanBadge.textContent = 'Inte inloggad';
+        }
+        
+        if (balanceDisplay) {
+            balanceDisplay.textContent = '0 GoCoins';
+        }
+    }
+}
+
+/**
+ * Hantera åtkomstrestriktioner baserat på inloggningsstatus
+ */
+function handleAccessRestrictions(isLoggedIn) {
+    // Lista över sidor som kräver inloggning
+    const restrictedPages = [
+        'profile.html',
+        'create-bet.html',
+        'wheel.html'
+    ];
+    
+    // Kontrollera om aktuell sida kräver inloggning
+    const currentPage = window.location.pathname.split('/').pop();
+    const requiresLogin = restrictedPages.some(page => currentPage.includes(page));
+    
+    if (requiresLogin && !isLoggedIn) {
+        // Om sidan kräver inloggning men användaren inte är inloggad,
+        // visa en varning och begränsa funktionalitet
+        showLoginWarning();
+        restrictFunctionality();
+    }
+}
+
+/**
+ * Visa varning om att användaren måste logga in
+ */
+function showLoginWarning() {
+    // Skapa varningselement om det inte redan finns
+    if (!document.getElementById('loginWarning')) {
+        const warning = document.createElement('div');
+        warning.id = 'loginWarning';
+        warning.className = 'login-warning';
+        warning.innerHTML = `
+            <div class="warning-content">
+                <i class="fa-solid fa-lock"></i>
+                <h3>Inloggning krävs</h3>
+                <p>Du måste vara inloggad för att använda denna funktionalitet.</p>
+                <a href="login.html" class="btn btn-primary">Logga in</a>
+            </div>
+        `;
+        
+        // Lägg till varningen i huvudinnehållet
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+            mainContent.prepend(warning);
+        } else {
+            document.body.prepend(warning);
+        }
+    }
+}
+
+/**
+ * Begränsa funktionalitet för icke inloggade användare
+ */
+function restrictFunctionality() {
+    // Inaktivera interaktiva element
+    const interactiveElements = document.querySelectorAll('button:not(.btn-primary), .btn-join, #spinButton, #buySpinButton, input[type="submit"]');
+    
+    interactiveElements.forEach(element => {
+        element.disabled = true;
+        element.classList.add('disabled');
+        
+        // Lägg till tooltip
+        element.setAttribute('title', 'Logga in för att använda denna funktion');
+        
+        // Lägg till klickhändelse som visar inloggningsmeddelande
+        element.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            alert('Du måste logga in för att använda denna funktion.');
+        });
+    });
+    
+    // Dölj känsligt innehåll
+    const sensitiveContent = document.querySelectorAll('.wheel-of-fortune, .bet-card:not(:first-child), .create-bet-form');
+    
+    sensitiveContent.forEach(element => {
+        element.classList.add('blurred');
+    });
+}
+
+/**
+ * Initialisera användarmenyn
+ */
+function initUserMenu() {
+    const userMenuBtn = document.querySelector('.user-menu-btn');
+    
+    if (userMenuBtn) {
+        userMenuBtn.addEventListener('click', () => {
+            const dropdown = document.querySelector('.user-dropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('active');
+            }
+        });
+        
+        // Stäng menyn när man klickar utanför
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-menu')) {
+                const dropdown = document.querySelector('.user-dropdown');
+                if (dropdown && dropdown.classList.contains('active')) {
+                    dropdown.classList.remove('active');
+                }
+            }
+        });
+    }
+}
+
+/**
+ * Initialisera utloggningsknappen
+ */
+function initLogout() {
+    const logoutBtn = document.getElementById('logoutBtn');
+    
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Rensa användardata från localStorage
+            localStorage.removeItem('gobet_logged_in');
+            localStorage.removeItem('gobet_user');
+            localStorage.removeItem('gobet_remaining_spins');
+            
+            // Visa bekräftelsemeddelande
+            alert('Du har loggats ut.');
+            
+            // Omdirigera till startsidan
+            window.location.href = 'index.html';
+        });
+    }
+}
 
 /**
  * Initialisera mobilmenyn
@@ -173,25 +378,6 @@ function initSocket() {
         window.gobet.socket = socket;
     } catch (error) {
         console.error('Failed to connect to socket server:', error);
-    }
-}
-
-/**
- * Initialisera användarmeny dropdown
- */
-function initUserDropdown() {
-    const userMenu = document.querySelector('.user-menu');
-    
-    if (userMenu) {
-        userMenu.addEventListener('click', (e) => {
-            e.stopPropagation();
-            userMenu.classList.toggle('active');
-        });
-        
-        // Stäng dropdown när man klickar utanför
-        document.addEventListener('click', () => {
-            userMenu.classList.remove('active');
-        });
     }
 }
 

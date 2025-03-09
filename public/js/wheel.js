@@ -5,15 +5,34 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Wheel of Fortune initialized');
   
-  // Initialisera komponenter
-  initializeWheel();
-  checkWheelRendering();
-  initializeButtons();
-  initializePrizeModal();
-  
-  // Ladda användardata
-  loadUserData();
+  // Kontrollera inloggningsstatus först
+  if (checkLoginRequired()) {
+    // Bara initialisera hjulet om användaren är inloggad
+    initializeWheel();
+    checkWheelRendering();
+    initializeButtons();
+    initializePrizeModal();
+    
+    // Ladda användardata
+    loadUserData();
+  }
 });
+
+/**
+ * Kontrollera om användaren måste vara inloggad
+ */
+function checkLoginRequired() {
+  const isLoggedIn = localStorage.getItem('gobet_logged_in') === 'true';
+  
+  if (!isLoggedIn) {
+    console.log('User not logged in, wheel functionality is limited');
+    // Här behöver vi inte göra något eftersom main.js redan hanterar
+    // att lägga till varningsmeddelande och begränsa funktionalitet
+    return false;
+  }
+  
+  return true;
+}
 
 /**
  * Ladda användardata från localStorage (skulle vara från server i en riktig app)
@@ -129,22 +148,63 @@ function initializeWheel() {
  * Skapa en sektion på hjulet
  */
 function createWheelSection(wheel, prize, index, totalSections) {
-  const sectionAngle = 360 / totalSections;
+  // Beräkna andelen av hjulet baserat på sannolikhet
+  const totalProbability = 100; // Alla sannolikheter summerar till 100
+  const sectionAngle = (prize.probability / totalProbability) * 360;
+  
+  // Beräkna startvinkel baserat på föregående sektioner
+  let startAngle = 0;
+  for (let i = 0; i < index; i++) {
+    const prevPrize = wheel.children[i]?.dataset;
+    if (prevPrize && prevPrize.probability) {
+      startAngle += (parseFloat(prevPrize.probability) / totalProbability) * 360;
+    }
+  }
+  
   const section = document.createElement('div');
   section.className = 'wheel-slice';
   section.style.backgroundColor = prize.color;
-  section.style.transform = `rotate(${index * sectionAngle}deg)`;
+  section.style.transform = `rotate(${startAngle}deg)`;
   
+  // Anpassa bredd baserat på sektionsstorlek
+  section.style.width = '50%';
+  section.style.height = '50%';
+  
+  // Skapa innehåll med både text och ikon
   const content = document.createElement('div');
   content.className = 'wheel-slice-content';
-  content.textContent = prize.name;
+  
+  // Lägg till en ikon som representerar priset
+  const icon = document.createElement('i');
+  
+  // Välj ikon baserat på pristyp
+  if (prize.name.includes('GoCoins')) {
+    icon.className = 'fa-solid fa-coins';
+  } else if (prize.name.includes('Premium')) {
+    icon.className = 'fa-solid fa-crown';
+  } else if (prize.name.includes('Avatar')) {
+    icon.className = 'fa-solid fa-user';
+  } else if (prize.name.includes('Item')) {
+    icon.className = 'fa-solid fa-gift';
+  } else {
+    icon.className = 'fa-solid fa-xmark';
+  }
+  
+  // Lägg till ikonen och pristext
+  content.appendChild(icon);
+  
+  const prizeText = document.createElement('span');
+  prizeText.textContent = prize.name;
+  content.appendChild(prizeText);
   
   section.appendChild(content);
   wheel.appendChild(section);
   
-  // Lagra prisdata
+  // Lagra prisdata och vinkel
   section.dataset.prize = prize.name;
   section.dataset.probability = prize.probability;
+  section.dataset.angle = sectionAngle;
+  section.dataset.startAngle = startAngle;
 }
 
 /**
@@ -220,22 +280,25 @@ function spinWheel() {
   const sections = wheel.querySelectorAll('.wheel-slice');
   const prizes = Array.from(sections).map(section => ({
     name: section.dataset.prize,
-    probability: parseFloat(section.dataset.probability)
+    probability: parseFloat(section.dataset.probability),
+    angle: parseFloat(section.dataset.angle),
+    startAngle: parseFloat(section.dataset.startAngle)
   }));
   
   // Välj en vinnande position baserat på sannolikhet
   const winner = selectWinnerBasedOnProbability(prizes);
-  const winningIndex = prizes.findIndex(prize => prize.name === winner.name);
   
-  // Beräkna rotationsvinkel
-  const sectionAngle = 360 / sections.length;
-  const randomExtraRotation = Math.floor(Math.random() * 360);
+  // Beräkna rotationsvinkel för att landa på den vinnande sektionen
+  // Vi behöver rikta pekaren mot mitten av den vinnande sektionen
+  const sectionMidpointAngle = winner.startAngle + (winner.angle / 2);
+  
+  // Antal varv som ska snurras (minst 5) plus positionen
   const fullRotations = 5 * 360; // 5 hela varv
+  const randomExtraRotation = Math.floor(Math.random() * 30) - 15; // ± 15 grader slumpmässig variation
   
   // Beräkna slutposition för att pilen ska peka på vinnande sektion
   // Pilen pekar på toppen, så vi behöver rotera till motsatt position
-  const winningAngle = (winningIndex * sectionAngle) + (sectionAngle / 2);
-  const finalRotation = fullRotations + 360 - winningAngle + randomExtraRotation;
+  const finalRotation = fullRotations + 360 - sectionMidpointAngle + randomExtraRotation;
   
   // Sätt CSS custom property för animationen
   wheel.style.setProperty('--spin-degree', `${finalRotation}deg`);
