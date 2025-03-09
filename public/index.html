@@ -43,8 +43,8 @@
           </div>
           
           <div class="user-menu">
-            <img src="https://ui-avatars.com/api/?name=Max+Bettman&background=6643b5&color=fff" alt="Avatar" class="avatar">
-            <span class="username">MaxBettman</span>
+            <img src="https://ui-avatars.com/api/?name=Användare&background=6643b5&color=fff" alt="Avatar" class="avatar" id="userAvatar">
+            <span class="username" id="userDisplayName">Användare</span>
             <i class="fa-solid fa-chevron-down"></i>
             <span class="user-plan-badge free">Gratis</span>
             
@@ -53,10 +53,14 @@
               <a href="#"><i class="fa-solid fa-wallet"></i> Plånbok</a>
               <a href="#"><i class="fa-solid fa-history"></i> Historik</a>
               <a href="plans.html"><i class="fa-solid fa-crown"></i> Uppgradera</a>
-              <a href="#"><i class="fa-solid fa-gear"></i> Inställningar</a>
-              <a href="login.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logga ut</a>
+              <a href="settings.html"><i class="fa-solid fa-gear"></i> Inställningar</a>
+              <a href="#" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logga ut</a>
             </div>
           </div>
+          
+          <a href="login.html" class="login-button" style="display: none;">
+            <i class="fa-solid fa-right-to-bracket"></i> Logga in
+          </a>
         </div>
       </div>
     </header>
@@ -326,7 +330,11 @@
         </div>
         
         <div class="footer-bottom">
-          <p>&copy; 2023 GoBet. Alla rättigheter reserverade.</p>
+          <p>&copy; <span class="current-year">2023</span> GoBet. Alla rättigheter förbehållna.</p>
+          <div class="footer-links">
+            <a href="#">Användarvillkor</a>
+            <a href="#">Integritetspolicy</a>
+          </div>
         </div>
       </div>
     </footer>

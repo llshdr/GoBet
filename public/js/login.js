@@ -213,7 +213,8 @@ function initFormSubmission() {
         localStorage.setItem('gobet_user', JSON.stringify({
           username: email.split('@')[0],
           email: email,
-          avatar: 'https://ui-avatars.com/api/?name=' + email.split('@')[0]
+          avatar: 'https://ui-avatars.com/api/?name=' + email.split('@')[0],
+          joinDate: new Date().toISOString()
         }));
         
         // Omdirigera till hemsidan efter en kort fördröjning
@@ -275,7 +276,8 @@ function initFormSubmission() {
         localStorage.setItem('gobet_user', JSON.stringify({
           username: username,
           email: email,
-          avatar: 'https://ui-avatars.com/api/?name=' + username
+          avatar: 'https://ui-avatars.com/api/?name=' + username,
+          joinDate: new Date().toISOString()
         }));
         
         // Omdirigera till hemsidan efter en kort fördröjning

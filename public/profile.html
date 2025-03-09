@@ -12,7 +12,7 @@
     <header>
         <div class="container">
             <a href="index.html" class="logo">
-                <img src="images/logo.png" alt="GoBet Logo">
+                <i class="fa-solid fa-dice"></i>
                 <span>GoBet</span>
             </a>
             <nav>
@@ -21,6 +21,7 @@
                     <li><a href="plans.html"><i class="fa-solid fa-crown"></i> Premium</a></li>
                     <li><a href="create-bet.html"><i class="fa-solid fa-dice"></i> Skapa Bet</a></li>
                     <li><a href="wheel.html"><i class="fa-solid fa-dharmachakra"></i> Lyckohjul</a></li>
+                    <li><a href="friends.html"><i class="fa-solid fa-user-group"></i> Vänlista</a></li>
                 </ul>
             </nav>
             <div class="user-menu">
@@ -34,12 +35,15 @@
                         <li><a href="profile.html" class="active"><i class="fa-solid fa-user"></i> Min Profil</a></li>
                         <li><a href="#"><i class="fa-solid fa-wallet"></i> Plånbok</a></li>
                         <li><a href="#"><i class="fa-solid fa-trophy"></i> Mina Bets</a></li>
-                        <li><a href="#"><i class="fa-solid fa-gear"></i> Inställningar</a></li>
+                        <li><a href="settings.html"><i class="fa-solid fa-gear"></i> Inställningar</a></li>
                         <li class="divider"></li>
                         <li><a href="#" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i> Logga ut</a></li>
                     </ul>
                 </div>
             </div>
+            <a href="login.html" class="login-button" style="display: none;">
+                <i class="fa-solid fa-right-to-bracket"></i> Logga in
+            </a>
         </div>
     </header>
 
@@ -59,7 +63,9 @@
                             <button type="button" class="btn-edit-avatar"><i class="fa-solid fa-camera"></i></button>
                         </div>
                         <div class="profile-details">
-                            <h1 id="profileName">Användarnamn</h1>
+                            <h2 class="profile-username">Användarnamn</h2>
+                            <p class="profile-email">anvandare@exempel.com</p>
+                            <p class="join-date">Medlem sedan <span class="current-year">2023</span></p>
                             <div class="profile-badges">
                                 <span class="badge premium"><i class="fa-solid fa-crown"></i> Premium</span>
                                 <span class="badge level">Nivå 12</span>
@@ -68,7 +74,8 @@
                             <p class="profile-bio" id="profileBio">Jag är en passionerad gamer som älskar att utmana andra spelare.</p>
                         </div>
                         <div class="profile-actions">
-                            <button type="button" class="btn btn-primary" id="editProfileBtn"><i class="fa-solid fa-pen"></i> Redigera profil</button>
+                            <button class="btn btn-primary edit-profile-btn">Redigera profil</button>
+                            <button class="btn btn-outline share-profile-btn">Dela profil</button>
                         </div>
                     </div>
                 </div>
@@ -390,10 +397,10 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2023 GoBet. Alla rättigheter förbehållna.</p>
+                <p>&copy; <span class="current-year">2023</span> GoBet. Alla rättigheter förbehållna.</p>
                 <div class="footer-links">
-                    <a href="#">Integritetspolicy</a>
                     <a href="#">Användarvillkor</a>
+                    <a href="#">Integritetspolicy</a>
                 </div>
             </div>
         </div>

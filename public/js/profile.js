@@ -413,4 +413,44 @@ function showSuccessMessage(message) {
   setTimeout(() => {
     successMessage.classList.remove('active');
   }, 3000);
+}
+
+/**
+ * Fyll i användardata i profilsektionen
+ */
+function populateUserProfile() {
+    const userData = JSON.parse(localStorage.getItem('gobet_user') || '{}');
+    
+    // Uppdatera profilbilden
+    const profileAvatar = document.querySelector('.profile-avatar img');
+    if (profileAvatar && userData.avatar) {
+        profileAvatar.src = userData.avatar;
+    }
+    
+    // Uppdatera användarnamn och e-post
+    const profileUsername = document.querySelector('.profile-username');
+    if (profileUsername) {
+        profileUsername.textContent = userData.username || 'Användare';
+    }
+    
+    const profileEmail = document.querySelector('.profile-email');
+    if (profileEmail) {
+        profileEmail.textContent = userData.email || 'exempel@email.com';
+    }
+    
+    // Uppdatera information om när användare gick med
+    const joinDateElem = document.querySelector('.join-date');
+    if (joinDateElem) {
+        if (userData.joinDate) {
+            const joinDate = new Date(userData.joinDate);
+            const year = joinDate.getFullYear();
+            const month = joinDate.toLocaleString('sv-SE', { month: 'long' });
+            joinDateElem.textContent = `Medlem sedan ${month} ${year}`;
+        } else {
+            const currentYear = new Date().getFullYear();
+            joinDateElem.textContent = `Medlem sedan ${currentYear}`;
+        }
+    }
+    
+    // ... existing code ...
 } 

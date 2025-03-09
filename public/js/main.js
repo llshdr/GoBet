@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initOptions();
     initSocket();
     initAnimations();
+    initTheme();
+    setCurrentYear();
     
     // Ladda demo-data (ersätts senare med API-anrop)
     loadDemoData();
@@ -46,8 +48,9 @@ function updateUserMenu(isLoggedIn, userData) {
     const userDisplayName = document.getElementById('userDisplayName');
     const userPlanBadge = document.querySelector('.user-plan-badge');
     const balanceDisplay = document.querySelector('.balance span');
+    const loginButtons = document.querySelectorAll('.login-button');
     
-    if (!userMenuButton) return;
+    if (!userMenuButton && !loginButtons.length) return;
     
     if (isLoggedIn && userData) {
         // Användaren är inloggad, visa användarinformation
@@ -59,6 +62,12 @@ function updateUserMenu(isLoggedIn, userData) {
         if (userDisplayName) {
             userDisplayName.textContent = userData.username || 'Användare';
         }
+        
+        // Visa användarmenyn och dölj inloggningsknappar
+        if (userMenuButton) userMenuButton.style.display = 'flex';
+        loginButtons.forEach(button => {
+            button.style.display = 'none';
+        });
         
         if (userPlanBadge) {
             const plan = localStorage.getItem('gobet_user_plan') || 'free';
@@ -72,7 +81,12 @@ function updateUserMenu(isLoggedIn, userData) {
             balanceDisplay.textContent = `${coins} GoCoins`;
         }
     } else {
-        // Användaren är inte inloggad, visa standardinformation
+        // Användaren är inte inloggad, visa inloggningslänk
+        if (userMenuButton) userMenuButton.style.display = 'none';
+        loginButtons.forEach(button => {
+            button.style.display = 'flex';
+        });
+        
         if (userAvatar) {
             userAvatar.src = "https://ui-avatars.com/api/?name=Gäst&background=6c757d&color=fff";
             userAvatar.alt = "Gäst";
@@ -598,4 +612,52 @@ function getIconForType(type) {
         default:
             return 'fa-circle-info';
     }
+}
+
+/**
+ * Initialisera tema-inställningar
+ */
+function initTheme() {
+    const storedTheme = localStorage.getItem('gobet_theme') || 'auto';
+    applyTheme(storedTheme);
+    
+    // Lyssna efter ändringar i systemtema om auto-läge är aktivt
+    if (storedTheme === 'auto') {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (localStorage.getItem('gobet_theme') === 'auto') {
+                applyTheme('auto');
+            }
+        });
+    }
+}
+
+/**
+ * Tillämpa det valda temat
+ */
+function applyTheme(theme) {
+    const isDark = theme === 'dark' || 
+                 (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    
+    if (isDark) {
+        document.body.classList.add('dark-theme');
+        document.body.classList.remove('light-theme');
+    } else {
+        document.body.classList.add('light-theme');
+        document.body.classList.remove('dark-theme');
+    }
+    
+    // Spara temat
+    localStorage.setItem('gobet_theme', theme);
+}
+
+/**
+ * Sätt rätt årtal i footern
+ */
+function setCurrentYear() {
+    const yearElements = document.querySelectorAll('.current-year');
+    const currentYear = new Date().getFullYear();
+    
+    yearElements.forEach(element => {
+        element.textContent = currentYear;
+    });
 } 

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inställningar | GoBet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <style>
+        .settings-section {
+            padding: 40px 0;
+        }
+        
+        .settings-container {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 30px;
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+        
+        .settings-sidebar {
+            padding: 20px 0;
+            border-right: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+        }
+        
+        .settings-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .settings-sidebar li {
+            margin: 5px 0;
+        }
+        
+        .settings-sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .settings-sidebar a:hover {
+            background-color: rgba(var(--primary-rgb), 0.05);
+            color: var(--primary-color);
+        }
+        
+        .settings-sidebar a.active {
+            color: var(--primary-color);
+            background-color: rgba(var(--primary-rgb), 0.08);
+            border-left-color: var(--primary-color);
+        }
+        
+        .settings-sidebar i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .settings-content {
+            padding: 30px;
+        }
+        
+        .settings-card {
+            margin-bottom: 30px;
+        }
+        
+        .settings-card h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        
+        .settings-card h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+        
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+        
+        .settings-row .settings-label {
+            font-weight: 500;
+        }
+        
+        .settings-row .settings-description {
+            color: var(--text-light);
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .settings-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .settings-sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .settings-sidebar ul {
+                display: flex;
+                overflow-x: auto;
+                padding: 10px;
+            }
+            
+            .settings-sidebar li {
+                margin: 0 5px;
+            }
+            
+            .settings-sidebar a {
+                padding: 8px 15px;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+                white-space: nowrap;
+            }
+            
+            .settings-sidebar a.active {
+                border-left-color: transparent;
+                border-bottom-color: var(--primary-color);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-dice logo-icon"></i>
+                <span>GoBet</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fa-solid fa-house"></i> Hem</a></li>
+                    <li><a href="plans.html"><i class="fa-solid fa-crown"></i> Premium</a></li>
+                    <li><a href="create-bet.html"><i class="fa-solid fa-dice"></i> Skapa Bet</a></li>
+                    <li><a href="wheel.html"><i class="fa-solid fa-dharmachakra"></i> Lyckohjul</a></li>
+                    <li><a href="friends.html"><i class="fa-solid fa-user-group"></i> Vänlista</a></li>
+                </ul>
+            </nav>
+            <div class="user-menu">
+                <button class="user-menu-btn">
+                    <img src="images/avatar.jpg" alt="Avatar" id="userAvatar">
+                    <span id="userDisplayName">Användare</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="user-dropdown">
+                    <ul>
+                        <li><a href="profile.html"><i class="fa-solid fa-user"></i> Min Profil</a></li>
+                        <li><a href="#"><i class="fa-solid fa-wallet"></i> Plånbok</a></li>
+                        <li><a href="#"><i class="fa-solid fa-trophy"></i> Mina Bets</a></li>
+                        <li><a href="settings.html" class="active"><i class="fa-solid fa-gear"></i> Inställningar</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i> Logga ut</a></li>
+                    </ul>
+                </div>
+            </div>
+            <a href="login.html" class="login-button" style="display: none;">
+                <i class="fa-solid fa-right-to-bracket"></i> Logga in
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <section class="settings-section">
+            <div class="container">
+                <div class="settings-container">
+                    <div class="settings-sidebar">
+                        <ul>
+                            <li><a href="#general" class="active"><i class="fa-solid fa-sliders"></i> Allmänt</a></li>
+                            <li><a href="#appearance"><i class="fa-solid fa-palette"></i> Utseende</a></li>
+                            <li><a href="#account"><i class="fa-solid fa-user-shield"></i> Konto</a></li>
+                            <li><a href="#notifications"><i class="fa-solid fa-bell"></i> Aviseringar</a></li>
+                            <li><a href="#privacy"><i class="fa-solid fa-lock"></i> Integritet</a></li>
+                            <li><a href="#language"><i class="fa-solid fa-globe"></i> Språk</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="settings-content">
+                        <div class="settings-card" id="general">
+                            <h2>Allmänna inställningar</h2>
+                            
+                            <div class="settings-row">
+                                <div>
+                                    <div class="settings-label">Tidzon</div>
+                                    <div class="settings-description">Automatiskt inställd till din lokala tidzon</div>
+                                </div>
+                                <div>
+                                    <select class="form-select">
+                                        <option selected>Europa/Stockholm (lokal)</option>
+                                        <option>GMT/UTC</option>
+                                        <option>US/Eastern</option>
+                                        <option>US/Pacific</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-card" id="appearance">
+                            <h2>Utseende</h2>
+                            
+                            <div class="settings-row">
+                                <div>
+                                    <div class="settings-label">Tema</div>
+                                    <div class="settings-description">Välj mellan ljust, mörkt, eller systemets inställningar</div>
+                                </div>
+                                <div class="theme-toggle">
+                                    <input type="radio" name="theme" id="lightTheme" value="light">
+                                    <label for="lightTheme"><i class="fa-solid fa-sun"></i></label>
+                                    
+                                    <input type="radio" name="theme" id="autoTheme" value="auto" checked>
+                                    <label for="autoTheme"><i class="fa-solid fa-circle-half-stroke"></i></label>
+                                    
+                                    <input type="radio" name="theme" id="darkTheme" value="dark">
+                                    <label for="darkTheme"><i class="fa-solid fa-moon"></i></label>
+                                    
+                                    <span class="toggle-indicator"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-card" id="account">
+                            <h2>Kontoinställningar</h2>
+                            
+                            <div class="settings-row">
+                                <div>
+                                    <div class="settings-label">E-postadress</div>
+                                    <div class="settings-description">Din primära e-postadress för kontot</div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-outline">Ändra e-post</button>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-row">
+                                <div>
+                                    <div class="settings-label">Lösenord</div>
+                                    <div class="settings-description">Ändra ditt lösenord regelbundet för bättre säkerhet</div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-outline">Byt lösenord</button>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-row">
+                                <div>
+                                    <div class="settings-label">Tvåfaktorsautentisering</div>
+                                    <div class="settings-description">Lägg till ett extra säkerhetslager för ditt konto</div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-outline">Aktivera 2FA</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <a href="index.html">
+                        <i class="fa-solid fa-dice"></i>
+                        <span>GoBet</span>
+                    </a>
+                    <p>Din plattform för betting med vänner</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fa-brands fa-discord"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Plattform</h4>
+                    <ul>
+                        <li><a href="plans.html">Prenumerationsplaner</a></li>
+                        <li><a href="#">Funktioner</a></li>
+                        <li><a href="#">Så fungerar det</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Juridiskt</h4>
+                    <ul>
+                        <li><a href="#">Användarvillkor</a></li>
+                        <li><a href="#">Integritetspolicy</a></li>
+                        <li><a href="#">Cookie-policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Hjälpcenter</a></li>
+                        <li><a href="#">Kontakta oss</a></li>
+                        <li><a href="#">Vanliga frågor</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span class="current-year">2023</span> GoBet. Alla rättigheter förbehållna.</p>
+                <div class="footer-links">
+                    <a href="#">Villkor</a>
+                    <a href="#">Integritet</a>
+                    <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hämta alla tema-radioknappar
+            const themeRadios = document.querySelectorAll('input[name="theme"]');
+            
+            // Hämta sparat tema från localStorage
+            const currentTheme = localStorage.getItem('gobet_theme') || 'auto';
+            
+            // Sätt rätt radioknapp som markerad baserat på det sparade temat
+            document.querySelector(`input[value="${currentTheme}"]`).checked = true;
+            
+            // Lägg till lyssnare för byte av tema
+            themeRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.checked) {
+                        applyTheme(this.value);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
