@@ -214,8 +214,15 @@ function initFormSubmission() {
           username: email.split('@')[0],
           email: email,
           avatar: 'https://ui-avatars.com/api/?name=' + email.split('@')[0],
-          joinDate: new Date().toISOString()
+          joinDate: new Date().toISOString(),
+          bio: 'Hej! Jag är en GoBet-användare.'
         }));
+        
+        // Sätt startbeloppet av GoCoins för användaren
+        localStorage.setItem('gobet_user_coins', '5000');
+        
+        // Kontrollera och initiera användarstatistik
+        initializeUserStats();
         
         // Omdirigera till hemsidan efter en kort fördröjning
         setTimeout(() => {
@@ -277,8 +284,15 @@ function initFormSubmission() {
           username: username,
           email: email,
           avatar: 'https://ui-avatars.com/api/?name=' + username,
-          joinDate: new Date().toISOString()
+          joinDate: new Date().toISOString(),
+          bio: 'Hej! Jag är en ny GoBet-användare.'
         }));
+        
+        // Sätt startbeloppet av GoCoins för användaren
+        localStorage.setItem('gobet_user_coins', '5000');
+        
+        // Initiera användarstatistik
+        initializeUserStats();
         
         // Omdirigera till hemsidan efter en kort fördröjning
         setTimeout(() => {
@@ -355,4 +369,22 @@ function showSuccessMessage(message) {
   setTimeout(() => {
     successMessage.classList.remove('active');
   }, 3000);
+}
+
+/**
+ * Initiera användarstatistik vid inloggning/registrering
+ */
+function initializeUserStats() {
+  // Kontrollera om användarstatistik redan finns
+  if (!localStorage.getItem('gobet_user_stats')) {
+    // Skapa standardstatistik för nya användare
+    const initialStats = {
+      betsCreated: 0,
+      betsWon: 0,
+      winPercentage: 0,
+      friends: 0
+    };
+    
+    localStorage.setItem('gobet_user_stats', JSON.stringify(initialStats));
+  }
 } 

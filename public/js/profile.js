@@ -51,24 +51,13 @@ function loadUserProfile() {
     userDisplayName.textContent = userData.username;
   }
   
-  // Uppdatera profilsidan
-  const profileAvatar = document.getElementById('profileAvatar');
-  const profileName = document.getElementById('profileName');
-  const profileBio = document.getElementById('profileBio');
+  // Uppdatera profilinformation
+  populateUserProfile();
   
-  if (profileAvatar && userData.avatar) {
-    profileAvatar.src = userData.avatar;
-  }
+  // Uppdatera statistik
+  updateProfileStats();
   
-  if (profileName && userData.username) {
-    profileName.textContent = userData.username;
-  }
-  
-  if (profileBio && userData.bio) {
-    profileBio.textContent = userData.bio;
-  }
-  
-  // Ladda data till redigeringsformuläret
+  // Ladda profildata till redigeringsformuläret
   preloadEditForm(userData);
 }
 
@@ -438,6 +427,12 @@ function populateUserProfile() {
         profileEmail.textContent = userData.email || 'exempel@email.com';
     }
     
+    // Uppdatera profilbiografi
+    const profileBio = document.getElementById('profileBio');
+    if (profileBio) {
+        profileBio.textContent = userData.bio || 'Ingen biografi inlagd ännu.';
+    }
+    
     // Uppdatera information om när användare gick med
     const joinDateElem = document.querySelector('.join-date');
     if (joinDateElem) {
@@ -452,5 +447,93 @@ function populateUserProfile() {
         }
     }
     
-    // ... existing code ...
+    // Uppdatera "medlem sedan"-märket
+    const joinedBadge = document.querySelector('.badge.joined');
+    if (joinedBadge && userData.joinDate) {
+        const joinDate = new Date(userData.joinDate);
+        const month = joinDate.toLocaleString('sv-SE', { month: 'long' });
+        const year = joinDate.getFullYear();
+        joinedBadge.textContent = `Medlem sedan ${month} ${year}`;
+    }
+}
+
+/**
+ * Uppdatera användarstatistik i profilen
+ */
+function updateProfileStats() {
+  // Hämta statistik från localStorage (i en riktig app skulle detta hämtas från servern)
+  let userStats = JSON.parse(localStorage.getItem('gobet_user_stats')) || {
+    betsCreated: 0,
+    betsWon: 0,
+    winPercentage: 0,
+    friends: 0
+  };
+  
+  // Kontrollera om vi behöver initiera statistik
+  if (!localStorage.getItem('gobet_user_stats')) {
+    userStats = {
+      betsCreated: 0,
+      betsWon: 0,
+      winPercentage: 0,
+      friends: 0
+    };
+    localStorage.setItem('gobet_user_stats', JSON.stringify(userStats));
+  }
+  
+  // Uppdatera statistik i DOM
+  const statsContainer = document.querySelector('.stats-grid');
+  if (statsContainer) {
+    // Hämta alla stat-value-element
+    const statElements = statsContainer.querySelectorAll('.stat-value');
+    if (statElements.length >= 4) {
+      statElements[0].textContent = userStats.betsCreated;
+      statElements[1].textContent = userStats.betsWon;
+      statElements[2].textContent = userStats.betsCreated > 0 
+        ? Math.round((userStats.betsWon / userStats.betsCreated) * 100) + '%'
+        : '0%';
+      statElements[3].textContent = userStats.friends;
+    }
+  }
+  
+  // Uppdatera användarnivå
+  updateUserLevel();
+  
+  // Uppdatera användarbalans
+  updateUserBalance();
+}
+
+/**
+ * Uppdatera användarnivå baserat på aktivitet
+ */
+function updateUserLevel() {
+  const userStats = JSON.parse(localStorage.getItem('gobet_user_stats')) || {};
+  
+  // Beräkna nivå baserat på aktivitet (i en riktig app skulle detta hanteras på servern)
+  // Enkel formel: nivå = 1 + floor(betsCreated / 10) + floor(betsWon / 5)
+  const betsCreated = userStats.betsCreated || 0;
+  const betsWon = userStats.betsWon || 0;
+  
+  // Använd en enkel formel för att beräkna nivå baserat på aktivitet
+  // Startnivå är 1, nivån ökar på olika sätt baserat på aktivitet
+  const level = 1 + Math.floor(betsCreated / 10) + Math.floor(betsWon / 5);
+  
+  // Uppdatera nivåmärke i DOM
+  const levelBadge = document.querySelector('.badge.level');
+  if (levelBadge) {
+    levelBadge.textContent = `Nivå ${level}`;
+  }
+}
+
+/**
+ * Uppdatera användarsaldo
+ */
+function updateUserBalance() {
+  // Hämta saldo från localStorage
+  const balance = localStorage.getItem('gobet_user_coins') || '0';
+  
+  // Uppdatera saldovisning i DOM
+  const balanceElement = document.querySelector('.balance-amount span');
+  if (balanceElement) {
+    balanceElement.textContent = parseInt(balance).toLocaleString('sv-SE');
+  }
 } 

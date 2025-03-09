@@ -588,6 +588,60 @@ footer {
   }
 }
 
+/* Dark Theme Support */
+body.dark-theme .auth-section .container {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-theme .auth-container {
+  background: linear-gradient(to bottom right, rgba(30, 30, 30, 0.9), rgba(15, 15, 15, 0.95));
+  color: var(--text-color);
+}
+
+body.dark-theme .auth-form input,
+body.dark-theme .auth-form textarea {
+  background-color: rgba(40, 40, 40, 0.5);
+  border-color: rgba(80, 80, 80, 0.5);
+  color: var(--text-color);
+}
+
+body.dark-theme .auth-form input:focus,
+body.dark-theme .auth-form textarea:focus {
+  background-color: rgba(50, 50, 50, 0.7);
+  border-color: var(--primary-color);
+}
+
+body.dark-theme .auth-tabs {
+  background-color: rgba(30, 30, 30, 0.7);
+}
+
+body.dark-theme .auth-tab {
+  color: #a0a0a0;
+}
+
+body.dark-theme .auth-tab.active {
+  color: #ffffff;
+}
+
+body.dark-theme .auth-form h2,
+body.dark-theme .auth-form p,
+body.dark-theme .auth-form label {
+  color: var(--text-color);
+}
+
+body.dark-theme .form-options a {
+  color: var(--primary-light);
+}
+
+body.dark-theme .social-buttons .btn-social {
+  background-color: rgba(40, 40, 40, 0.7);
+  color: #e0e0e0;
+}
+
+body.dark-theme .social-buttons .btn-social:hover {
+  background-color: rgba(60, 60, 60, 0.8);
+}
+
 /* Input Animation */
 .input-icon.focused i {
   color: var(--primary-color);
