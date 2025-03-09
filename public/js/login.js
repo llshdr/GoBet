@@ -236,76 +236,107 @@ function initFormSubmission() {
   
   // Registreringsformulär
   if (registerForm) {
-    registerForm.addEventListener('submit', (e) => {
+    console.log('Registerformulär hittades:', registerForm);
+    
+    registerForm.addEventListener('submit', function(e) {
       e.preventDefault();
+      console.log('Registreringsformulär skickat');
       
-      const username = document.getElementById('registerUsername').value.trim();
-      const email = document.getElementById('registerEmail').value.trim();
-      const password = document.getElementById('registerPassword').value;
-      const confirmPassword = document.getElementById('registerConfirmPassword').value;
-      const termsAgreement = document.getElementById('termsAgreement')?.checked;
-      
-      // Validering
-      if (!username || !email || !password || !confirmPassword) {
-        alert('Vänligen fyll i alla fält.');
-        return;
-      }
-      
-      if (password !== confirmPassword) {
-        alert('Lösenorden matchar inte.');
-        return;
-      }
-      
-      if (!termsAgreement) {
-        alert('Du måste godkänna användarvillkoren för att fortsätta.');
-        return;
-      }
-      
-      // Kontrollera om e-postadressen redan är registrerad
-      const registeredUsers = JSON.parse(localStorage.getItem('gobet_registered_users') || '[]');
-      if (registeredUsers.some(user => user.email === email)) {
-        alert('E-postadressen är redan registrerad. Vänligen logga in istället.');
-        return;
-      }
-      
-      const strength = calculatePasswordStrength(password);
-      if (strength.percent < 40) {
-        if (!confirm('Ditt lösenord är svagt. Vill du fortsätta ändå?')) {
+      try {
+        const username = document.getElementById('registerUsername').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('registerConfirmPassword').value;
+        const termsAgreement = document.getElementById('termsAgreement')?.checked;
+        
+        console.log('Formulärvärden:', { username, email, password: '****', confirmPassword: '****', termsAgreement });
+        
+        // Validering
+        if (!username || !email || !password || !confirmPassword) {
+          alert('Vänligen fyll i alla fält.');
           return;
         }
+        
+        if (password !== confirmPassword) {
+          alert('Lösenorden matchar inte.');
+          return;
+        }
+        
+        if (!termsAgreement) {
+          alert('Du måste godkänna användarvillkoren för att fortsätta.');
+          return;
+        }
+        
+        // Kontrollera om e-postadressen redan är registrerad
+        const registeredUsers = JSON.parse(localStorage.getItem('gobet_registered_users') || '[]');
+        if (registeredUsers.some(user => user.email === email)) {
+          alert('E-postadressen är redan registrerad. Vänligen logga in istället.');
+          return;
+        }
+        
+        // Validera lösenordsstyrka
+        if (typeof calculatePasswordStrength !== 'function') {
+          console.error('calculatePasswordStrength är inte definierad');
+          const strength = { percent: 50 }; // standardvärde om funktionen saknas
+        } else {
+          const strength = calculatePasswordStrength(password);
+          if (strength.percent < 40) {
+            if (!confirm('Ditt lösenord är svagt. Vill du fortsätta ändå?')) {
+              return;
+            }
+          }
+        }
+        
+        // Simulera laddning
+        const submitButton = registerForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Skapar konto...';
+        
+        // Skapa en verifikationskod (6 siffror)
+        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+        
+        // Spara tillfällig användardata
+        const tempUserData = {
+          username,
+          email,
+          password,
+          verificationCode,
+          createdAt: new Date().toISOString()
+        };
+        
+        localStorage.setItem('gobet_temp_user', JSON.stringify(tempUserData));
+        
+        // Simulera skicka verifikationskod till användarens e-post
+        console.log('Verifikationskod skickad till', email, ':', verificationCode);
+        
+        // Visa verifieringsformuläret
+        showVerificationForm(email);
+        
+        // Visa verifikationstabben
+        const verificationTab = document.querySelector('.auth-tab[data-tab="verification"]');
+        if (verificationTab) {
+          verificationTab.style.display = 'block';
+        }
+        
+        // Återställ registreringsknappen
+        setTimeout(() => {
+          submitButton.disabled = false;
+          submitButton.innerHTML = 'Skapa konto';
+        }, 1500);
+      } catch (error) {
+        console.error('Fel vid registrering:', error);
+        alert('Ett fel inträffade vid registrering. Vänligen försök igen.');
+        
+        // Återställ knappen vid fel
+        const submitButton = registerForm.querySelector('button[type="submit"]');
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.innerHTML = 'Skapa konto';
+        }
       }
-      
-      // Simulera laddning
-      const submitButton = registerForm.querySelector('button[type="submit"]');
-      submitButton.disabled = true;
-      submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Skapar konto...';
-      
-      // Skapa en verifikationskod (6 siffror)
-      const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-      
-      // Spara tillfällig användardata
-      const tempUserData = {
-        username,
-        email,
-        password,
-        verificationCode,
-        createdAt: new Date().toISOString()
-      };
-      
-      localStorage.setItem('gobet_temp_user', JSON.stringify(tempUserData));
-      
-      // Simulera skicka verifikationskod till användarens e-post
-      console.log('Verifikationskod skickad till', email, ':', verificationCode);
-      
-      // Visa verifieringsformuläret
-      showVerificationForm(email);
-      
-      // Återställ registreringsknappen
-      setTimeout(() => {
-        submitButton.disabled = false;
-        submitButton.innerHTML = 'Skapa konto';
-      }, 1500);
     });
+  } else {
+    console.error('Registerformulär hittades inte!');
   }
   
   // Verifieringsformulär
