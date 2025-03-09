@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initPasswordToggle();
   initPasswordStrength();
   initFormSubmission();
+  animateLoginForm();
 });
 
 /**
@@ -131,6 +132,47 @@ function initPasswordStrength() {
     
     return { percent: Math.min(100, score), color, label };
   }
+}
+
+/**
+ * Lägg till animationer till inloggningsformulär
+ */
+function animateLoginForm() {
+  // Animera inputs när de fokuseras
+  const inputs = document.querySelectorAll('input');
+  
+  inputs.forEach(input => {
+    // Lägg till klass "focused" på parent när input fokuseras
+    input.addEventListener('focus', () => {
+      input.parentElement.classList.add('focused');
+    });
+    
+    // Ta bort klass "focused" på parent när input tappar fokus
+    input.addEventListener('blur', () => {
+      if (!input.value) {
+        input.parentElement.classList.remove('focused');
+      }
+    });
+    
+    // Kontrollera om inputen redan har ett värde vid sidladdning
+    if (input.value) {
+      input.parentElement.classList.add('focused');
+    }
+  });
+  
+  // Staggered animation för formulärelement
+  const formElements = document.querySelectorAll('.auth-form.active .form-group, .auth-form.active .btn-full, .auth-form.active .social-auth');
+  
+  formElements.forEach((el, index) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+      el.style.transition = 'all 0.4s ease';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    }, 100 + (index * 100)); // Staggered delay
+  });
 }
 
 /**
