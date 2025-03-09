@@ -116,16 +116,16 @@ function initializeWheel() {
   // Rensa eventuella befintliga sektioner
   wheel.innerHTML = '';
   
-  // Prisdata: pris, färg, sannolikhet
+  // Prizes array with probability and value
   const prizes = [
-    { name: '250 GoCoins', color: '#ff7e47', probability: 20 },
-    { name: '500 GoCoins', color: '#ffcc00', probability: 15 },
-    { name: '1000 GoCoins', color: '#28a745', probability: 8 },
-    { name: 'Premium 1 dag', color: '#007bff', probability: 5 },
-    { name: 'Premium 1 vecka', color: '#6f42c1', probability: 2 },
-    { name: 'Exklusiv Avatar', color: '#e83e8c', probability: 5 },
-    { name: 'Sällsynt Item', color: '#dc3545', probability: 3 },
-    { name: 'Tyvärr, inget', color: '#6c757d', probability: 42 }
+    { type: 'coins', value: 50, probability: 20, color: '#ff7e47', icon: 'fa-coins' },
+    { type: 'coins', value: 100, probability: 15, color: '#ffcc00', icon: 'fa-coins' },
+    { type: 'coins', value: 200, probability: 10, color: '#28a745', icon: 'fa-coins' },
+    { type: 'premium', value: '1 dag', probability: 5, color: '#007bff', icon: 'fa-crown' },
+    { type: 'premium-plus', value: '1 dag', probability: 3, color: '#6f42c1', icon: 'fa-crown' },
+    { type: 'avatar', value: 'Ny Avatar', probability: 5, color: '#e83e8c', icon: 'fa-user-circle' },
+    { type: 'item', value: 'Specialitem', probability: 2, color: '#dc3545', icon: 'fa-gift' },
+    { type: 'nothing', value: 'Bättre lycka nästa gång', probability: 40, color: '#6c757d', icon: 'fa-times-circle' }
   ];
 
   // Beräkna totala vikten för sannolikheter
@@ -145,7 +145,7 @@ function initializeWheel() {
 }
 
 /**
- * Skapa en sektion på hjulet
+ * Skapa ett nytt hjulsegment
  */
 function createWheelSection(wheel, prize, index, totalSections) {
   // Beräkna andelen av hjulet baserat på sannolikhet
@@ -176,32 +176,27 @@ function createWheelSection(wheel, prize, index, totalSections) {
   
   // Lägg till en ikon som representerar priset
   const icon = document.createElement('i');
-  
-  // Välj ikon baserat på pristyp
-  if (prize.name.includes('GoCoins')) {
-    icon.className = 'fa-solid fa-coins';
-  } else if (prize.name.includes('Premium')) {
-    icon.className = 'fa-solid fa-crown';
-  } else if (prize.name.includes('Avatar')) {
-    icon.className = 'fa-solid fa-user';
-  } else if (prize.name.includes('Item')) {
-    icon.className = 'fa-solid fa-gift';
-  } else {
-    icon.className = 'fa-solid fa-xmark';
-  }
-  
-  // Lägg till ikonen och pristext
+  icon.className = `fas ${prize.icon}`;
   content.appendChild(icon);
   
   const prizeText = document.createElement('span');
-  prizeText.textContent = prize.name;
+  if (prize.type === 'coins') {
+    prizeText.textContent = `${prize.value} GoCoins`;
+  } else if (prize.type === 'premium' || prize.type === 'premium-plus') {
+    prizeText.textContent = `${prize.type === 'premium' ? 'Premium' : 'Premium+'} ${prize.value}`;
+  } else if (prize.type === 'nothing') {
+    prizeText.textContent = 'Inget';
+  } else {
+    prizeText.textContent = prize.value;
+  }
   content.appendChild(prizeText);
   
   section.appendChild(content);
   wheel.appendChild(section);
   
   // Lagra prisdata och vinkel
-  section.dataset.prize = prize.name;
+  section.dataset.type = prize.type;
+  section.dataset.value = prize.value;
   section.dataset.probability = prize.probability;
   section.dataset.angle = sectionAngle;
   section.dataset.startAngle = startAngle;
@@ -279,7 +274,7 @@ function spinWheel() {
   // Hämta sektioner
   const sections = wheel.querySelectorAll('.wheel-slice');
   const prizes = Array.from(sections).map(section => ({
-    name: section.dataset.prize,
+    name: section.dataset.type,
     probability: parseFloat(section.dataset.probability),
     angle: parseFloat(section.dataset.angle),
     startAngle: parseFloat(section.dataset.startAngle)
@@ -322,7 +317,7 @@ function spinWheel() {
     updateRemainingSpins();
     
     // Visa vinstmodal
-    showPrizeModal(winner.name);
+    showWinModal(winner);
   }, 5000); // 5 sekunder, samma som animationstiden
 }
 
@@ -373,52 +368,45 @@ function initializePrizeModal() {
 /**
  * Visa vinstmodalen
  */
-function showPrizeModal(prizeName) {
-  const modal = document.getElementById('prizeModal');
-  const prizeAmountElement = document.getElementById('prizeAmount');
+function showWinModal(prize) {
+  const modalTitle = document.querySelector('#prizeModal .modal-title');
+  const modalBody = document.querySelector('#prizeModal .modal-body');
   
-  if (!modal || !prizeAmountElement) return;
+  // Create prize win content
+  let content = `
+    <div class="prize-win">
+      <div class="prize-icon">
+        <i class="fas ${prize.icon}"></i>
+      </div>
+      <h2>Grattis!</h2>
+  `;
   
-  // Sätt prisnamnet
-  prizeAmountElement.textContent = prizeName;
-  
-  // Visa modalen
-  modal.classList.add('active');
-  
-  // Uppdatera användarens konto med vinsten
-  processPrize(prizeName);
-}
-
-/**
- * Bearbeta vinsten
- */
-function processPrize(prizeName) {
-  // I en riktig app skulle detta göras på serversidan
-  // Här simulerar vi bara uppdatering av användarens data
-  
-  console.log(`Användaren vann: ${prizeName}`);
-  
-  // Uppdatera användarstatistik baserat på pris
-  if (prizeName.includes('GoCoins')) {
-    // Extrahera myntantal från prisnamnet
-    const coinAmount = parseInt(prizeName.match(/\d+/)[0]);
-    
-    // Uppdatera användarens mynt
-    const currentCoins = parseInt(localStorage.getItem('gobet_user_coins') || '5000');
-    localStorage.setItem('gobet_user_coins', currentCoins + coinAmount);
-  } 
-  else if (prizeName.includes('Premium')) {
-    // Simulera premium-uppgradering
-    console.log('Premium-uppgradering tilldelad');
+  // Customize message based on prize type
+  if (prize.type === 'coins') {
+    content += `<p>Du har vunnit <strong>${prize.value} GoCoins</strong>!</p>`;
+  } else if (prize.type === 'premium' || prize.type === 'premium-plus') {
+    content += `<p>Du har vunnit <strong>${prize.value} ${prize.type === 'premium' ? 'Premium' : 'Premium Plus'}</strong>!</p>`;
+  } else if (prize.type === 'avatar') {
+    content += `<p>Du har vunnit en <strong>ny avatar</strong>!</p>`;
+  } else if (prize.type === 'item') {
+    content += `<p>Du har vunnit ett <strong>specialitem</strong>!</p>`;
+  } else {
+    content += `<p>${prize.value}</p>`;
   }
-  else if (prizeName.includes('Avatar')) {
-    // Simulera avatar-belöning
-    console.log('Avatar-belöning tilldelad');
+  
+  content += `</div>`;
+  modalBody.innerHTML = content;
+  
+  // Update modal title
+  if (prize.type === 'nothing') {
+    modalTitle.textContent = 'Bättre lycka nästa gång';
+  } else {
+    modalTitle.textContent = 'Du vann!';
   }
-  else if (prizeName.includes('Item')) {
-    // Simulera föremålsbelöning
-    console.log('Sällsynt föremål tillagd i inventarium');
-  }
+  
+  // Show modal
+  const prizeModal = new bootstrap.Modal(document.getElementById('prizeModal'));
+  prizeModal.show();
 }
 
 /**

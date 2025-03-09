@@ -25,7 +25,7 @@
         .settings-sidebar {
             padding: 20px 0;
             border-right: 1px solid var(--border-color);
-            background-color: var(--card-bg);
+            background-color: var(--surface-color);
         }
         
         .settings-sidebar ul {
@@ -35,29 +35,29 @@
         }
         
         .settings-sidebar li {
-            margin: 5px 0;
+            margin-bottom: 5px;
         }
         
         .settings-sidebar a {
             display: flex;
             align-items: center;
-            padding: 10px 20px;
+            padding: 12px 20px;
             color: var(--text-color);
             text-decoration: none;
-            font-weight: 500;
             transition: all 0.2s ease;
             border-left: 3px solid transparent;
         }
         
         .settings-sidebar a:hover {
-            background-color: rgba(var(--primary-rgb), 0.05);
+            background-color: var(--nav-hover);
             color: var(--primary-color);
         }
         
         .settings-sidebar a.active {
+            background-color: var(--nav-hover);
             color: var(--primary-color);
-            background-color: rgba(var(--primary-rgb), 0.08);
             border-left-color: var(--primary-color);
+            font-weight: 600;
         }
         
         .settings-sidebar i {
@@ -68,6 +68,7 @@
         
         .settings-content {
             padding: 30px;
+            background-color: var(--surface-color);
         }
         
         .settings-card {
@@ -112,6 +113,69 @@
             color: var(--text-light);
             margin-top: 5px;
             font-size: 14px;
+        }
+        
+        .settings-tab {
+            display: none;
+        }
+        
+        .settings-tab.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Ny flik för koder */
+        .redeem-code-form {
+            max-width: 500px;
+            margin-bottom: 30px;
+        }
+        
+        .code-history {
+            margin-top: 30px;
+        }
+        
+        .code-history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+        }
+        
+        .code-history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .code-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .code-value {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .code-date {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        .code-reward {
+            display: flex;
+            align-items: center;
+            color: var(--success-color);
+            font-weight: 600;
+        }
+        
+        .code-reward i {
+            margin-right: 5px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         @media (max-width: 768px) {
@@ -193,12 +257,13 @@
                 <div class="settings-container">
                     <div class="settings-sidebar">
                         <ul>
-                            <li><a href="#general" class="active"><i class="fa-solid fa-sliders"></i> Allmänt</a></li>
-                            <li><a href="#appearance"><i class="fa-solid fa-palette"></i> Utseende</a></li>
-                            <li><a href="#account"><i class="fa-solid fa-user-shield"></i> Konto</a></li>
-                            <li><a href="#notifications"><i class="fa-solid fa-bell"></i> Aviseringar</a></li>
-                            <li><a href="#privacy"><i class="fa-solid fa-lock"></i> Integritet</a></li>
-                            <li><a href="#language"><i class="fa-solid fa-globe"></i> Språk</a></li>
+                            <li><a href="#" class="active" data-tab="account"><i class="fa-solid fa-user-gear"></i> Konto</a></li>
+                            <li><a href="#" data-tab="security"><i class="fa-solid fa-shield-halved"></i> Säkerhet</a></li>
+                            <li><a href="#" data-tab="notification"><i class="fa-solid fa-bell"></i> Notifikationer</a></li>
+                            <li><a href="#" data-tab="appearance"><i class="fa-solid fa-palette"></i> Utseende</a></li>
+                            <li><a href="#" data-tab="connections"><i class="fa-solid fa-link"></i> Anslutningar</a></li>
+                            <li><a href="#" data-tab="billing"><i class="fa-solid fa-credit-card"></i> Betalningar</a></li>
+                            <li><a href="#" data-tab="codes"><i class="fa-solid fa-ticket"></i> Koder</a></li>
                         </ul>
                     </div>
                     
@@ -275,6 +340,62 @@
                                 </div>
                                 <div>
                                     <button class="btn btn-outline">Aktivera 2FA</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kodinlösningsflik -->
+                        <div class="settings-tab" id="codes" role="tabpanel">
+                            <h2>Koder &amp; Presentkort</h2>
+                            <p class="settings-description">Lös in kampanjkoder, presentkort och få bonusar till ditt konto.</p>
+                            
+                            <div class="redeem-code-form">
+                                <h3>Lös in kod</h3>
+                                <form id="redeemCodeForm">
+                                    <div class="form-group">
+                                        <label for="promoCode">Ange din kod</label>
+                                        <div class="input-icon">
+                                            <i class="fa-solid fa-ticket-alt"></i>
+                                            <input type="text" id="promoCode" placeholder="T.ex. WELCOME2023" required>
+                                        </div>
+                                        <small class="help-text">Kampanjkoder kan du få från event, tävlingar eller GoBet-partners.</small>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Lös in kod</button>
+                                </form>
+                            </div>
+                            
+                            <div class="code-history">
+                                <h3>Tidigare inlösta koder</h3>
+                                
+                                <!-- Historik för koder -->
+                                <div class="card">
+                                    <div class="code-history-item">
+                                        <div class="code-info">
+                                            <span class="code-value">WELCOME2023</span>
+                                            <span class="code-date">Inlöst 12 oktober 2023</span>
+                                        </div>
+                                        <div class="code-reward">
+                                            <i class="fa-solid fa-coins"></i> 1,000 GoCoins
+                                        </div>
+                                    </div>
+                                    <div class="code-history-item">
+                                        <div class="code-info">
+                                            <span class="code-value">SUMMER500</span>
+                                            <span class="code-date">Inlöst 5 juli 2023</span>
+                                        </div>
+                                        <div class="code-reward">
+                                            <i class="fa-solid fa-coins"></i> 500 GoCoins
+                                        </div>
+                                    </div>
+                                    <div class="code-history-item">
+                                        <div class="code-info">
+                                            <span class="code-value">PREMIUM7</span>
+                                            <span class="code-date">Inlöst 15 maj 2023</span>
+                                        </div>
+                                        <div class="code-reward">
+                                            <i class="fa-solid fa-crown"></i> 7 dagars Premium
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
