@@ -181,6 +181,7 @@ function animateLoginForm() {
 function initFormSubmission() {
   const loginForm = document.getElementById('loginForm');
   const registerForm = document.getElementById('registerForm');
+  const verificationForm = document.getElementById('verificationForm');
   
   // Inloggningsformulär
   if (loginForm) {
@@ -196,39 +197,40 @@ function initFormSubmission() {
         return;
       }
       
-      // Simulera inloggningsförfrågan till servern
-      console.log('Loggar in...', { email, rememberMe });
+      // Kontrollera om användaren finns
+      const registeredUsers = JSON.parse(localStorage.getItem('gobet_registered_users') || '[]');
+      const user = registeredUsers.find(u => u.email === email);
+      
+      if (!user) {
+        alert('Användaren finns inte. Vänligen registrera dig först.');
+        return;
+      }
+      
+      // Kontrollera lösenord
+      if (user.password !== password) {
+        alert('Fel lösenord. Försök igen.');
+        return;
+      }
       
       // Simulera laddning
       const submitButton = loginForm.querySelector('button[type="submit"]');
       submitButton.disabled = true;
       submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loggar in...';
       
+      // Hämta användardata
+      const userData = user.userData;
+      
+      // Visa inloggningsmeddelande
+      showSuccessMessage('Inloggning lyckades!');
+      
+      // Spara inloggningsstatus i localStorage
+      localStorage.setItem('gobet_logged_in', 'true');
+      localStorage.setItem('gobet_user', JSON.stringify(userData));
+      
+      // Omdirigera till hemsidan efter en kort fördröjning
       setTimeout(() => {
-        // Simulera en lyckad inloggning
-        showSuccessMessage('Inloggning lyckades!');
-        
-        // Spara inloggningsstatus i localStorage (i en riktig app skulle detta hanteras av cookies/sessioner)
-        localStorage.setItem('gobet_logged_in', 'true');
-        localStorage.setItem('gobet_user', JSON.stringify({
-          username: email.split('@')[0],
-          email: email,
-          avatar: 'https://ui-avatars.com/api/?name=' + email.split('@')[0],
-          joinDate: new Date().toISOString(),
-          bio: 'Hej! Jag är en GoBet-användare.'
-        }));
-        
-        // Sätt startbeloppet av GoCoins för användaren
-        localStorage.setItem('gobet_user_coins', '5000');
-        
-        // Kontrollera och initiera användarstatistik
-        initializeUserStats();
-        
-        // Omdirigera till hemsidan efter en kort fördröjning
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1500);
-      }, 1000);
+        window.location.href = 'index.html';
+      }, 1500);
     });
   }
   
@@ -259,6 +261,13 @@ function initFormSubmission() {
         return;
       }
       
+      // Kontrollera om e-postadressen redan är registrerad
+      const registeredUsers = JSON.parse(localStorage.getItem('gobet_registered_users') || '[]');
+      if (registeredUsers.some(user => user.email === email)) {
+        alert('E-postadressen är redan registrerad. Vänligen logga in istället.');
+        return;
+      }
+      
       const strength = calculatePasswordStrength(password);
       if (strength.percent < 40) {
         if (!confirm('Ditt lösenord är svagt. Vill du fortsätta ändå?')) {
@@ -266,87 +275,149 @@ function initFormSubmission() {
         }
       }
       
-      // Simulera registreringsförfrågan till servern
-      console.log('Registrerar...', { username, email });
-      
       // Simulera laddning
       const submitButton = registerForm.querySelector('button[type="submit"]');
       submitButton.disabled = true;
       submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Skapar konto...';
       
+      // Skapa en verifikationskod (6 siffror)
+      const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+      
+      // Spara tillfällig användardata
+      const tempUserData = {
+        username,
+        email,
+        password,
+        verificationCode,
+        createdAt: new Date().toISOString()
+      };
+      
+      localStorage.setItem('gobet_temp_user', JSON.stringify(tempUserData));
+      
+      // Simulera skicka verifikationskod till användarens e-post
+      console.log('Verifikationskod skickad till', email, ':', verificationCode);
+      
+      // Visa verifieringsformuläret
+      showVerificationForm(email);
+      
+      // Återställ registreringsknappen
       setTimeout(() => {
-        // Simulera lyckad registrering
-        showSuccessMessage('Konto skapat! Du loggas in automatiskt...');
-        
-        // Spara inloggningsstatus i localStorage (i en riktig app skulle detta hanteras av cookies/sessioner)
-        localStorage.setItem('gobet_logged_in', 'true');
-        localStorage.setItem('gobet_user', JSON.stringify({
-          username: username,
-          email: email,
-          avatar: 'https://ui-avatars.com/api/?name=' + username,
-          joinDate: new Date().toISOString(),
-          bio: 'Hej! Jag är en ny GoBet-användare.'
-        }));
-        
-        // Sätt startbeloppet av GoCoins för användaren
-        localStorage.setItem('gobet_user_coins', '5000');
-        
-        // Initiera användarstatistik
-        initializeUserStats();
-        
-        // Omdirigera till hemsidan efter en kort fördröjning
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1500);
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'Skapa konto';
       }, 1500);
     });
   }
   
-  function calculatePasswordStrength(password) {
-    if (!password) {
-      return { percent: 0, color: '#ff4747', label: 'Inget lösenord' };
+  // Verifieringsformulär
+  if (verificationForm) {
+    verificationForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const verificationCodeInput = document.getElementById('verificationCode');
+      if (!verificationCodeInput) return;
+      
+      const enteredCode = verificationCodeInput.value.trim();
+      if (!enteredCode) {
+        alert('Vänligen ange verifikationskoden.');
+        return;
+      }
+      
+      // Hämta temporär användardata
+      const tempUser = JSON.parse(localStorage.getItem('gobet_temp_user') || '{}');
+      if (!tempUser.verificationCode) {
+        alert('Någonting gick fel. Vänligen försök registrera dig igen.');
+        return;
+      }
+      
+      // Kontrollera verifikationskoden
+      if (enteredCode !== tempUser.verificationCode) {
+        alert('Felaktig verifikationskod. Försök igen.');
+        return;
+      }
+      
+      // Simulera laddning
+      const submitButton = verificationForm.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifierar...';
+      
+      // Skapa användardata
+      const userData = {
+        username: tempUser.username,
+        email: tempUser.email,
+        avatar: 'https://ui-avatars.com/api/?name=' + tempUser.username + '&background=6643b5&color=fff',
+        joinDate: tempUser.createdAt,
+        bio: 'Hej! Jag är en ny GoBet-användare.'
+      };
+      
+      // Spara användaren i registrerade användare
+      const registeredUsers = JSON.parse(localStorage.getItem('gobet_registered_users') || '[]');
+      registeredUsers.push({
+        email: tempUser.email,
+        password: tempUser.password,
+        userData
+      });
+      localStorage.setItem('gobet_registered_users', JSON.stringify(registeredUsers));
+      
+      // Rensa temporär användardata
+      localStorage.removeItem('gobet_temp_user');
+      
+      // Spara inloggningsstatus och data
+      localStorage.setItem('gobet_logged_in', 'true');
+      localStorage.setItem('gobet_user', JSON.stringify(userData));
+      
+      // Sätt startbeloppet av GoCoins för användaren
+      localStorage.setItem('gobet_user_coins', '5000');
+      
+      // Initiera användarstatistik
+      initializeUserStats();
+      
+      // Visa bekräftelsemeddelande
+      showSuccessMessage('Konto verifierat! Du loggas in automatiskt...');
+      
+      // Omdirigera till hemsidan efter en kort fördröjning
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1500);
+    });
+  }
+}
+
+/**
+ * Visar verifieringsformuläret
+ */
+function showVerificationForm(email) {
+  const loginForm = document.getElementById('login');
+  const registerForm = document.getElementById('register');
+  const verificationForm = document.getElementById('verification');
+  
+  if (!loginForm || !registerForm || !verificationForm) return;
+  
+  // Dölj andra formulär
+  loginForm.classList.remove('active');
+  registerForm.classList.remove('active');
+  
+  // Visa verifieringsformuläret
+  verificationForm.classList.add('active');
+  
+  // Uppdatera e-postadress i meddelandet
+  const emailDisplay = document.getElementById('verificationEmail');
+  if (emailDisplay) {
+    emailDisplay.textContent = email;
+  }
+  
+  // Uppdatera flikar
+  const authTabs = document.querySelectorAll('.auth-tab');
+  authTabs.forEach(tab => {
+    tab.classList.remove('active');
+    if (tab.dataset.tab === 'verification') {
+      tab.classList.add('active');
     }
-    
-    let score = 0;
-    
-    // Längd
-    if (password.length >= 8) {
-      score += 25;
-    } else if (password.length >= 6) {
-      score += 10;
-    }
-    
-    // Komplexitet
-    if (/[A-Z]/.test(password)) score += 15; // Versaler
-    if (/[a-z]/.test(password)) score += 10; // Gemener
-    if (/[0-9]/.test(password)) score += 15; // Siffror
-    if (/[^A-Za-z0-9]/.test(password)) score += 20; // Specialtecken
-    
-    // Variation
-    const uniqueChars = new Set(password).size;
-    score += Math.min(15, uniqueChars * 2);
-    
-    // Resultat
-    let color, label;
-    
-    if (score >= 80) {
-      color = '#2ecc71';
-      label = 'Mycket starkt';
-    } else if (score >= 60) {
-      color = '#27ae60';
-      label = 'Starkt';
-    } else if (score >= 40) {
-      color = '#f39c12';
-      label = 'Medium';
-    } else if (score >= 20) {
-      color = '#e67e22';
-      label = 'Svagt';
-    } else {
-      color = '#ff4747';
-      label = 'Mycket svagt';
-    }
-    
-    return { percent: Math.min(100, score), color, label };
+  });
+  
+  // Fokusera på verifikationskoden
+  const codeInput = document.getElementById('verificationCode');
+  if (codeInput) {
+    codeInput.focus();
   }
 }
 

@@ -43,17 +43,20 @@
           </div>
           
           <div class="user-menu">
-            <img src="https://ui-avatars.com/api/?name=Max+Bettman&background=6643b5&color=fff" alt="Avatar" class="avatar">
-            <span class="username">MaxBettman</span>
-            <i class="fa-solid fa-chevron-down"></i>
-            <span class="user-plan-badge free">Gratis</span>
-            
-            <div class="dropdown-menu">
-              <a href="profile.html"><i class="fa-solid fa-user"></i> Profil</a>
-              <a href="#"><i class="fa-solid fa-wallet"></i> Plånbok</a>
-              <a href="#"><i class="fa-solid fa-history"></i> Historik</a>
-              <a href="#"><i class="fa-solid fa-gear"></i> Inställningar</a>
-              <a href="login.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logga ut</a>
+            <button class="user-menu-btn">
+              <img src="images/avatar.jpg" alt="Avatar" id="userAvatar">
+              <span class="username" id="userDisplayName">Användare</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="user-dropdown">
+              <ul>
+                <li><a href="profile.html"><i class="fa-solid fa-user"></i> Min Profil</a></li>
+                <li><a href="#"><i class="fa-solid fa-wallet"></i> Plånbok</a></li>
+                <li><a href="#"><i class="fa-solid fa-trophy"></i> Mina Bets</a></li>
+                <li><a href="settings.html"><i class="fa-solid fa-gear"></i> Inställningar</a></li>
+                <li class="divider"></li>
+                <li><a href="#" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i> Logga ut</a></li>
+              </ul>
             </div>
           </div>
         </div>

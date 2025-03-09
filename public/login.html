@@ -33,6 +33,7 @@
                     <div class="auth-tabs">
                         <button class="auth-tab active" data-tab="login">Logga in</button>
                         <button class="auth-tab" data-tab="register">Registrera</button>
+                        <button class="auth-tab" data-tab="verification" style="display: none;">Verifiera</button>
                     </div>
                     
                     <div class="auth-content">
@@ -157,6 +158,26 @@
                                     </button>
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- Verifikation -->
+                        <div class="auth-form" id="verification">
+                            <h2>Verifiera din e-post</h2>
+                            <p>Vi har skickat en verifikationskod till <span id="verificationEmail">din e-post</span>. Ange koden nedan för att slutföra registreringen.</p>
+                            
+                            <form id="verificationForm">
+                                <div class="form-group">
+                                    <label for="verificationCode">Verifikationskod</label>
+                                    <div class="input-icon">
+                                        <i class="fa-solid fa-key"></i>
+                                        <input type="text" id="verificationCode" name="verificationCode" maxlength="6" required>
+                                    </div>
+                                </div>
+                                
+                                <p class="verification-message">Koden är giltig i 10 minuter. Hittar du inte koden? Kontrollera din skräppost eller <a href="#" id="resendCode">skicka koden igen</a>.</p>
+                                
+                                <button type="submit" class="btn btn-primary btn-full">Verifiera konto</button>
+                            </form>
                         </div>
                     </div>
                 </div>
