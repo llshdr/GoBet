@@ -73,7 +73,7 @@
   max-width: 500px;
 }
 
-/* Redesignad hjulet */
+/* Optimerat hjul med förbättrad prestanda */
 .wheel {
   position: relative;
   width: 400px;
@@ -81,42 +81,43 @@
   border-radius: 50%;
   background: linear-gradient(145deg, #161616, #2a2a2a);
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), 
-              inset 0 0 15px rgba(0, 0, 0, 0.4),
-              0 0 20px rgba(102, 67, 181, 0.4);
+              inset 0 0 15px rgba(0, 0, 0, 0.4);
   margin-bottom: 30px;
   overflow: hidden;
-  /* Animation för snurr kommer från JS */
-  transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
   transform: rotate(0deg);
   z-index: 1;
-  
-  /* Inre dekorativ cirkel */
-  &::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, var(--primary-light), var(--primary-dark));
-    border-radius: 50%;
-    z-index: 3;
-    box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.7);
-  }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 95%;
-    height: 95%;
-    border: 2px dashed rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    z-index: 0;
-  }
+  will-change: transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+}
+
+/* Inre dekorativ cirkel */
+.wheel::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, var(--primary-light), var(--primary-dark));
+  border-radius: 50%;
+  z-index: 3;
+  box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.7);
+}
+
+.wheel::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
+  height: 95%;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  z-index: 0;
 }
 
 /* Glödeffekt när hjulet snurrar */
@@ -129,11 +130,11 @@
 /* Pil som pekar på hjulet */
 .wheel-arrow {
   position: absolute;
-  top: 0;
+  top: -5px;
   left: 50%;
   transform: translateX(-50%);
-  width: 40px;
-  height: 60px;
+  width: 30px;
+  height: 50px;
   background-color: var(--primary-color);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   z-index: 5;
@@ -146,8 +147,8 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
   background-color: var(--secondary-color);
   border-radius: 50%;
   box-shadow: 0 0 10px rgba(255, 126, 71, 0.8);
@@ -161,14 +162,11 @@
   width: 50%;
   height: 50%;
   transform-origin: 0% 100%;
-  /* Bakgrundsfärg kommer från JS */
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transform: rotate(0deg);
-  transition: filter 0.3s ease;
 }
 
 .wheel-slice::after {
@@ -182,15 +180,11 @@
   pointer-events: none;
 }
 
-.wheel-slice:hover {
-  filter: brightness(1.2);
-}
-
-/* Innehåll i hjulsegment */
+/* Stor ikoninnehåll i hjulsegment */
 .wheel-slice-content {
   position: absolute;
-  top: 60px;
-  right: 60px;
+  top: 55px;
+  right: 55px;
   transform: rotate(45deg);
   display: flex;
   flex-direction: column;
@@ -199,21 +193,14 @@
   color: white;
   font-weight: 600;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-  max-width: 80px;
+  max-width: 100px;
   pointer-events: none;
 }
 
 .wheel-slice-content i {
-  font-size: 24px;
+  font-size: 38px;
   margin-bottom: 5px;
   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
-}
-
-.wheel-slice-content span {
-  font-size: 12px;
-  line-height: 1.2;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
 }
 
 /* Snurraknappar */
@@ -312,8 +299,8 @@
 }
 
 .legend-color {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -322,25 +309,65 @@
 }
 
 /* Lägg till ikoner i förklaringen */
-.legend-color::after {
-  font-family: 'Font Awesome 5 Free';
-  font-weight: 900;
+.legend-color i {
   color: white;
-  font-size: 12px;
+  font-size: 14px;
 }
-
-.legend-color[style*="ff7e47"]::after { content: '\f51e'; /* Coins */ }
-.legend-color[style*="ffcc00"]::after { content: '\f51e'; /* Coins */ }
-.legend-color[style*="28a745"]::after { content: '\f51e'; /* Coins */ }
-.legend-color[style*="007bff"]::after { content: '\f521'; /* Crown */ }
-.legend-color[style*="6f42c1"]::after { content: '\f521'; /* Crown */ }
-.legend-color[style*="e83e8c"]::after { content: '\f007'; /* User */ }
-.legend-color[style*="dc3545"]::after { content: '\f06b'; /* Gift */ }
-.legend-color[style*="6c757d"]::after { content: '\f00d'; /* X mark */ }
 
 .legend-text {
   font-size: 14px;
   color: var(--text-color);
+}
+
+/* Hjälptexter */
+.wheel-instructions {
+  margin-top: 20px;
+  padding: 15px 20px;
+  background-color: var(--surface-color);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+}
+
+.wheel-instructions h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wheel-instructions h4 i {
+  color: var(--primary-color);
+  font-size: 18px;
+}
+
+.wheel-instructions ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wheel-instructions li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.wheel-instructions li:before {
+  content: "•";
+  color: var(--primary-color);
+  position: absolute;
+  left: 5px;
+  top: 0;
+}
+
+.wheel-instructions li strong {
+  color: var(--text-color);
+  font-weight: 600;
 }
 
 /* Infobox för planer */
@@ -348,9 +375,9 @@
   margin-top: 40px;
   padding: 25px;
   border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
 }
 
 .wheel-plan-info h3 {
@@ -426,82 +453,7 @@
   color: var(--text-color);
 }
 
-/* Senaste vinnarna */
-.recent-winners {
-  padding: 50px 0;
-}
-
-.section-title {
-  font-size: 24px;
-  margin-bottom: 30px;
-  position: relative;
-  display: inline-block;
-  padding-bottom: 10px;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 50px;
-  height: 3px;
-  background-color: var(--primary-color);
-}
-
-.winners-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 20px;
-}
-
-.winner-card {
-  padding: 20px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  transition: transform 0.3s ease;
-}
-
-.winner-card:hover {
-  transform: translateY(-5px);
-}
-
-.winner-avatar {
-  margin-right: 15px;
-}
-
-.winner-avatar img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--primary-color);
-}
-
-.winner-info {
-  flex: 1;
-}
-
-.winner-name {
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 3px;
-  color: var(--text-color);
-}
-
-.winner-prize {
-  font-size: 14px;
-  color: var(--primary-color);
-  margin-bottom: 3px;
-}
-
-.winner-time {
-  font-size: 12px;
-  color: var(--text-light);
-}
-
-/* Pris-modal */
+/* Prismodalens design */
 .modal-body .prize-win {
   text-align: center;
   padding: 20px 0;
@@ -521,12 +473,6 @@
   justify-content: center;
 }
 
-/* Animation */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 /* Responsivitet */
 @media (max-width: 768px) {
   .wheel {
@@ -535,20 +481,15 @@
   }
   
   .wheel-slice-content {
-    top: 45px;
-    right: 45px;
-    font-size: 10px;
+    top: 40px;
+    right: 40px;
   }
   
   .wheel-slice-content i {
-    font-size: 18px;
+    font-size: 32px;
   }
   
   .plan-comparison {
-    grid-template-columns: 1fr;
-  }
-  
-  .winners-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -560,8 +501,12 @@
   }
   
   .wheel-slice-content {
-    top: 40px;
-    right: 40px;
+    top: 35px;
+    right: 35px;
+  }
+  
+  .wheel-slice-content i {
+    font-size: 28px;
   }
   
   .legend-items {
