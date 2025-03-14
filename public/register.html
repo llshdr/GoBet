@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoBet - Logga in</title>
+    <title>GoBet - Registrera dig</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <style>
-        .login-container {
+        .register-container {
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -17,39 +17,39 @@
             background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1) 0%, rgba(var(--primary-rgb), 0.05) 100%);
         }
         
-        .login-card {
+        .register-card {
             background-color: var(--surface-color);
             border-radius: 16px;
             box-shadow: var(--card-shadow);
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             padding: 2rem;
         }
         
-        .login-header {
+        .register-header {
             text-align: center;
             margin-bottom: 2rem;
         }
         
-        .login-logo {
+        .register-logo {
             width: 80px;
             height: 80px;
             margin: 0 auto 1rem;
         }
         
-        .login-title {
+        .register-title {
             font-size: 1.5rem;
             font-weight: 600;
             color: var(--text-color);
             margin-bottom: 0.5rem;
         }
         
-        .login-subtitle {
+        .register-subtitle {
             color: var(--text-light);
             font-size: 0.95rem;
         }
         
-        .login-form {
+        .register-form {
             display: flex;
             flex-direction: column;
             gap: 1rem;
@@ -87,7 +87,7 @@
             color: var(--text-light);
         }
         
-        .btn-login {
+        .btn-register {
             padding: 0.75rem 1rem;
             background-color: var(--primary-color);
             color: white;
@@ -103,12 +103,12 @@
             gap: 0.5rem;
         }
         
-        .btn-login:hover {
+        .btn-register:hover {
             background-color: var(--primary-dark);
             transform: translateY(-1px);
         }
         
-        .login-divider {
+        .register-divider {
             display: flex;
             align-items: center;
             text-align: center;
@@ -116,18 +116,18 @@
             color: var(--text-light);
         }
         
-        .login-divider::before,
-        .login-divider::after {
+        .register-divider::before,
+        .register-divider::after {
             content: '';
             flex: 1;
             border-bottom: 1px solid rgba(var(--primary-rgb), 0.1);
         }
         
-        .login-divider span {
+        .register-divider span {
             padding: 0 1rem;
         }
         
-        .social-login {
+        .social-register {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
@@ -158,20 +158,20 @@
             font-size: 1.1rem;
         }
         
-        .login-footer {
+        .register-footer {
             text-align: center;
             margin-top: 2rem;
             color: var(--text-light);
             font-size: 0.95rem;
         }
         
-        .login-footer a {
+        .register-footer a {
             color: var(--primary-color);
             text-decoration: none;
             font-weight: 500;
         }
         
-        .login-footer a:hover {
+        .register-footer a:hover {
             text-decoration: underline;
         }
         
@@ -196,25 +196,25 @@
             cursor: pointer;
         }
         
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 1rem;
-            }
-            
-            .login-card {
-                padding: 1.5rem;
-            }
-            
-            .social-login {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .login-image {
+        .register-image {
             max-width: 300px;
             margin: 2rem auto;
             border-radius: 12px;
             box-shadow: var(--card-shadow);
+        }
+        
+        @media (max-width: 480px) {
+            .register-container {
+                padding: 1rem;
+            }
+            
+            .register-card {
+                padding: 1.5rem;
+            }
+            
+            .social-register {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -247,17 +247,22 @@
         </header>
 
         <!-- Main Content -->
-        <main class="login-container">
-            <div class="login-card">
-                <div class="login-header">
-                    <img src="img/logo.png" alt="GoBet Logo" class="login-logo">
-                    <h1 class="login-title">Välkommen tillbaka!</h1>
-                    <p class="login-subtitle">Logga in för att fortsätta din resa</p>
+        <main class="register-container">
+            <div class="register-card">
+                <div class="register-header">
+                    <img src="img/logo.png" alt="GoBet Logo" class="register-logo">
+                    <h1 class="register-title">Skapa ditt konto</h1>
+                    <p class="register-subtitle">Bli en del av GoBet-communityt idag</p>
                 </div>
                 
-                <img src="img/login-illustration.png" alt="Inloggning Illustration" class="login-image">
+                <img src="img/register-illustration.png" alt="Registrering Illustration" class="register-image">
                 
-                <form class="login-form">
+                <form class="register-form">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Användarnamn</label>
+                        <input type="text" id="username" class="form-control" placeholder="Välj ett användarnamn" required>
+                    </div>
+                    
                     <div class="form-group">
                         <label for="email" class="form-label">E-postadress</label>
                         <input type="email" id="email" class="form-control" placeholder="Din e-postadress" required>
@@ -265,24 +270,29 @@
                     
                     <div class="form-group">
                         <label for="password" class="form-label">Lösenord</label>
-                        <input type="password" id="password" class="form-control" placeholder="Ditt lösenord" required>
+                        <input type="password" id="password" class="form-control" placeholder="Skapa ett lösenord" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password" class="form-label">Bekräfta lösenord</label>
+                        <input type="password" id="confirm-password" class="form-control" placeholder="Bekräfta ditt lösenord" required>
                     </div>
                     
                     <div class="form-check">
-                        <input type="checkbox" id="remember" class="form-check-input">
-                        <label for="remember" class="form-check-label">Kom ihåg mig</label>
+                        <input type="checkbox" id="terms" class="form-check-input" required>
+                        <label for="terms" class="form-check-label">Jag accepterar <a href="terms.html">användarvillkoren</a> och <a href="privacy.html">integritetspolicyn</a></label>
                     </div>
                     
-                    <button type="submit" class="btn-login">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Logga in
+                    <button type="submit" class="btn-register">
+                        <i class="fas fa-user-plus"></i>
+                        Skapa konto
                     </button>
                     
-                    <div class="login-divider">
+                    <div class="register-divider">
                         <span>eller</span>
                     </div>
                     
-                    <div class="social-login">
+                    <div class="social-register">
                         <button type="button" class="btn-social">
                             <i class="fab fa-google"></i>
                             Google
@@ -293,9 +303,8 @@
                         </button>
                     </div>
                     
-                    <div class="login-footer">
-                        <p>Har du inget konto? <a href="register.html">Registrera dig</a></p>
-                        <p><a href="forgot-password.html">Glömt lösenord?</a></p>
+                    <div class="register-footer">
+                        <p>Har du redan ett konto? <a href="login.html">Logga in</a></p>
                     </div>
                 </form>
             </div>
