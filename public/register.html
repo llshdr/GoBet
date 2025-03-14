@@ -206,6 +206,56 @@
             box-shadow: var(--card-shadow);
         }
         
+        /* Success Message Styling */
+        .success-message {
+            background-color: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            color: #2ecc71;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            display: none;
+        }
+        
+        .success-message.active {
+            opacity: 1;
+            transform: translateY(0);
+            display: flex;
+        }
+        
+        .success-message i {
+            font-size: 1.2rem;
+        }
+        
+        /* Password Strength Styling */
+        .password-strength-container {
+            margin-top: 8px;
+            height: 4px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            background-color: #ff4747;
+            transition: all 0.3s ease;
+        }
+        
+        .password-strength-text {
+            font-size: 0.8rem;
+            margin-top: 4px;
+            color: var(--text-light);
+        }
+        
         @media (max-width: 480px) {
             .register-container {
                 padding: 1rem;
@@ -258,32 +308,42 @@
                     <p class="register-subtitle">Bli en del av GoBet-communityt idag</p>
                 </div>
                 
+                <!-- Framgångsmeddelande -->
+                <div id="successMessage" class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="successMessageText">Konto skapat!</span>
+                </div>
+                
                 <img src="img/register-illustration.svg" alt="Registrering Illustration" class="register-image">
                 
-                <form class="register-form">
+                <form id="registerForm" class="register-form">
                     <div class="form-group">
-                        <label for="username" class="form-label">Användarnamn</label>
-                        <input type="text" id="username" class="form-control" placeholder="Välj ett användarnamn" required>
+                        <label for="registerUsername" class="form-label">Användarnamn</label>
+                        <input type="text" id="registerUsername" class="form-control" placeholder="Välj ett användarnamn" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="email" class="form-label">E-postadress</label>
-                        <input type="email" id="email" class="form-control" placeholder="Din e-postadress" required>
+                        <label for="registerEmail" class="form-label">E-postadress</label>
+                        <input type="email" id="registerEmail" class="form-control" placeholder="Din e-postadress" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="password" class="form-label">Lösenord</label>
-                        <input type="password" id="password" class="form-control" placeholder="Skapa ett lösenord" required>
+                        <label for="registerPassword" class="form-label">Lösenord</label>
+                        <input type="password" id="registerPassword" class="form-control" placeholder="Skapa ett lösenord" required>
+                        <div class="password-strength-container">
+                            <div id="passwordStrength" class="password-strength-bar"></div>
+                        </div>
+                        <div id="passwordStrengthText" class="password-strength-text">Lösenordsstyrka: Inget lösenord</div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="confirm-password" class="form-label">Bekräfta lösenord</label>
-                        <input type="password" id="confirm-password" class="form-control" placeholder="Bekräfta ditt lösenord" required>
+                        <label for="registerConfirmPassword" class="form-label">Bekräfta lösenord</label>
+                        <input type="password" id="registerConfirmPassword" class="form-control" placeholder="Bekräfta ditt lösenord" required>
                     </div>
                     
                     <div class="form-check">
-                        <input type="checkbox" id="terms" class="form-check-input" required>
-                        <label for="terms" class="form-check-label">Jag accepterar <a href="terms.html">användarvillkoren</a> och <a href="privacy.html">integritetspolicyn</a></label>
+                        <input type="checkbox" id="termsAgreement" class="form-check-input" required>
+                        <label for="termsAgreement" class="form-check-label">Jag accepterar <a href="terms.html">användarvillkoren</a> och <a href="privacy.html">integritetspolicyn</a></label>
                     </div>
                     
                     <button type="submit" class="btn-register">
@@ -379,5 +439,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Egna script -->
     <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html> 
