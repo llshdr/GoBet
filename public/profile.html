@@ -10,542 +10,563 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/profile.css">
+    <style>
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+        
+        .profile-sidebar {
+            background-color: var(--surface-color);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+            height: fit-content;
+        }
+        
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .profile-avatar .edit-avatar {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: var(--primary-color);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+        
+        .profile-avatar .edit-avatar:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.1);
+        }
+        
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-username {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background-color: rgba(var(--primary-rgb), 0.05);
+            border-radius: 12px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .profile-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .profile-menu li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all var(--transition-speed);
+        }
+        
+        .profile-menu a:hover,
+        .profile-menu a.active {
+            background-color: rgba(var(--primary-rgb), 0.05);
+            color: var(--primary-color);
+        }
+        
+        .profile-menu a i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .profile-content {
+            background-color: var(--surface-color);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+        }
+        
+        .profile-section {
+            margin-bottom: 2rem;
+        }
+        
+        .profile-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .btn-edit {
+            padding: 0.5rem 1rem;
+            background-color: rgba(var(--primary-rgb), 0.1);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-edit:hover {
+            background-color: rgba(var(--primary-rgb), 0.15);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .info-value {
+            font-size: 1rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: rgba(var(--primary-rgb), 0.1);
+            border-radius: 20px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .badge i {
+            font-size: 1.1rem;
+        }
+        
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: rgba(var(--primary-rgb), 0.05);
+            border-radius: 12px;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-time {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        @media (max-width: 992px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-sidebar {
+                position: sticky;
+                top: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 1rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="site-header">
-        <div class="container">
-            <div class="header-content">
-                <a href="index.html" class="logo">
-                    <img src="img/logo.png" alt="GoBet Logo">
-                </a>
-                
-                <button class="mobile-menu-toggle" aria-label="Öppna menyn" aria-expanded="false">
-                    <i class="fas fa-bars"></i>
-                </button>
-                
-                <nav class="main-nav">
-                    <ul class="nav-list">
-                        <li><a href="index.html"><i class="fas fa-home"></i> Hem</a></li>
-                        <li><a href="bets.html"><i class="fas fa-trophy"></i> Vadslagningar</a></li>
-                        <li><a href="wheel.html"><i class="fas fa-dharmachakra"></i> Lyckohjul</a></li>
-                        <li><a href="shop.html"><i class="fas fa-store"></i> Butik</a></li>
-                        <li><a href="leaderboard.html"><i class="fas fa-medal"></i> Topplista</a></li>
-                        <li><a href="friends.html"><i class="fas fa-users"></i> Vänner</a></li>
-                    </ul>
-                </nav>
-                
-                <div class="user-menu">
-                    <div class="user-coins">
-                        <i class="fas fa-coins"></i>
-                        <span id="userCoins">5,000</span>
-                    </div>
+    <div class="app">
+        <!-- Header -->
+        <header class="site-header">
+            <div class="container">
+                <div class="header-content">
+                    <a href="index.html" class="logo">
+                        <img src="img/logo.png" alt="GoBet Logo">
+                    </a>
                     
-                    <div class="user-dropdown">
-                        <button class="user-dropdown-toggle">
-                            <div class="user-avatar">
-                                <img src="img/avatar1.jpg" alt="User Avatar">
-                                <span class="status-indicator online"></span>
-                            </div>
-                            <span class="user-name">AnvändarNamn</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
+                    <button class="mobile-menu-toggle" aria-label="Öppna menyn" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    <nav class="main-nav">
+                        <ul class="nav-list">
+                            <li><a href="index.html"><i class="fas fa-home"></i> Hem</a></li>
+                            <li><a href="bets.html"><i class="fas fa-trophy"></i> Vadslagningar</a></li>
+                            <li><a href="wheel.html"><i class="fas fa-dharmachakra"></i> Lyckohjul</a></li>
+                            <li><a href="shop.html"><i class="fas fa-store"></i> Butik</a></li>
+                            <li><a href="leaderboard.html"><i class="fas fa-medal"></i> Topplista</a></li>
+                            <li><a href="friends.html"><i class="fas fa-users"></i> Vänner</a></li>
+                        </ul>
+                    </nav>
+                    
+                    <div class="user-menu">
+                        <div class="user-coins">
+                            <i class="fas fa-coins"></i>
+                            <span id="userCoins">5,000</span>
+                        </div>
                         
-                        <div class="user-dropdown-menu">
-                            <a href="profile.html" class="active"><i class="fas fa-user"></i> Profil</a>
-                            <a href="settings.html"><i class="fas fa-cog"></i> Inställningar</a>
-                            <a href="#" id="toggleThemeBtn"><i class="fas fa-moon"></i> <span>Mörkt läge</span></a>
-                            <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logga ut</a>
+                        <div class="user-dropdown">
+                            <button class="user-dropdown-toggle">
+                                <div class="user-avatar">
+                                    <img src="img/avatar1.jpg" alt="User Avatar">
+                                    <span class="status-indicator online"></span>
+                                </div>
+                                <span class="user-name">AnvändarNamn</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            
+                            <div class="user-dropdown-menu">
+                                <a href="profile.html" class="active"><i class="fas fa-user"></i> Profil</a>
+                                <a href="settings.html"><i class="fas fa-cog"></i> Inställningar</a>
+                                <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logga ut</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </header>
-    
-    <!-- Profilsida -->
-    <section class="profile-section">
-        <div class="container">
-            <div class="profile-header">
-                <div class="profile-cover">
-                    <img src="img/profile-cover.jpg" alt="Cover Image" id="coverImage">
-                    <button class="change-cover-btn" id="changeCoverBtn">
-                        <i class="fas fa-camera"></i>
-                    </button>
-                </div>
-                
-                <div class="profile-info">
+        </header>
+
+        <!-- Main Content -->
+        <main class="profile-container">
+            <!-- Sidebar -->
+            <aside class="profile-sidebar">
+                <div class="profile-header">
                     <div class="profile-avatar">
-                        <img src="img/avatar1.jpg" alt="Avatar" id="profileAvatar">
-                        <button class="change-avatar-btn" id="changeAvatarBtn">
+                        <img src="img/avatar1.jpg" alt="Profile Avatar">
+                        <div class="edit-avatar">
                             <i class="fas fa-camera"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="profile-details">
-                        <h1 class="profile-name" id="profileName">AnvändarNamn</h1>
-                        <div class="profile-badges">
-                            <span class="badge premium"><i class="fas fa-crown"></i> Premium</span>
-                            <span class="badge verified"><i class="fas fa-check-circle"></i> Verifierad</span>
-                            <span class="badge level"><i class="fas fa-star"></i> Nivå 25</span>
-                        </div>
-                        <p class="profile-bio" id="profileBio">Vadslagningsentusiast från Stockholm. Jag älskar sport och gaming! Utmana mig om du törs.</p>
-                        <div class="profile-stats">
-                            <div class="stat">
-                                <span class="stat-value">156</span>
-                                <span class="stat-label">Vadslagningar</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">78%</span>
-                                <span class="stat-label">Vinstrate</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">32</span>
-                                <span class="stat-label">Vänner</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">5,740</span>
-                                <span class="stat-label">Totalt vunnet</span>
-                            </div>
                         </div>
                     </div>
-                    
-                    <div class="profile-actions">
-                        <button class="btn btn-primary" id="editProfileBtn">
-                            <i class="fas fa-edit"></i> Redigera Profil
-                        </button>
-                        <button class="btn btn-outline" id="shareProfileBtn">
-                            <i class="fas fa-share-alt"></i> Dela
-                        </button>
+                    <h2 class="profile-name">AnvändarNamn</h2>
+                    <div class="profile-username">@användarnamn</div>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">42</div>
+                        <div class="stat-label">Vinster</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">1,234</div>
+                        <div class="stat-label">Poäng</div>
                     </div>
                 </div>
-            </div>
+                
+                <ul class="profile-menu">
+                    <li><a href="#info" class="active"><i class="fas fa-user-circle"></i> Personlig info</a></li>
+                    <li><a href="#badges"><i class="fas fa-award"></i> Badges</a></li>
+                    <li><a href="#activity"><i class="fas fa-history"></i> Aktivitet</a></li>
+                    <li><a href="#friends"><i class="fas fa-users"></i> Vänner</a></li>
+                    <li><a href="#settings"><i class="fas fa-cog"></i> Inställningar</a></li>
+                </ul>
+            </aside>
             
-            <!-- Profile Content Tabs -->
+            <!-- Main Content -->
             <div class="profile-content">
-                <div class="profile-tabs">
-                    <button class="tab-btn active" data-tab="bets">
-                        <i class="fas fa-trophy"></i> Mina Vadslagningar
-                    </button>
-                    <button class="tab-btn" data-tab="history">
-                        <i class="fas fa-history"></i> Historik
-                    </button>
-                    <button class="tab-btn" data-tab="achievements">
-                        <i class="fas fa-medal"></i> Prestationer
-                    </button>
-                    <button class="tab-btn" data-tab="inventory">
-                        <i class="fas fa-box-open"></i> Inventarie
-                    </button>
-                    <button class="tab-btn" data-tab="codes">
-                        <i class="fas fa-ticket-alt"></i> Koder
-                    </button>
-                </div>
-                
-                <div class="tab-content">
-                    <!-- Bets Tab -->
-                    <div class="tab-pane active" id="bets">
-                        <div class="tab-header">
-                            <h2>Mina Vadslagningar</h2>
-                            <div class="tab-filters">
-                                <button class="filter-btn active" data-filter="all">Alla</button>
-                                <button class="filter-btn" data-filter="active">Aktiva</button>
-                                <button class="filter-btn" data-filter="won">Vunna</button>
-                                <button class="filter-btn" data-filter="lost">Förlorade</button>
-                            </div>
+                <!-- Personal Info Section -->
+                <section id="info" class="profile-section">
+                    <div class="section-header">
+                        <h3 class="section-title">Personlig information</h3>
+                        <button class="btn-edit">
+                            <i class="fas fa-edit"></i>
+                            Redigera
+                        </button>
+                    </div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">E-postadress</span>
+                            <span class="info-value">användare@email.se</span>
                         </div>
-                        
-                        <div class="bets-grid">
-                            <!-- Bet cards will be loaded dynamically -->
-                            <div class="empty-state">
+                        <div class="info-item">
+                            <span class="info-label">Telefonnummer</span>
+                            <span class="info-value">+46 70 123 45 67</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Land</span>
+                            <span class="info-value">Sverige</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Språk</span>
+                            <span class="info-value">Svenska</span>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Badges Section -->
+                <section id="badges" class="profile-section">
+                    <div class="section-header">
+                        <h3 class="section-title">Mina Badges</h3>
+                        <button class="btn-edit">
+                            <i class="fas fa-edit"></i>
+                            Hantera
+                        </button>
+                    </div>
+                    
+                    <div class="badge-list">
+                        <div class="badge">
+                            <i class="fas fa-trophy"></i>
+                            <span>Vinnare</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-star"></i>
+                            <span>Premium</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-users"></i>
+                            <span>Social</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-fire"></i>
+                            <span>Hetsig</span>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Activity Section -->
+                <section id="activity" class="profile-section">
+                    <div class="section-header">
+                        <h3 class="section-title">Senaste aktivitet</h3>
+                        <button class="btn-edit">
+                            <i class="fas fa-filter"></i>
+                            Filtrera
+                        </button>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">
                                 <i class="fas fa-trophy"></i>
-                                <h3>Inga vadslagningar än</h3>
-                                <p>Du har inte skapat eller deltagit i några vadslagningar ännu.</p>
-                                <a href="bets.html" class="btn btn-primary">Hitta vadslagningar</a>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- History Tab -->
-                    <div class="tab-pane" id="history">
-                        <div class="tab-header">
-                            <h2>Aktivitetshistorik</h2>
-                            <div class="tab-filters">
-                                <button class="filter-btn active" data-filter="all">Alla aktiviteter</button>
-                                <button class="filter-btn" data-filter="bets">Vadslagningar</button>
-                                <button class="filter-btn" data-filter="wins">Vinster</button>
-                                <button class="filter-btn" data-filter="purchases">Inköp</button>
+                            <div class="activity-content">
+                                <div class="activity-title">Vann en vadslagning</div>
+                                <div class="activity-time">2 timmar sedan</div>
                             </div>
                         </div>
                         
-                        <div class="history-list">
-                            <!-- History items will be loaded dynamically -->
-                            <div class="empty-state">
-                                <i class="fas fa-history"></i>
-                                <h3>Ingen historik ännu</h3>
-                                <p>Din aktivitetshistorik kommer att visas här när du börjar använda plattformen.</p>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-coins"></i>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Achievements Tab -->
-                    <div class="tab-pane" id="achievements">
-                        <div class="tab-header">
-                            <h2>Prestationer</h2>
-                            <div class="achievement-progress">
-                                <div class="progress-bar">
-                                    <div class="progress" style="width: 45%"></div>
-                                </div>
-                                <span>15/33 uppnådda</span>
+                            <div class="activity-content">
+                                <div class="activity-title">Vann 100 GoCoins</div>
+                                <div class="activity-time">5 timmar sedan</div>
                             </div>
                         </div>
                         
-                        <div class="achievements-grid">
-                            <!-- Achievement cards -->
-                            <div class="achievement-card unlocked">
-                                <div class="achievement-icon">
-                                    <i class="fas fa-dice"></i>
-                                </div>
-                                <div class="achievement-info">
-                                    <h3>Första vadslagningen</h3>
-                                    <p>Skapa din första vadslagning</p>
-                                </div>
-                                <div class="achievement-reward">
-                                    <span>+50 <i class="fas fa-coins"></i></span>
-                                </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-user-plus"></i>
                             </div>
-                            
-                            <div class="achievement-card unlocked">
-                                <div class="achievement-icon">
-                                    <i class="fas fa-trophy"></i>
-                                </div>
-                                <div class="achievement-info">
-                                    <h3>Första vinsten</h3>
-                                    <p>Vinn din första vadslagning</p>
-                                </div>
-                                <div class="achievement-reward">
-                                    <span>+100 <i class="fas fa-coins"></i></span>
-                                </div>
-                            </div>
-                            
-                            <div class="achievement-card unlocked">
-                                <div class="achievement-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <div class="achievement-info">
-                                    <h3>Social Gambler</h3>
-                                    <p>Lägg till 5 vänner</p>
-                                </div>
-                                <div class="achievement-reward">
-                                    <span>+75 <i class="fas fa-coins"></i></span>
-                                </div>
-                            </div>
-                            
-                            <div class="achievement-card">
-                                <div class="achievement-icon locked">
-                                    <i class="fas fa-fire"></i>
-                                </div>
-                                <div class="achievement-info">
-                                    <h3>På vinnarspåret</h3>
-                                    <p>Vinn 5 vadslagningar i rad</p>
-                                </div>
-                                <div class="achievement-reward">
-                                    <span>+200 <i class="fas fa-coins"></i></span>
-                                </div>
-                            </div>
-                            
-                            <div class="achievement-card">
-                                <div class="achievement-icon locked">
-                                    <i class="fas fa-crown"></i>
-                                </div>
-                                <div class="achievement-info">
-                                    <h3>Vadslagningskung</h3>
-                                    <p>Vinn 100 vadslagningar</p>
-                                </div>
-                                <div class="achievement-reward">
-                                    <span>+500 <i class="fas fa-coins"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Inventory Tab -->
-                    <div class="tab-pane" id="inventory">
-                        <div class="tab-header">
-                            <h2>Mitt Inventarie</h2>
-                            <div class="tab-filters">
-                                <button class="filter-btn active" data-filter="all">Alla föremål</button>
-                                <button class="filter-btn" data-filter="avatars">Avatarer</button>
-                                <button class="filter-btn" data-filter="frames">Ramar</button>
-                                <button class="filter-btn" data-filter="badges">Märken</button>
-                                <button class="filter-btn" data-filter="effects">Effekter</button>
+                            <div class="activity-content">
+                                <div class="activity-title">Lade till en ny vän</div>
+                                <div class="activity-time">1 dag sedan</div>
                             </div>
                         </div>
                         
-                        <div class="inventory-grid">
-                            <!-- Inventory items -->
-                            <div class="inventory-item">
-                                <div class="item-image">
-                                    <img src="img/avatars/avatar1.jpg" alt="Avatar">
-                                </div>
-                                <div class="item-info">
-                                    <h3>Standard Avatar</h3>
-                                    <p>Din standardavatar</p>
-                                    <span class="item-equipped">Utrustad</span>
-                                </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-crown"></i>
                             </div>
-                            
-                            <div class="inventory-item">
-                                <div class="item-image">
-                                    <img src="img/avatars/premium1.jpg" alt="Premium Avatar">
-                                </div>
-                                <div class="item-info">
-                                    <h3>Premium Avatar</h3>
-                                    <p>Endast för premium-medlemmar</p>
-                                    <button class="btn btn-small">Använd</button>
-                                </div>
-                            </div>
-                            
-                            <div class="inventory-item">
-                                <div class="item-image">
-                                    <img src="img/frames/gold.png" alt="Gold Frame">
-                                </div>
-                                <div class="item-info">
-                                    <h3>Guldram</h3>
-                                    <p>Exklusiv profilram</p>
-                                    <button class="btn btn-small">Använd</button>
-                                </div>
-                            </div>
-                            
-                            <div class="inventory-item">
-                                <div class="item-image">
-                                    <img src="img/badges/pro.png" alt="Pro Badge">
-                                </div>
-                                <div class="item-info">
-                                    <h3>Pro-märke</h3>
-                                    <p>Visar din expertis</p>
-                                    <button class="btn btn-small">Använd</button>
-                                </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Uppgraderade till Premium</div>
+                                <div class="activity-time">2 dagar sedan</div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Codes Tab -->
-                    <div class="tab-pane" id="codes">
-                        <div class="tab-header">
-                            <h2>Kampanjkoder</h2>
-                        </div>
-                        
-                        <div class="codes-container">
-                            <div class="redeem-code-form">
-                                <h3>Lös in kod</h3>
-                                <p>Har du en kampanjkod? Lös in den här för att få belöningar.</p>
-                                
-                                <form id="redeemCodeForm">
-                                    <div class="form-group">
-                                        <label for="promoCode">Kampanjkod</label>
-                                        <div class="input-with-icon">
-                                            <i class="fas fa-ticket-alt"></i>
-                                            <input type="text" id="promoCode" placeholder="Ange din kod här..." required>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Lös in kod</button>
-                                </form>
-                                
-                                <div class="help-text">
-                                    <p>Kampanjkoder kan du få från våra sociala medier, partnerskap eller speciella event.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="code-history">
-                                <h3>Kodhistorik</h3>
-                                <div class="code-history-list">
-                                    <div class="code-history-item">
-                                        <div class="code-info">
-                                            <div class="code-value">WELCOME2023</div>
-                                            <div class="code-date">2023-06-15</div>
-                                        </div>
-                                        <div class="code-reward">
-                                            <span>+500 <i class="fas fa-coins"></i></span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="code-history-item">
-                                        <div class="code-info">
-                                            <div class="code-value">PREMIUM50</div>
-                                            <div class="code-date">2023-05-22</div>
-                                        </div>
-                                        <div class="code-reward">
-                                            <span>50% rabatt Premium</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="empty-state" style="display: none;">
-                                        <i class="fas fa-ticket-alt"></i>
-                                        <h3>Inga inlösta koder</h3>
-                                        <p>Du har inte löst in några kampanjkoder ännu.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </section>
             </div>
-        </div>
-    </section>
-    
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <img src="img/logo-footer.png" alt="GoBet Logo" class="footer-logo">
-                    <p>GoBet är plattformen där du kan skapa och delta i vadslagningar med dina vänner. Allt i en rolig och säker miljö.</p>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <img src="img/logo-footer.png" alt="GoBet Logo" class="footer-logo">
+                        <p>GoBet är plattformen där du kan skapa och delta i vadslagningar med dina vänner. Allt i en rolig och säker miljö.</p>
+                        
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-discord"></i></a>
+                        </div>
+                    </div>
                     
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-discord"></i></a>
+                    <div class="footer-links">
+                        <div class="footer-links-column">
+                            <h3>Snabblänkar</h3>
+                            <ul>
+                                <li><a href="index.html">Hem</a></li>
+                                <li><a href="bets.html">Vadslagningar</a></li>
+                                <li><a href="wheel.html">Lyckohjul</a></li>
+                                <li><a href="shop.html">Butik</a></li>
+                                <li><a href="leaderboard.html">Topplista</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="footer-links-column">
+                            <h3>Support</h3>
+                            <ul>
+                                <li><a href="faq.html">Vanliga frågor</a></li>
+                                <li><a href="contact.html">Kontakta oss</a></li>
+                                <li><a href="terms.html">Användarvillkor</a></li>
+                                <li><a href="privacy.html">Integritetspolicy</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="footer-links-column">
+                            <h3>Konto</h3>
+                            <ul>
+                                <li><a href="profile.html">Min profil</a></li>
+                                <li><a href="settings.html">Inställningar</a></li>
+                                <li><a href="premium.html">Premium</a></li>
+                                <li><a href="history.html">Historik</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="footer-links">
-                    <div class="footer-links-column">
-                        <h3>Snabblänkar</h3>
-                        <ul>
-                            <li><a href="index.html">Hem</a></li>
-                            <li><a href="bets.html">Vadslagningar</a></li>
-                            <li><a href="wheel.html">Lyckohjul</a></li>
-                            <li><a href="shop.html">Butik</a></li>
-                            <li><a href="leaderboard.html">Topplista</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-links-column">
-                        <h3>Support</h3>
-                        <ul>
-                            <li><a href="faq.html">Vanliga frågor</a></li>
-                            <li><a href="contact.html">Kontakta oss</a></li>
-                            <li><a href="terms.html">Användarvillkor</a></li>
-                            <li><a href="privacy.html">Integritetspolicy</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-links-column">
-                        <h3>Konto</h3>
-                        <ul>
-                            <li><a href="profile.html">Min profil</a></li>
-                            <li><a href="settings.html">Inställningar</a></li>
-                            <li><a href="premium.html">Premium</a></li>
-                            <li><a href="history.html">Historik</a></li>
-                        </ul>
+                <div class="footer-bottom">
+                    <p>&copy; 2023 GoBet. Alla rättigheter förbehållna.</p>
+                    <div class="footer-bottom-links">
+                        <a href="cookies.html">Cookies</a>
+                        <a href="privacy.html">Integritet</a>
+                        <a href="terms.html">Användarvillkor</a>
                     </div>
                 </div>
             </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2023 GoBet. Alla rättigheter förbehållna.</p>
-                <div class="footer-bottom-links">
-                    <a href="cookies.html">Cookies</a>
-                    <a href="privacy.html">Integritet</a>
-                    <a href="terms.html">Användarvillkor</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    
-    <!-- Edit Profile Modal -->
-    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editProfileModalLabel">Redigera Profil</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Stäng"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="profileEditForm">
-                        <div class="form-group">
-                            <label for="editDisplayName">Visningsnamn</label>
-                            <input type="text" id="editDisplayName" value="AnvändarNamn" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="editBio">Biografi</label>
-                            <textarea id="editBio" rows="3">Vadslagningsentusiast från Stockholm. Jag älskar sport och gaming! Utmana mig om du törs.</textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="editLocation">Plats</label>
-                            <input type="text" id="editLocation" value="Stockholm, Sverige">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="editInterests">Intressen</label>
-                            <input type="text" id="editInterests" value="Sport, Gaming, Odds">
-                            <small>Separera med kommatecken</small>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
-                    <button type="button" class="btn btn-primary" id="saveProfileBtn">Spara ändringar</button>
-                </div>
-            </div>
-        </div>
+        </footer>
     </div>
-    
-    <!-- Share Profile Modal -->
-    <div class="modal fade" id="shareProfileModal" tabindex="-1" aria-labelledby="shareProfileModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="shareProfileModalLabel">Dela Profil</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Stäng"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Dela din profil med andra:</p>
-                    
-                    <div class="profile-link">
-                        <input type="text" id="profileLink" value="https://gobet.com/profile/användarnamn" readonly>
-                        <button class="btn btn-icon" id="copyLinkBtn">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="share-options">
-                        <button class="share-btn facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </button>
-                        <button class="share-btn twitter">
-                            <i class="fab fa-twitter"></i>
-                        </button>
-                        <button class="share-btn whatsapp">
-                            <i class="fab fa-whatsapp"></i>
-                        </button>
-                        <button class="share-btn telegram">
-                            <i class="fab fa-telegram-plane"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Stäng</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Success Notification -->
-    <div class="notification" id="notification">
-        <div class="notification-content">
-            <i class="fas fa-check-circle"></i>
-            <span id="notificationText">Ändringar sparade!</span>
-        </div>
-    </div>
-    
+
     <!-- Bootstrap Bundle med Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Egna script -->
     <script src="js/main.js"></script>
-    <script src="js/profile.js"></script>
 </body>
 </html> 

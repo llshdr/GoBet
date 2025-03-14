@@ -242,37 +242,23 @@ function initLogout() {
  * Initialisera mobilmenyn
  */
 function initMobileMenu() {
-    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-    const mainNav = document.getElementById('mainNav');
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mainNav = document.querySelector('.main-nav');
     
     if (mobileMenuToggle && mainNav) {
         mobileMenuToggle.addEventListener('click', () => {
+            const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
+            mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
             mainNav.classList.toggle('active');
-            mobileMenuToggle.setAttribute('aria-expanded', 
-                mainNav.classList.contains('active') ? 'true' : 'false');
-            
-            // Ändra ikonen baserat på menyns tillstånd
-            const icon = mobileMenuToggle.querySelector('i');
-            if (mainNav.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
-            } else {
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
-            }
         });
         
         // Stäng menyn när man klickar utanför
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('#mobileMenuToggle') && 
-                !e.target.closest('#mainNav') &&
+            if (!e.target.closest('.mobile-menu-toggle') && 
+                !e.target.closest('.main-nav') &&
                 mainNav.classList.contains('active')) {
                 mainNav.classList.remove('active');
                 mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                
-                const icon = mobileMenuToggle.querySelector('i');
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
             }
         });
     }
@@ -282,48 +268,25 @@ function initMobileMenu() {
  * Initialisera tabbfunktionalitet
  */
 function initTabs() {
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabPanes = document.querySelectorAll('.tab-pane');
+    const tabContainers = document.querySelectorAll('.tab-container');
     
-    if (tabBtns.length && tabPanes.length) {
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Ta bort active från alla knappar och panes
-                tabBtns.forEach(b => b.classList.remove('active'));
-                tabPanes.forEach(p => p.classList.remove('active'));
+    tabContainers.forEach(container => {
+        const tabs = container.querySelectorAll('.tab-btn');
+        const panes = container.querySelectorAll('.tab-pane');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-tab');
                 
-                // Lägg till active på klickad knapp och motsvarande pane
-                btn.classList.add('active');
-                const tabId = btn.getAttribute('data-tab');
-                const targetPane = document.getElementById(tabId);
+                // Update active states
+                tabs.forEach(t => t.classList.remove('active'));
+                panes.forEach(p => p.classList.remove('active'));
                 
-                if (targetPane) {
-                    targetPane.classList.add('active');
-                    
-                    // Spara i localStorage för att komma ihåg vid uppdatering
-                    localStorage.setItem('activeTab', tabId);
-                    
-                    // Animationseffekt
-                    targetPane.style.opacity = 0;
-                    targetPane.style.transform = 'translateY(10px)';
-                    
-                    setTimeout(() => {
-                        targetPane.style.opacity = 1;
-                        targetPane.style.transform = 'translateY(0)';
-                    }, 50);
-                }
+                tab.classList.add('active');
+                container.querySelector(`.tab-pane[data-tab="${target}"]`).classList.add('active');
             });
         });
-        
-        // Återställ tidigare vald flik vid siduppdatering
-        const savedTab = localStorage.getItem('activeTab');
-        if (savedTab) {
-            const savedTabBtn = document.querySelector(`.tab-btn[data-tab="${savedTab}"]`);
-            if (savedTabBtn) {
-                savedTabBtn.click();
-            }
-        }
-    }
+    });
 }
 
 /**
