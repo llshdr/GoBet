@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150" width="300" height="150">
+  <!-- Bakgrund -->
+  <rect width="300" height="150" rx="10" fill="#1a1a1a"/>
+  
+  <!-- CS2 Logo -->
+  <g transform="translate(20, 30)">
+    <!-- CS2 Text -->
+    <text x="130" y="50" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#ff9800" text-anchor="middle">CS2</text>
+    
+    <!-- Stiliserad pistol-ikon -->
+    <path d="M50,70 L180,70 L200,60 L220,70 L220,90 L200,100 L50,100 L50,70" fill="#555" stroke="#888" stroke-width="2"/>
+    <rect x="50" y="85" width="20" height="30" fill="#444"/>
+    <rect x="200" y="70" width="10" height="20" fill="#444"/>
+  </g>
+  
+  <!-- Dekorativa element -->
+  <circle cx="250" cy="30" r="15" fill="#ff9800" opacity="0.5"/>
+  <circle cx="270" cy="50" r="10" fill="#ff9800" opacity="0.3"/>
+</svg> 

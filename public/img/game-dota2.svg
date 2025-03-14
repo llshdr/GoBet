@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#A93226;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#641E16;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="overlayGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6B46C1;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#6B46C1;stop-opacity:0.1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Bakgrund -->
+  <rect width="1200" height="800" fill="url(#bgGrad)" />
+  
+  <!-- Overlay för att matcha GoBet's färgtema -->
+  <rect width="1200" height="800" fill="url(#overlayGrad)" />
+  
+  <!-- Dota 2 stiliserad logo -->
+  <g transform="translate(400, 200)">
+    <!-- Stiliserad Dota 2 symbol -->
+    <path d="M200,50 L300,100 L300,200 L200,250 L100,200 L100,100 Z" fill="#F44336" stroke="#000" stroke-width="5" />
+    <text x="200" y="180" font-family="Arial, sans-serif" font-size="80" font-weight="bold" text-anchor="middle" fill="#FFF">D2</text>
+    
+    <!-- Dota 2 text -->
+    <text x="200" y="330" font-family="Arial, sans-serif" font-size="60" font-weight="bold" text-anchor="middle" fill="#FFF">DOTA 2</text>
+  </g>
+  
+  <!-- Dekorativa element - stiliserade hjältar -->
+  <circle cx="200" cy="500" r="40" fill="#FFF" opacity="0.3" />
+  <circle cx="1000" cy="300" r="30" fill="#FFF" opacity="0.3" />
+  <circle cx="900" cy="600" r="50" fill="#FFF" opacity="0.3" />
+  
+  <!-- Dota 2 karaktärssiluetter -->
+  <path d="M150,550 C150,500 250,450 250,550 L200,650 Z" fill="#FFF" opacity="0.2" />
+  <path d="M950,350 C950,300 1050,250 1050,350 L1000,450 Z" fill="#FFF" opacity="0.2" />
+  
+  <!-- Textöverlägg -->
+  <rect x="0" y="650" width="1200" height="150" fill="rgba(0,0,0,0.7)" />
+  <text x="600" y="720" font-family="Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle" fill="#FFF">DOTA 2</text>
+  <text x="600" y="760" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#CCC">Betta på proffsmatcher i ett av världens största e-sportspel</text>
+</svg> 

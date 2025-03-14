@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150" width="300" height="150">
+  <!-- Bakgrund -->
+  <rect width="300" height="150" rx="10" fill="#0a1428"/>
+  
+  <!-- LoL Logo -->
+  <g transform="translate(20, 30)">
+    <!-- Stiliserad LoL-emblem -->
+    <path d="M130,20 L160,30 L170,60 L150,80 L110,80 L90,60 L100,30 Z" fill="#c89b3c" stroke="#e6c262" stroke-width="2"/>
+    <path d="M130,30 L150,35 L155,55 L140,70 L120,70 L105,55 L110,35 Z" fill="#0a1428"/>
+    
+    <!-- LoL Text -->
+    <text x="130" y="110" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#c89b3c" text-anchor="middle">LEAGUE OF LEGENDS</text>
+  </g>
+  
+  <!-- Dekorativa element -->
+  <circle cx="40" cy="30" r="10" fill="#c89b3c" opacity="0.3"/>
+  <circle cx="260" cy="30" r="10" fill="#c89b3c" opacity="0.3"/>
+  <circle cx="40" cy="120" r="10" fill="#c89b3c" opacity="0.3"/>
+  <circle cx="260" cy="120" r="10" fill="#c89b3c" opacity="0.3"/>
+</svg> 

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Bakgrund -->
+  <circle cx="50" cy="50" r="50" fill="#00c2cb"/>
+  
+  <!-- Initialer "FF" för FootballFan -->
+  <text x="50" y="60" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#fff" text-anchor="middle">FF</text>
+  
+  <!-- Dekorativ fotboll -->
+  <circle cx="50" cy="30" r="12" fill="#fff" stroke="#000" stroke-width="1"/>
+  <path d="M42,24 L58,36 M42,36 L58,24 M38,30 L62,30" stroke="#000" stroke-width="1" fill="none"/>
+</svg> 

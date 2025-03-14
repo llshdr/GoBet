@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E2E8F0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- G-formen -->
+  <path d="M50 40 C50 30, 60 20, 70 20 C80 20, 90 30, 90 40 C90 50, 80 60, 70 60 C65 60, 60 58, 55 53 L63 45 C65 48, 67 50, 70 50 C75 50, 80 45, 80 40 C80 35, 75 30, 70 30 C65 30, 60 35, 60 40 L50 40 Z" fill="url(#grad1)" />
+  
+  <!-- B-formen -->
+  <path d="M110 20 L110 60 L130 60 C140 60, 150 55, 150 50 C150 45, 145 42, 140 40 C145 38, 148 35, 148 30 C148 25, 140 20, 130 20 L110 20 Z M120 30 L130 30 C133 30, 135 32, 135 35 C135 38, 133 40, 130 40 L120 40 L120 30 Z M120 50 L130 50 C133 50, 135 48, 135 45 C135 42, 133 40, 130 40 L120 40 L120 50 Z" fill="url(#grad1)" />
+  
+  <!-- Tärning-ikon -->
+  <rect x="30" y="30" width="15" height="15" rx="3" fill="url(#grad1)" opacity="0.9" transform="rotate(-15, 30, 30)" />
+  <circle cx="35" cy="35" r="1.5" fill="#6B46C1" />
+  <circle cx="38" cy="38" r="1.5" fill="#6B46C1" />
+  <circle cx="32" cy="32" r="1.5" fill="#6B46C1" />
+  
+  <!-- Text -->
+  <text x="100" y="75" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="url(#grad1)">BETTING &amp; GAMING</text>
+</svg> 

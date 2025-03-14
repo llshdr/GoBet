@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6B46C1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#434190;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.15" />
+      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0.05" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+      <feComposite in="blur" in2="SourceGraphic" operator="out" result="glowComposite" />
+      <feFlood flood-color="#8A65FF" result="glowColor" />
+      <feComposite in="glowColor" in2="glowComposite" operator="in" result="softGlow" />
+      <feComposite in="softGlow" in2="SourceGraphic" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Bakgrund -->
+  <rect width="1200" height="800" fill="url(#bgGrad)" />
+  
+  <!-- Decoration elements -->
+  <circle cx="200" cy="200" r="80" fill="#8A65FF" opacity="0.1" />
+  <circle cx="1000" cy="300" r="120" fill="#8A65FF" opacity="0.1" />
+  <circle cx="400" cy="700" r="60" fill="#8A65FF" opacity="0.1" />
+  <circle cx="900" cy="600" r="40" fill="#8A65FF" opacity="0.1" />
+  
+  <!-- Glasmorfisk kort med vinnarpott -->
+  <g transform="translate(600, 400)" filter="url(#glow)">
+    <rect x="-300" y="-200" width="600" height="400" rx="20" ry="20" fill="url(#cardGrad)" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.3" />
+    
+    <!-- Korttitel -->
+    <text x="0" y="-150" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#FFFFFF">VINNAREN TAR ALLT</text>
+    
+    <!-- CS2-logotyp -->
+    <g transform="translate(-200, -100)">
+      <rect x="-40" y="-30" width="80" height="60" rx="10" ry="10" fill="#F44336" />
+      <text x="0" y="10" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#FFFFFF">CS2</text>
+    </g>
+    
+    <!-- VS text -->
+    <text x="0" y="-60" font-family="Arial, sans-serif" font-size="60" font-weight="bold" text-anchor="middle" fill="#FFFFFF">VS</text>
+    
+    <!-- Team names -->
+    <text x="-150" y="20" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#FFFFFF">TEAM A</text>
+    <text x="150" y="20" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#FFFFFF">TEAM B</text>
+    
+    <!-- Odds -->
+    <text x="-150" y="50" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#FFFFFF">Odds: 2.5x</text>
+    <text x="150" y="50" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#FFFFFF">Odds: 1.8x</text>
+    
+    <!-- Bet pot -->
+    <rect x="-150" y="80" width="300" height="60" rx="10" ry="10" fill="rgba(255,255,255,0.1)" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.3" />
+    <text x="0" y="120" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#FFD700">5000 GoCoins</text>
+  </g>
+  
+  <!-- GoCoins illustration -->
+  <g transform="translate(200, 300)">
+    <circle cx="0" cy="0" r="50" fill="#FFD700" />
+    <text x="0" y="10" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#6B46C1">GC</text>
+  </g>
+  
+  <g transform="translate(900, 500)">
+    <circle cx="0" cy="0" r="40" fill="#FFD700" />
+    <text x="0" y="8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#6B46C1">GC</text>
+  </g>
+  
+  <g transform="translate(300, 500)">
+    <circle cx="0" cy="0" r="30" fill="#FFD700" />
+    <text x="0" y="6" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#6B46C1">GC</text>
+  </g>
+</svg> 

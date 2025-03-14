@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150" width="300" height="150">
+  <!-- Bakgrund -->
+  <rect width="300" height="150" rx="10" fill="#2a0a4a"/>
+  
+  <!-- Fortnite Logo -->
+  <g transform="translate(20, 30)">
+    <!-- Stiliserad Fortnite-emblem -->
+    <path d="M130,20 L170,40 L170,70 L130,90 L90,70 L90,40 Z" fill="#5c16c5" stroke="#9d4edd" stroke-width="2"/>
+    
+    <!-- Llama-silhuett -->
+    <path d="M120,40 L140,30 L145,40 L150,35 L155,45 L150,55 L140,60 L130,60 L120,55 L115,45 Z" fill="#ff6b6b"/>
+    
+    <!-- Fortnite Text -->
+    <text x="130" y="110" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#ff6b6b" text-anchor="middle">FORTNITE</text>
+  </g>
+  
+  <!-- Dekorativa element -->
+  <circle cx="30" cy="30" r="8" fill="#ff6b6b" opacity="0.5"/>
+  <circle cx="270" cy="30" r="8" fill="#ff6b6b" opacity="0.5"/>
+  <circle cx="30" cy="120" r="8" fill="#ff6b6b" opacity="0.5"/>
+  <circle cx="270" cy="120" r="8" fill="#ff6b6b" opacity="0.5"/>
+  
+  <!-- Stiliserade byggnadselement -->
+  <rect x="20" y="60" width="15" height="30" fill="#9d4edd" opacity="0.7"/>
+  <rect x="265" y="60" width="15" height="30" fill="#9d4edd" opacity="0.7"/>
+</svg> 
