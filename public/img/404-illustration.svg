@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="gradBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6B46C1;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#6B46C1;stop-opacity:0.3" />
+    </linearGradient>
+    <linearGradient id="gradMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6B46C1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#805AD5;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Bakgrund -->
+  <rect width="800" height="500" fill="white" />
+  <circle cx="400" cy="250" r="200" fill="url(#gradBg)" opacity="0.3" />
+  
+  <!-- 404 Text -->
+  <text x="400" y="220" font-family="Arial, sans-serif" font-size="120" font-weight="bold" text-anchor="middle" fill="url(#gradMain)">404</text>
+  <text x="400" y="280" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#2D3748">Sidan hittades inte</text>
+  <text x="400" y="320" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#718096">Oj! Sidan du letar efter verkar inte finnas.</text>
+  
+  <!-- Dekorativa element -->
+  <rect x="200" y="350" width="400" height="50" rx="25" fill="url(#gradMain)" />
+  <text x="400" y="380" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">TILLBAKA TILL STARTSIDAN</text>
+  
+  <!-- Spelkaraktär som ser förvirrad ut -->
+  <circle cx="200" cy="150" r="60" fill="#E2E8F0" stroke="#6B46C1" stroke-width="2" />
+  <circle cx="180" cy="130" r="10" fill="#2D3748" /> <!-- Vänsteröga -->
+  <circle cx="220" cy="130" r="10" fill="#2D3748" /> <!-- Högeröga -->
+  <path d="M180 180 Q 200 160, 220 180" stroke="#2D3748" stroke-width="4" fill="none" /> <!-- Ledsen mun -->
+  
+  <!-- Tärningar som representerar spelsidan -->
+  <rect x="550" y="100" r="2" width="60" height="60" rx="10" fill="white" stroke="#6B46C1" stroke-width="4" />
+  <circle cx="560" cy="110" r="6" fill="#6B46C1" /> <!-- Prick 1 -->
+  <circle cx="570" cy="120" r="6" fill="#6B46C1" /> <!-- Prick 2 -->
+  <circle cx="580" cy="130" r="6" fill="#6B46C1" /> <!-- Prick 3 -->
+  <circle cx="590" cy="140" r="6" fill="#6B46C1" /> <!-- Prick 4 -->
+  <circle cx="600" cy="150" r="6" fill="#6B46C1" /> <!-- Prick 5 -->
+  
+  <rect x="600" y="180" r="2" width="60" height="60" rx="10" fill="white" stroke="#6B46C1" stroke-width="4" />
+  <circle cx="630" cy="210" r="15" fill="#6B46C1" /> <!-- En enda stor prick -->
+  
+  <!-- Brutna länkar som representerar 404 -->
+  <path d="M100 350 Q 150 320, 150 370" stroke="#6B46C1" stroke-width="8" stroke-linecap="round" fill="none" />
+  <path d="M160 370 Q 160 320, 210 350" stroke="#6B46C1" stroke-width="8" stroke-linecap="round" fill="none" />
+  
+  <path d="M600 350 Q 650 320, 650 370" stroke="#6B46C1" stroke-width="8" stroke-linecap="round" fill="none" />
+  <path d="M660 370 Q 660 320, 710 350" stroke="#6B46C1" stroke-width="8" stroke-linecap="round" fill="none" />
+</svg> 

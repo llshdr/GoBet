@@ -6,6 +6,8 @@
   <title>GoBet - Din personliga betting-plattform</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/plans.css">
+  <link rel="stylesheet" href="css/cookies.css">
+  <link rel="stylesheet" href="css/images.css">
   <!-- Lägg till Google Fonts: Inter och Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,8 +21,7 @@
     <header class="header">
       <div class="container">
         <a href="index.html" class="logo">
-          <i class="fa-solid fa-dice logo-icon"></i>
-          <h1>GoBet</h1>
+          <img src="img/logo.svg" alt="GoBet Logo">
         </a>
         
         <button class="mobile-menu-toggle" id="mobileMenuToggle">
@@ -340,9 +341,68 @@
     </footer>
   </div>
 
+  <div class="cookie-banner">
+    <div class="cookie-content">
+      <div class="cookie-header">
+        <i class="fas fa-cookie-bite"></i>
+        <h3>Vi använder cookies</h3>
+      </div>
+      <p>Vi använder cookies för att förbättra din upplevelse på vår webbplats. Genom att fortsätta använda webbplatsen godkänner du användningen av cookies.</p>
+      <div class="cookie-buttons">
+        <button class="btn-cookie-settings">Anpassa inställningar</button>
+        <button class="btn-cookie-accept">Acceptera alla</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cookie-settings-modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Cookie-inställningar</h3>
+        <button class="modal-close"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="cookie-option">
+          <div class="cookie-option-header">
+            <h4>Nödvändiga cookies</h4>
+            <label class="switch">
+              <input type="checkbox" checked disabled>
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p>Dessa cookies är nödvändiga för att webbplatsen ska fungera och kan inte stängas av.</p>
+        </div>
+        <div class="cookie-option">
+          <div class="cookie-option-header">
+            <h4>Prestanda cookies</h4>
+            <label class="switch">
+              <input type="checkbox" id="performance-cookies">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p>Hjälper oss att förstå hur besökare interagerar med webbplatsen genom att samla in anonym information.</p>
+        </div>
+        <div class="cookie-option">
+          <div class="cookie-option-header">
+            <h4>Funktionella cookies</h4>
+            <label class="switch">
+              <input type="checkbox" id="functional-cookies">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p>Gör det möjligt för webbplatsen att komma ihåg val du gjort för att ge förbättrad funktionalitet.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-save-preferences">Spara inställningar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- JavaScript -->
   <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
   <script src="js/main.js"></script>
   <script src="js/plans.js"></script>
+  <script src="js/cookies.js"></script>
 </body>
 </html> 

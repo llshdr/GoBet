@@ -623,4 +623,89 @@ function setCurrentYear() {
     yearElements.forEach(element => {
         element.textContent = currentYear;
     });
-} 
+}
+
+// Funktion för att återställa användarinställningar
+async function resetUserSettings(userId) {
+    try {
+        const response = await fetch('/api/reset-settings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId })
+        });
+
+        if (!response.ok) {
+            throw new Error('Kunde inte återställa inställningar');
+        }
+
+        const data = await response.json();
+        console.log('Inställningar återställda:', data);
+
+        // Uppdatera UI med återställda värden
+        updateUserInterface(data);
+    } catch (error) {
+        console.error('Fel vid återställning av inställningar:', error);
+        showNotification('Ett fel uppstod vid återställning av inställningar', 'error');
+    }
+}
+
+// Funktion för att uppdatera användargränssnittet
+function updateUserInterface(settings) {
+    // Uppdatera vunna bets
+    const wonBetsElement = document.querySelector('.user-stats .won-bets');
+    if (wonBetsElement) {
+        wonBetsElement.textContent = '0';
+    }
+
+    // Uppdatera poäng
+    const pointsElement = document.querySelector('.user-stats .points');
+    if (pointsElement) {
+        pointsElement.textContent = '0';
+    }
+
+    // Uppdatera andra relevanta UI-element
+    // ...
+
+    showNotification('Dina inställningar har återställts', 'success');
+}
+
+// Lägg till event listener för inloggning
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.querySelector('#login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            try {
+                const formData = new FormData(loginForm);
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: formData.get('username'),
+                        password: formData.get('password')
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Inloggning misslyckades');
+                }
+
+                const data = await response.json();
+                
+                // Återställ användarinställningar efter inloggning
+                await resetUserSettings(data.userId);
+
+                // Omdirigera till dashboard eller annan sida
+                window.location.href = '/dashboard';
+            } catch (error) {
+                console.error('Inloggningsfel:', error);
+                showNotification('Inloggning misslyckades', 'error');
+            }
+        });
+    }
+}); 

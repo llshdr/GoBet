@@ -8,6 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/wheel.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/images.css">
 </head>
 <body>
   <div class="app">
@@ -75,38 +77,34 @@
     <!-- Wheel Section -->
     <section class="wheel-section">
       <div class="container">
+        <div class="section-header">
+          <h2><i class="fas fa-dharmachakra"></i> Lyckohjulet</h2>
+          <p>Snurra hjulet och vinn stora priser!</p>
+        </div>
+        
         <div class="wheel-container">
-          <!-- Wheel Statistics -->
           <div class="wheel-stats">
             <div class="wheel-stat">
-              <i class="fas fa-sync-alt"></i>
+              <i class="fas fa-calendar-alt"></i>
               <div class="stat-info">
-                <div class="stat-value" id="remainingSpins">0</div>
-                <div class="stat-label">Återstående snurr</div>
+                <span class="stat-value">3</span>
+                <span class="stat-label">Snurr kvar</span>
               </div>
             </div>
             
             <div class="wheel-stat">
               <i class="fas fa-clock"></i>
               <div class="stat-info">
-                <div class="stat-value" id="nextSpin">23:59:59</div>
-                <div class="stat-label">Tid till nästa snurr</div>
+                <span class="stat-value">4d 12h</span>
+                <span class="stat-label">Tills nästa gratis</span>
               </div>
             </div>
           </div>
           
-          <!-- Wheel of Fortune -->
-          <div class="wheel-of-fortune">
-            <div class="wheel-arrow"></div>
-            <div class="wheel" id="wheel">
-              <!-- Wheel sections will be created via JS -->
-            </div>
-            <button id="spinButton" class="spin-button">
-              <i class="fas fa-play-circle"></i> Snurra Hjulet
-            </button>
-            <button id="buySpinButton" class="buy-spin-button">
-              <i class="fas fa-coins"></i> Köp ett snurr (50 GoCoins)
-            </button>
+          <!-- Visa lyckohjulet med SVG-bilden -->
+          <div class="wheel-wrapper">
+            <img src="img/wheel-illustration.svg" alt="Lyckohjul" class="wheel-image">
+            <div class="wheel-pointer"></div>
           </div>
           
           <!-- Prize Legend -->

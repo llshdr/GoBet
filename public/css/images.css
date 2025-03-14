@@ -1,0 +1,126 @@
+/* Stilar för bilder och SVG-grafik */
+
+/* Logotyp */
+.logo img, .logo svg {
+  height: 40px;
+  width: auto;
+}
+
+/* Inloggning och registrering */
+.login-image, .register-image {
+  max-width: 300px;
+  height: auto;
+  margin: 1rem auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 404-felsida */
+.error-image {
+  max-width: 300px;
+  margin: 2rem auto;
+  display: block;
+}
+
+/* Användarprofil */
+.profile-avatar-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1rem;
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid white;
+  box-shadow: var(--shadow-md);
+}
+
+.status-indicator {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #CBD5E0;
+  border: 2px solid white;
+}
+
+.status-indicator.online {
+  background-color: #48BB78;
+}
+
+/* Lyckohjul */
+.wheel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 2rem auto;
+}
+
+.wheel-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+  transition: transform 3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+.wheel-image.spinning {
+  animation: spin 3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 40px;
+  background-color: var(--primary-color);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Animationer */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(1080deg); }
+}
+
+/* Responsiv design */
+@media (max-width: 768px) {
+  .login-image, .register-image, .error-image {
+    max-width: 250px;
+  }
+  
+  .profile-avatar-container {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .wheel-wrapper {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-image, .register-image, .error-image {
+    max-width: 200px;
+  }
+  
+  .profile-avatar-container {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .wheel-wrapper {
+    max-width: 250px;
+  }
+} 
