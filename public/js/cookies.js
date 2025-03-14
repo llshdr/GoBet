@@ -92,44 +92,83 @@ class CookieManager {
                 </div>
                 <div class="modal-footer">
                     <button class="btn-save-preferences">Spara inställningar</button>
+                    <button class="btn-accept-necessary">Acceptera nödvändiga</button>
                 </div>
             </div>
         `;
 
         document.body.appendChild(modal);
 
-        // Stäng modal
+        // Hantera stängning av modal
         modal.querySelector('.modal-close').addEventListener('click', () => {
             modal.remove();
         });
 
-        // Spara inställningar
+        // Hantera spara inställningar
         modal.querySelector('.btn-save-preferences').addEventListener('click', () => {
             const preferences = {
-                performance: document.getElementById('performance-cookies').checked,
-                functional: document.getElementById('functional-cookies').checked
+                necessary: true, // Alltid aktiverad
+                performance: modal.querySelector('#performance-cookies').checked,
+                functional: modal.querySelector('#functional-cookies').checked
             };
             
             this.saveCookiePreferences(preferences);
             modal.remove();
-            document.querySelector('.cookie-banner')?.remove();
+            
+            // Ta bort cookie banner om den finns
+            const banner = document.querySelector('.cookie-banner');
+            if (banner) banner.remove();
         });
-
-        // Stäng när man klickar utanför
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.remove();
-            }
+        
+        // Hantera acceptera nödvändiga cookies
+        modal.querySelector('.btn-accept-necessary').addEventListener('click', () => {
+            const preferences = {
+                necessary: true,
+                performance: false,
+                functional: false
+            };
+            
+            this.saveCookiePreferences(preferences);
+            modal.remove();
+            
+            // Ta bort cookie banner om den finns
+            const banner = document.querySelector('.cookie-banner');
+            if (banner) banner.remove();
         });
     }
 
     /**
-     * Spara cookie-inställningar
+     * Spara cookiepreferenser
      */
     saveCookiePreferences(preferences) {
-        this.setCookie('gobet_cookie_consent', 'true', 365);
-        this.setCookie('gobet_cookie_preferences', JSON.stringify(preferences), 365);
-        this.cookieConsent = true;
+        localStorage.setItem('gobet_cookie_preferences', JSON.stringify(preferences));
+        
+        // Sätt cookie för 30 dagar
+        const prefsString = Object.entries(preferences)
+            .filter(([_, value]) => value)
+            .map(([key, _]) => key)
+            .join(',');
+            
+        this.setCookie('gobet_cookie_consent', prefsString, 30);
+        
+        console.log('Cookie-preferenser sparade:', preferences);
+    }
+    
+    /**
+     * Acceptera endast nödvändiga cookies
+     */
+    acceptNecessaryCookies() {
+        const preferences = {
+            necessary: true,
+            performance: false,
+            functional: false
+        };
+        
+        this.saveCookiePreferences(preferences);
+        
+        // Ta bort cookie banner om den finns
+        const banner = document.querySelector('.cookie-banner');
+        if (banner) banner.remove();
     }
 
     /**
@@ -137,11 +176,14 @@ class CookieManager {
      */
     acceptAllCookies() {
         const preferences = {
+            necessary: true,
             performance: true,
             functional: true
         };
         
         this.saveCookiePreferences(preferences);
+        
+        console.log('Alla cookies accepterade');
     }
 
     /**

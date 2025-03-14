@@ -60,7 +60,7 @@ function updateUserMenu(isLoggedIn, userData) {
         }
         
         if (userDisplayName) {
-            userDisplayName.textContent = userData.username || 'Användare';
+            userDisplayName.textContent = userData.displayName || userData.firstName + ' ' + userData.lastName || userData.username || 'Användare';
         }
         
         // Visa användarmenyn och dölj inloggningsknappar

@@ -224,12 +224,29 @@ function initFormSubmission() {
       // Hämta användardata
       const userData = user.userData;
       
+      // För äldre användarkonton som inte har displayName, sätt displayName baserat på tillgänglig info
+      if (!userData.displayName) {
+        if (userData.firstName && userData.lastName) {
+          userData.displayName = userData.firstName + ' ' + userData.lastName;
+        } else {
+          userData.displayName = userData.username;
+        }
+      }
+      
+      // För äldre användarkonton som använder extern avatar, ersätt med lokal
+      if (userData.avatar && userData.avatar.includes('ui-avatars.com')) {
+        userData.avatar = 'img/avatar.svg';
+      }
+      
       // Visa inloggningsmeddelande
       showSuccessMessage('Inloggning lyckades!');
       
       // Spara inloggningsstatus i localStorage
       localStorage.setItem('gobet_logged_in', 'true');
       localStorage.setItem('gobet_user', JSON.stringify(userData));
+      
+      // Acceptera nödvändiga cookies
+      acceptNecessaryCookies();
       
       // Omdirigera till hemsidan efter en kort fördröjning
       setTimeout(() => {
@@ -247,17 +264,20 @@ function initFormSubmission() {
       console.log('Registreringsformulär skickat');
       
       try {
+        const firstName = document.getElementById('registerFirstName').value.trim();
+        const lastName = document.getElementById('registerLastName').value.trim();
         const username = document.getElementById('registerUsername').value.trim();
         const email = document.getElementById('registerEmail').value.trim();
+        const phone = document.getElementById('registerPhone') ? document.getElementById('registerPhone').value.trim() : '';
         const password = document.getElementById('registerPassword').value;
         const confirmPassword = document.getElementById('registerConfirmPassword').value;
         const termsAgreement = document.getElementById('termsAgreement')?.checked;
         
-        console.log('Formulärvärden:', { username, email, password: '****', confirmPassword: '****', termsAgreement });
+        console.log('Formulärvärden:', { firstName, lastName, username, email, phone, password: '****', confirmPassword: '****', termsAgreement });
         
         // Validering
-        if (!username || !email || !password || !confirmPassword) {
-          alert('Vänligen fyll i alla fält.');
+        if (!firstName || !lastName || !username || !email || !password || !confirmPassword) {
+          alert('Vänligen fyll i alla obligatoriska fält.');
           return;
         }
         
@@ -304,9 +324,13 @@ function initFormSubmission() {
         
         // Skapa användardata direkt utan verifikation
         const userData = {
+          firstName: firstName,
+          lastName: lastName,
           username: username,
           email: email,
-          avatar: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(username) + '&background=6643b5&color=fff',
+          phone: phone || '',
+          avatar: 'img/avatar.svg', // Använd lokal SVG istället för extern tjänst
+          displayName: firstName + ' ' + lastName, // Använd hela namnet som visningsnamn
           joinDate: new Date().toISOString(),
           bio: 'Hej! Jag är en ny GoBet-användare.'
         };
@@ -330,6 +354,9 @@ function initFormSubmission() {
           
           // Initiera användarstatistik
           initializeUserStats();
+
+          // Acceptera nödvändiga cookies
+          acceptNecessaryCookies();
           
           // Visa bekräftelsemeddelande
           showSuccessMessage('Konto skapat! Du loggas in automatiskt...');
@@ -401,11 +428,58 @@ function initializeUserStats() {
     // Skapa standardstatistik för nya användare
     const initialStats = {
       betsCreated: 0,
+      betsJoined: 0,
       betsWon: 0,
+      betsLost: 0,
       winPercentage: 0,
-      friends: 0
+      totalWinnings: 0,
+      friends: 0,
+      favoriteGames: []
     };
     
     localStorage.setItem('gobet_user_stats', JSON.stringify(initialStats));
   }
+}
+
+/**
+ * Uppdatera användarstatistik när en bet vinns eller förloras
+ */
+function updateUserStats(result, amount) {
+  // Hämta nuvarande statistik
+  const stats = JSON.parse(localStorage.getItem('gobet_user_stats') || '{}');
+  
+  if (result === 'win') {
+    stats.betsWon += 1;
+    stats.totalWinnings += amount;
+  } else if (result === 'loss') {
+    stats.betsLost += 1;
+  }
+  
+  // Räkna om vinstprocent
+  const totalBets = stats.betsWon + stats.betsLost;
+  if (totalBets > 0) {
+    stats.winPercentage = Math.round((stats.betsWon / totalBets) * 100);
+  }
+  
+  // Spara uppdaterad statistik
+  localStorage.setItem('gobet_user_stats', JSON.stringify(stats));
+}
+
+/**
+ * Acceptera nödvändiga cookies
+ */
+function acceptNecessaryCookies() {
+  const cookiePreferences = {
+    necessary: true,
+    performance: false,
+    functional: false
+  };
+  
+  localStorage.setItem('gobet_cookie_preferences', JSON.stringify(cookiePreferences));
+  
+  // Sätt cookie_consent cookie för 30 dagar
+  const date = new Date();
+  date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
+  const expires = "; expires=" + date.toUTCString();
+  document.cookie = "gobet_cookie_consent=necessary" + expires + "; path=/; SameSite=Lax";
 } 
