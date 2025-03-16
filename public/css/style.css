@@ -1,52 +1,72 @@
 /* ===== Moderna designvariabler ===== */
 :root {
-  --primary-color: #1e88e5;
-  --primary-light: #6ab7ff;
-  --primary-dark: #005cb2;
-  --secondary-color: #0d47a1;
-  --secondary-light: #5472d3;
-  --secondary-dark: #002171;
-  --accent-color: #29b6f6;
-  --background-color: #ffffff;
-  --surface-color: #ffffff;
-  --text-color: #2b3240;
-  --text-light: #5d6977;
-  --success-color: #4ade80;
-  --warning-color: #facc15;
-  --error-color: #f87171;
+  /* Färgpalett */
+  --primary-color: #2563EB;
+  --primary-dark: #1D4ED8;
+  --primary-light: #60A5FA;
+  --primary-rgb: 37, 99, 235;
+  
+  --secondary-color: #0EA5E9;
+  --secondary-dark: #0284C7;
+  --secondary-light: #38BDF8;
+  --secondary-rgb: 14, 165, 233;
+  
+  --accent-color: #F59E0B;
+  --accent-dark: #D97706;
+  --accent-light: #FBBF24;
+  
+  --text-color: #0F172A;
+  --text-light: #64748B;
+  --text-lighter: #94A3B8;
+  --text-xlight: #CBD5E1;
+  
+  --success-color: #10B981;
+  --error-color: #EF4444;
+  --warning-color: #F59E0B;
+  --info-color: #3B82F6;
+  
+  --background-color: #F8FAFC;
+  --surface-color: #FFFFFF;
+  --surface-light: #F1F5F9;
+  
+  /* Utseende */
+  --border-radius: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-sm: 0.25rem;
+  --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --box-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --box-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  
+  /* Typografi */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  
+  /* Layout */
+  --header-height: 5rem;
+  --container-width: 1200px;
+  --container-padding: 2rem;
+  --transition: all 0.2s ease-in-out;
+  
+  /* Z-indices */
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-top: 50;
   
   /* Glassmorfism */
-  --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(30, 136, 229, 0.2);
-  --glass-shadow: 0 8px 32px rgba(30, 136, 229, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(37, 99, 235, 0.2);
+  --glass-shadow: 0 8px 32px rgba(37, 99, 235, 0.1);
   --glass-blur: blur(10px);
-  
-  /* RGB-värden för lättare manipulation */
-  --primary-rgb: 30, 136, 229;
-  --secondary-rgb: 13, 71, 161;
-  --accent-rgb: 41, 182, 246;
-  
-  /* Radier och skuggor */
-  --border-radius-sm: 0.5rem;
-  --border-radius: 0.75rem;
-  --border-radius-lg: 1.25rem;
-  --box-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --box-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
   
   /* Övergångar */
   --transition-fast: all 0.2s ease;
-  --transition: all 0.3s ease;
   --transition-slow: all 0.5s ease;
   
-  /* Typografi */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Poppins', var(--font-sans);
+  /* Font-weight */
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
   
   /* Layout */
-  --header-height: 4rem;
-  --container-width: 1200px;
-  --container-padding: 1.25rem;
   --content-spacing: 2rem;
   
   /* Konsistenta kort-stilar */
@@ -68,7 +88,7 @@ html {
 
 body {
   font-family: var(--font-sans);
-  line-height: 1.6;
+  line-height: 1.5;
   color: var(--text-color);
   background-color: var(--background-color);
   background-image: radial-gradient(
@@ -88,16 +108,15 @@ body {
 
 /* Typografi */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 1rem;
-  color: var(--primary-dark);
+  color: var(--text-color);
 }
 
 a {
-  text-decoration: none;
   color: var(--primary-color);
+  text-decoration: none;
   transition: var(--transition);
 }
 

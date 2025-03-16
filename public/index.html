@@ -3,662 +3,437 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GoBet - E-sport bets tillsammans med vänner</title>
+  <title>GoBet - Vadslagning bland vänner</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/plans.css">
-  <link rel="stylesheet" href="css/cookies.css">
+  <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/images.css">
   <link rel="stylesheet" href="css/bet-cards.css">
-  <!-- Lägg till Google Fonts: Inter och Poppins -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Lägg till moderna ikoner med Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <style>
+    /* Stilar specifika för startsidan */
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 5rem 0;
+      border-radius: var(--border-radius);
+      margin-bottom: 2rem;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .hero-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('img/pattern-dots.svg');
+      opacity: 0.1;
+      z-index: 1;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 650px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 3rem 0;
+    }
+    
+    .feature-card {
+      background-color: var(--surface-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      border: 1px solid rgba(var(--primary-rgb), 0.1);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shadow-lg);
+    }
+    
+    .feature-icon {
+      width: 4rem;
+      height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(var(--primary-rgb), 0.1);
+      color: var(--primary-color);
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+    
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+    
+    .feature-description {
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
-  <div class="app">
-    <!-- Header -->
-    <header class="header">
-      <div class="container">
-        <div class="header-content">
-          <div class="logo">
-            <a href="index.html">
-              <img src="img/gobet-logo.svg" alt="GoBet Logo" class="logo-img">
-              <span class="logo-text">GoBet</span>
+  <header class="app-header">
+    <div class="container header-container">
+      <div class="logo-container">
+        <a href="index.html" class="logo">
+          <img src="img/gobet-logo.svg" alt="GoBet" class="logo-image">
+        </a>
+      </div>
+      
+      <button class="mobile-menu-toggle" aria-label="Öppna meny">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item active">
+            <a href="index.html" class="nav-link">
+              <i class="fas fa-home"></i>
+              <span>Hem</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="create-bet.html" class="nav-link">
+              <i class="fas fa-plus-circle"></i>
+              <span>Skapa Bet</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="wheel.html" class="nav-link">
+              <i class="fas fa-dharmachakra"></i>
+              <span>Hjulet</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="friends.html" class="nav-link">
+              <i class="fas fa-user-friends"></i>
+              <span>Vänner</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="plans.html" class="nav-link">
+              <i class="fas fa-crown"></i>
+              <span>Premium</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="user-area">
+        <div class="balance-display">
+          <div class="coin-icon">
+            <i class="fas fa-coins"></i>
+          </div>
+          <span class="balance-amount">2,500</span>
+        </div>
+        
+        <div class="user-profile">
+          <a href="profile.html" class="profile-link">
+            <div class="profile-image">
+              <img src="img/avatar.jpg" alt="Profilbild">
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <main class="main-content">
+    <div class="container">
+      <section class="hero-section">
+        <div class="hero-content">
+          <h1 class="hero-title">Satsa bland vänner, vinn tillsammans</h1>
+          <p class="hero-subtitle">Skapa och delta i roliga vadslagningar med dina vänner. Enkelt, kul och socialt!</p>
+          <div class="action-buttons">
+            <a href="create-bet.html" class="btn btn-primary btn-lg">
+              <i class="fas fa-dice"></i>
+              Skapa din första bet
+            </a>
+            <a href="register.html" class="btn btn-outline btn-lg">
+              <i class="fas fa-user-plus"></i>
+              Skapa konto
             </a>
           </div>
-          
-          <button class="mobile-menu-btn" id="mobileMenuBtn">
-            <span class="menu-icon"></span>
-          </button>
-          
-          <nav class="nav-menu" id="navMenu">
-            <ul class="nav-list">
-              <li class="nav-item"><a href="index.html" class="nav-link active">Hem</a></li>
-              <li class="nav-item"><a href="create-bet.html" class="nav-link">Skapa Bet</a></li>
-              <li class="nav-item"><a href="wheel.html" class="nav-link">Hjulet</a></li>
-              <li class="nav-item"><a href="friends.html" class="nav-link">Vänner</a></li>
-              <li class="nav-item"><a href="plans.html" class="nav-link">Planer</a></li>
-            </ul>
-          </nav>
-          
-          <div class="user-area">
-            <div class="coin-balance">
-              <span class="coin-icon">GC</span>
-              <span class="balance-amount" id="userCoins">1000</span>
+        </div>
+      </section>
+      
+      <section class="features-section">
+        <h2 class="section-title text-center">Hur GoBet fungerar</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-handshake"></i>
             </div>
-            <div class="user-profile" id="userProfileMenu">
-              <img src="img/avatar.svg" alt="Avatar" class="avatar" id="userAvatar">
-              <div class="profile-dropdown">
-                <ul>
-                  <li><a href="profile.html"><i class="fas fa-user"></i> Min profil</a></li>
-                  <li><a href="settings.html"><i class="fas fa-cog"></i> Inställningar</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logga ut</a></li>
-                </ul>
-              </div>
+            <h3 class="feature-title">Enkla vadslagningar</h3>
+            <p class="feature-description">Skapa vadslagningar om vad som helst på ett par sekunder. Bjud in dina vänner och låt spelet börja.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-trophy"></i>
             </div>
+            <h3 class="feature-title">Vinn tillsammans</h3>
+            <p class="feature-description">Vinnaren tar allt? Eller dela upp vinsten? Du bestämmer hur priserna ska fördelas.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 class="feature-title">Säkert & rättvist</h3>
+            <p class="feature-description">Alla vadslagningar verifieras och vinster delas ut automatiskt när resultatet är klart.</p>
           </div>
         </div>
-      </div>
-    </header>
-
-    <!-- Main content -->
-    <main class="main-content">
-      <div class="container">
-        <!-- Hero section -->
-        <section class="hero">
-          <div class="container">
-            <div class="hero-content">
-              <div class="hero-text">
-                <h1>Följ och skapa bets med dina vänner</h1>
-                <p>Med GoBet kan du enkelt skapa och delta i spel-bets med dina vänner. Följ resultat i realtid och tävla om vem som har bäst koll på e-sport.</p>
-                <div class="hero-buttons">
-                  <a href="create-bet.html" class="btn btn-primary"><i class="fas fa-plus"></i> Skapa Bet</a>
-                  <a href="#active-bets" class="btn btn-secondary"><i class="fas fa-play"></i> Se aktiva bets</a>
+      </section>
+      
+      <section class="active-bets-section">
+        <div class="section-header">
+          <h2 class="section-title">Populära bets just nu</h2>
+          <a href="#" class="see-more-link">Se alla <i class="fas fa-chevron-right"></i></a>
+        </div>
+        
+        <div class="bet-cards-grid">
+          <!-- Bet Card 1 -->
+          <div class="bet-card">
+            <div class="bet-card-header">
+              <div class="bet-type-badge">Sport</div>
+              <div class="bet-status pending">Pågående</div>
+            </div>
+            <div class="bet-card-body">
+              <h3 class="bet-title">Champions League Final</h3>
+              <p class="bet-description">Vem kommer att vinna årets Champions League final?</p>
+              <div class="bet-details">
+                <div class="bet-participants">
+                  <span class="participants-count"><i class="fas fa-users"></i> 24 deltagare</span>
+                </div>
+                <div class="bet-pool">
+                  <span class="pool-amount"><i class="fas fa-coins"></i> 12,000</span>
                 </div>
               </div>
-              <div class="hero-image">
-                <img src="img/hero-illustration.svg" alt="GoBet Platform">
+              <div class="bet-options">
+                <div class="bet-option">
+                  <span class="option-name">Real Madrid</span>
+                  <div class="option-progress">
+                    <div class="progress-bar" style="width: 65%;"></div>
+                  </div>
+                  <span class="option-percentage">65%</span>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Manchester City</span>
+                  <div class="option-progress">
+                    <div class="progress-bar" style="width: 35%;"></div>
+                  </div>
+                  <span class="option-percentage">35%</span>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        <!-- Wheel Promo -->
-        <section class="wheel-promo glass-card">
-          <div class="promo-content">
-            <h2>Prova lyckan med vårt Lyckohjul!</h2>
-            <p>Snurra hjulet och vinn GoCoins, premium-uppgraderingar och exklusiva föremål. Gratisanvändare får 1 gratis snurr per vecka.</p>
-            <div class="promo-features">
-              <div class="promo-feature">
-                <i class="fa-solid fa-check"></i>
-                <span>1 gratis snurr varje vecka</span>
-              </div>
-              <div class="promo-feature">
-                <i class="fa-solid fa-check"></i>
-                <span>Vinn upp till 1000 GoCoins</span>
-              </div>
-              <div class="promo-feature">
-                <i class="fa-solid fa-check"></i>
-                <span>Chans till gratis Premium-uppgradering</span>
-              </div>
-            </div>
-            <a href="wheel.html" class="btn btn-primary">Prova Lyckohjulet</a>
-          </div>
-        </section>
-
-        <!-- Plans Promo -->
-        <section class="plans-promo glass-card">
-          <div class="promo-content">
-            <h2>Ta dina bets till nästa nivå!</h2>
-            <p>Med premiumplaner får du tillgång till exklusiva funktioner som winner-takes-all och turneringbets.</p>
-            <div class="promo-features">
-              <div class="promo-feature">
-                <i class="fa-solid fa-check"></i>
-                <span>Skapa fler bets varje vecka</span>
-              </div>
-              <div class="promo-feature">
-                <i class="fa-solid fa-check"></i>
-                <span>Vinnaren tar hela potten</span>
-              </div>
-              <div class="promo-feature">
-                <i class="fa-solid fa-check"></i>
-                <span>Turneringsbets för e-sport och sport</span>
-              </div>
-            </div>
-            <a href="plans.html" class="btn btn-primary">Läs mer om våra planer</a>
-          </div>
-        </section>
-
-        <!-- Aktiva Bets Section -->
-        <section class="active-bets" id="active-bets">
-          <div class="container">
-            <h2 class="section-title">Aktiva Bets</h2>
-            
-            <div class="bet-controls">
-              <div class="bet-filters">
-                <button class="filter-button active" data-filter="all">Alla</button>
-                <button class="filter-button" data-filter="public">Offentliga</button>
-                <button class="filter-button" data-filter="friends">Vänner</button>
-                <button class="filter-button" data-filter="joined">Mina bets</button>
-                <button class="filter-button" data-filter="wta">Winner Takes All</button>
-              </div>
-              <div class="bet-sort">
-                <label for="sort-bets">Sortera:</label>
-                <select id="sort-bets" class="sort-select">
-                  <option value="newest">Nyaste först</option>
-                  <option value="popular">Mest populära</option>
-                  <option value="ending-soon">Slutar snart</option>
-                </select>
-              </div>
-            </div>
-            
-            <!-- Bet-kort container -->
-            <div class="bets-container" id="betsContainer">
-              <!-- Dynamiskt laddade bet-kort kommer att visas här -->
-            </div>
-            
-            <!-- Meddelande för inga bets -->
-            <div class="no-bets-found" id="noBetsMessage" style="display: none;">
-              <i class="fas fa-search"></i>
-              <h3 class="no-bets-title">Inga bets hittades</h3>
-              <p class="no-bets-message">Det verkar inte finnas några bets som matchar dina kriterier. Försök med en annan filtrering eller skapa ett eget bet!</p>
-              <a href="create-bet.html" class="btn btn-primary mt-4"><i class="fas fa-plus"></i> Skapa ett bet</a>
-            </div>
-          </div>
-        </section>
-        
-        <!-- Featured Games -->
-        <section class="featured-games">
-          <h2>Populära Spel för Betting</h2>
-          <div class="games-grid">
-            <!-- Game Card 1 -->
-            <div class="game-card">
-              <img src="img/game-cs2.svg" alt="Counter-Strike 2">
-              <div class="game-info">
-                <h3>Counter-Strike 2</h3>
-                <p>Delta i spännande vadslagningar kring CS2-matcher och turneringar.</p>
-                <a href="#" class="btn btn-primary">Utforska Bets</a>
-              </div>
-            </div>
-            
-            <!-- Game Card 2 -->
-            <div class="game-card">
-              <img src="img/game-lol.svg" alt="League of Legends">
-              <div class="game-info">
-                <h3>League of Legends</h3>
-                <p>Satsa på dina favoritlag i den populära MOBA-titeln.</p>
-                <a href="#" class="btn btn-primary">Utforska Bets</a>
-              </div>
-            </div>
-            
-            <!-- Game Card 3 -->
-            <div class="game-card">
-              <img src="img/game-fortnite.svg" alt="Fortnite">
-              <div class="game-info">
-                <h3>Fortnite</h3>
-                <p>Skapa och delta i Fortnite-relaterade bets med dina vänner.</p>
-                <a href="#" class="btn btn-primary">Utforska Bets</a>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-brand">
-            <img src="img/logo-footer.svg" alt="GoBet Logo" class="footer-logo">
-            <p>Den ultimata plattformen för att skapa och delta i betting-utmaningar med dina vänner. Vinn stora priser och ha kul tillsammans!</p>
-            <div class="social-icons">
-              <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
-              <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
-              <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
-              <a href="#" class="social-icon"><i class="fa-brands fa-discord"></i></a>
+            <div class="bet-card-footer">
+              <span class="time-remaining"><i class="far fa-clock"></i> Avslutas om 2 dagar</span>
+              <a href="#" class="btn btn-sm btn-primary">Satsa nu</a>
             </div>
           </div>
           
-          <div class="footer-links">
-            <h3>Snabblänkar</h3>
-            <ul>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Hem</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Om oss</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Hur det fungerar</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Villkor</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Integritetspolicy</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Kontakta oss</a></li>
+          <!-- Bet Card 2 -->
+          <div class="bet-card">
+            <div class="bet-card-header">
+              <div class="bet-type-badge">Politik</div>
+              <div class="bet-status pending">Pågående</div>
+            </div>
+            <div class="bet-card-body">
+              <h3 class="bet-title">Sveriges Valet 2026</h3>
+              <p class="bet-description">Vilket parti får flest röster i nästa riksdagsval?</p>
+              <div class="bet-details">
+                <div class="bet-participants">
+                  <span class="participants-count"><i class="fas fa-users"></i> 56 deltagare</span>
+                </div>
+                <div class="bet-pool">
+                  <span class="pool-amount"><i class="fas fa-coins"></i> 28,000</span>
+                </div>
+              </div>
+              <div class="bet-options">
+                <div class="bet-option">
+                  <span class="option-name">Socialdemokraterna</span>
+                  <div class="option-progress">
+                    <div class="progress-bar" style="width: 40%;"></div>
+                  </div>
+                  <span class="option-percentage">40%</span>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Moderaterna</span>
+                  <div class="option-progress">
+                    <div class="progress-bar" style="width: 35%;"></div>
+                  </div>
+                  <span class="option-percentage">35%</span>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Annat parti</span>
+                  <div class="option-progress">
+                    <div class="progress-bar" style="width: 25%;"></div>
+                  </div>
+                  <span class="option-percentage">25%</span>
+                </div>
+              </div>
+            </div>
+            <div class="bet-card-footer">
+              <span class="time-remaining"><i class="far fa-clock"></i> Avslutas om 6 månader</span>
+              <a href="#" class="btn btn-sm btn-primary">Satsa nu</a>
+            </div>
+          </div>
+          
+          <!-- Bet Card 3 -->
+          <div class="bet-card">
+            <div class="bet-card-header">
+              <div class="bet-type-badge">Nöje</div>
+              <div class="bet-status pending">Pågående</div>
+            </div>
+            <div class="bet-card-body">
+              <h3 class="bet-title">Melodifestivalen 2026</h3>
+              <p class="bet-description">Vem vinner nästa Melodifestival?</p>
+              <div class="bet-details">
+                <div class="bet-participants">
+                  <span class="participants-count"><i class="fas fa-users"></i> 78 deltagare</span>
+                </div>
+                <div class="bet-pool">
+                  <span class="pool-amount"><i class="fas fa-coins"></i> 39,000</span>
+                </div>
+              </div>
+              <div class="bet-options">
+                <div class="bet-option">
+                  <span class="option-name">Benjamin Ingrosso</span>
+                  <div class="option-progress">
+                    <div class="progress-bar" style="width: 28%;"></div>
+                  </div>
+                  <span class="option-percentage">28%</span>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Loreen</span>
+                  <div class="option-progress">
+                    <div class="progress-bar" style="width: 22%;"></div>
+                  </div>
+                  <span class="option-percentage">22%</span>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Annan artist</span>
+                  <div class="option-progress">
+                    <div class="progress-bar" style="width: 50%;"></div>
+                  </div>
+                  <span class="option-percentage">50%</span>
+                </div>
+              </div>
+            </div>
+            <div class="bet-card-footer">
+              <span class="time-remaining"><i class="far fa-clock"></i> Avslutas om 3 månader</span>
+              <a href="#" class="btn btn-sm btn-primary">Satsa nu</a>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="cta-section">
+        <div class="cta-card">
+          <div class="cta-content">
+            <h2 class="cta-title">Redo att börja?</h2>
+            <p class="cta-description">Skapa ett konto på mindre än en minut och börja satsa med dina vänner idag.</p>
+            <a href="register.html" class="btn btn-primary btn-lg">Kom igång nu</a>
+          </div>
+          <div class="cta-image">
+            <img src="img/friends-betting.svg" alt="Vänner som satsar tillsammans">
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <footer class="app-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="img/gobet-logo.svg" alt="GoBet" class="footer-logo-image">
+          </a>
+          <p class="footer-tagline">Vadslagning bland vänner, enklare än någonsin.</p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Utforska</h3>
+            <ul class="footer-links-list">
+              <li><a href="index.html">Hem</a></li>
+              <li><a href="create-bet.html">Skapa Bet</a></li>
+              <li><a href="wheel.html">Hjulet</a></li>
+              <li><a href="friends.html">Vänner</a></li>
             </ul>
           </div>
           
-          <div class="footer-social">
-            <h3>Kontakt</h3>
-            <ul>
-              <li><a href="#"><i class="fa-solid fa-envelope"></i> support@gobet.com</a></li>
-              <li><a href="#"><i class="fa-solid fa-phone"></i> +46 123 456 789</a></li>
-              <li><a href="#"><i class="fa-solid fa-location-dot"></i> Stockholm, Sverige</a></li>
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Konto</h3>
+            <ul class="footer-links-list">
+              <li><a href="login.html">Logga in</a></li>
+              <li><a href="register.html">Registrera</a></li>
+              <li><a href="profile.html">Min profil</a></li>
+              <li><a href="settings.html">Inställningar</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Support</h3>
+            <ul class="footer-links-list">
+              <li><a href="#">Hjälpcenter</a></li>
+              <li><a href="#">Kontakta oss</a></li>
+              <li><a href="#">Regler</a></li>
+              <li><a href="#">Vanliga frågor</a></li>
             </ul>
           </div>
         </div>
-        
-        <div class="footer-bottom">
-          <p>&copy; <span class="current-year">2023</span> GoBet. Alla rättigheter förbehållna.</p>
-          <div class="footer-links">
-            <a href="#">Användarvillkor</a>
-            <a href="#">Integritetspolicy</a>
-          </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p class="copyright">© 2025 GoBet. Alla rättigheter förbehållna.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
         </div>
-      </div>
-    </footer>
-  </div>
-
-  <div class="cookie-banner">
-    <div class="cookie-content">
-      <div class="cookie-header">
-        <i class="fas fa-cookie-bite"></i>
-        <h3>Vi använder cookies</h3>
-      </div>
-      <p>Vi använder cookies för att förbättra din upplevelse på vår webbplats. Genom att fortsätta använda webbplatsen godkänner du användningen av cookies.</p>
-      <div class="cookie-buttons">
-        <button class="btn-cookie-settings">Anpassa inställningar</button>
-        <button class="btn-cookie-accept">Acceptera alla</button>
       </div>
     </div>
-  </div>
-
-  <div class="cookie-settings-modal" style="display: none;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Cookie-inställningar</h3>
-        <button class="modal-close"><i class="fas fa-times"></i></button>
-      </div>
-      <div class="modal-body">
-        <div class="cookie-option">
-          <div class="cookie-option-header">
-            <h4>Nödvändiga cookies</h4>
-            <label class="switch">
-              <input type="checkbox" checked disabled>
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p>Dessa cookies är nödvändiga för att webbplatsen ska fungera och kan inte stängas av.</p>
-        </div>
-        <div class="cookie-option">
-          <div class="cookie-option-header">
-            <h4>Prestanda cookies</h4>
-            <label class="switch">
-              <input type="checkbox" id="performance-cookies">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p>Hjälper oss att förstå hur besökare interagerar med webbplatsen genom att samla in anonym information.</p>
-        </div>
-        <div class="cookie-option">
-          <div class="cookie-option-header">
-            <h4>Funktionella cookies</h4>
-            <label class="switch">
-              <input type="checkbox" id="functional-cookies">
-              <span class="slider"></span>
-            </label>
-          </div>
-          <p>Gör det möjligt för webbplatsen att komma ihåg val du gjort för att ge förbättrad funktionalitet.</p>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-save-preferences">Spara inställningar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- JavaScript -->
-  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+  </footer>
+  
   <script src="js/main.js"></script>
-  <script src="js/plans.js"></script>
-  <script src="js/cookies.js"></script>
-  <script>
-    // Initiering av startsidan
-    document.addEventListener('DOMContentLoaded', function() {
-      // Initialisera användarprofil
-      initUserProfile();
-      
-      // Ladda aktiva bets
-      loadActiveBets();
-      
-      // Hantera filter-knappar
-      const filterButtons = document.querySelectorAll('.filter-button');
-      filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          // Ta bort active-klassen från alla knappar
-          filterButtons.forEach(btn => btn.classList.remove('active'));
-          
-          // Lägg till active-klass på den klickade knappen
-          this.classList.add('active');
-          
-          // Filtrera bets baserat på knapptryckning
-          const filter = this.getAttribute('data-filter');
-          loadActiveBets(filter);
-        });
-      });
-      
-      // Hantera sortering
-      const sortSelect = document.getElementById('sort-bets');
-      if (sortSelect) {
-        sortSelect.addEventListener('change', function() {
-          const activeFilter = document.querySelector('.filter-button.active');
-          const filter = activeFilter ? activeFilter.getAttribute('data-filter') : 'all';
-          loadActiveBets(filter, this.value);
-        });
-      }
-    });
-    
-    // Funktion för att ladda aktiva bets
-    function loadActiveBets(filter = 'all', sortBy = 'newest') {
-      const betsContainer = document.getElementById('betsContainer');
-      const noBetsMessage = document.getElementById('noBetsMessage');
-      
-      // Hämta bets från localStorage
-      const allBets = getAllBets();
-      
-      // Filtrera bets
-      let filteredBets = allBets;
-      
-      switch (filter) {
-        case 'public':
-          filteredBets = allBets.filter(bet => bet.visibility === 'public');
-          break;
-        case 'friends':
-          filteredBets = allBets.filter(bet => bet.visibility === 'friends');
-          break;
-        case 'joined':
-          const userId = getUserId();
-          filteredBets = allBets.filter(bet => 
-            bet.creatorId === userId || 
-            bet.participants.some(p => p.userId === userId)
-          );
-          break;
-        case 'wta':
-          filteredBets = allBets.filter(bet => bet.isWinnerTakesAll);
-          break;
-      }
-      
-      // Sortera bets
-      switch (sortBy) {
-        case 'newest':
-          filteredBets.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
-          break;
-        case 'popular':
-          filteredBets.sort((a, b) => b.participants.length - a.participants.length);
-          break;
-        case 'ending-soon':
-          filteredBets.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
-          break;
-      }
-      
-      // Rensa container
-      betsContainer.innerHTML = '';
-      
-      // Visa meddelande om inga bets hittades
-      if (filteredBets.length === 0) {
-        noBetsMessage.style.display = 'block';
-        return;
-      }
-      
-      // Dölj meddelande om bets hittades
-      noBetsMessage.style.display = 'none';
-      
-      // Skapa bet-kort för varje bet
-      filteredBets.forEach(bet => {
-        // Kontrollera om bettet är aktivt (inte passerat slutdatum)
-        const isActive = new Date(bet.endDate) > new Date();
-        
-        // Skapa kort endast för aktiva bets om vi inte visar användarens egna bets
-        if ((!isActive && filter !== 'joined') || bet.status === 'completed') {
-          return;
-        }
-        
-        const betCard = createBetCard(bet);
-        betsContainer.appendChild(betCard);
-      });
-    }
-    
-    // Funktion för att skapa ett bet-kort
-    function createBetCard(bet) {
-      const userId = getUserId();
-      const isCreator = bet.creatorId === userId;
-      const hasJoined = bet.participants.some(p => p.userId === userId);
-      const isCompleted = bet.status === 'completed';
-      
-      // Beräkna total pott
-      const totalPot = bet.participants.length * bet.amount;
-      
-      // Skapa kortelement
-      const card = document.createElement('div');
-      card.className = `bet-card ${isCompleted ? 'completed' : ''}`;
-      card.setAttribute('data-bet-id', bet.id);
-      
-      // Lägg till Winner Takes All badge om det är ett sådant bet
-      let wtaBadge = '';
-      if (bet.isWinnerTakesAll) {
-        wtaBadge = `
-          <div class="wta-badge">
-            <i class="fas fa-trophy"></i> Winner Takes All
-          </div>
-        `;
-      }
-      
-      // Skapa HTML för bet-optioner
-      let optionsHTML = '';
-      bet.options.forEach((option, index) => {
-        // Kontrollera om detta är det vinnande alternativet
-        const isWinner = isCompleted && bet.winningOption === index;
-        const isLoser = isCompleted && bet.winningOption !== index;
-        
-        // Kontrollera om användaren har valt detta alternativ
-        const userParticipation = bet.participants.find(p => p.userId === userId);
-        const isSelected = userParticipation && userParticipation.optionIndex === index;
-        
-        // Räkna deltagare som valt detta alternativ
-        const optionParticipants = bet.participants.filter(p => p.optionIndex === index).length;
-        
-        optionsHTML += `
-          <div class="option ${isSelected ? 'selected' : ''} ${isWinner ? 'winner' : ''} ${isLoser ? 'loser' : ''}" data-option-index="${index}">
-            <span class="option-text">${option.text}</span>
-            ${!bet.isWinnerTakesAll ? `<span class="option-odds">${option.odds}x</span>` : ''}
-          </div>
-        `;
-      });
-      
-      // Beräkna potentiell vinst (bara för WTA)
-      let potentialWinHTML = '';
-      if (bet.isWinnerTakesAll && !isCompleted) {
-        potentialWinHTML = `
-          <div class="potential-win-container">
-            <span class="potential-win-label">Potentiell vinst:</span>
-            <div class="potential-win-value">
-              <span class="potential-win-amount" id="potentialWin-${bet.id}">${totalPot}</span>
-              <span class="coin-icon small">GC</span>
-            </div>
-          </div>
-        `;
-      }
-      
-      // Skapa HTML för vinstinformation (om bettet är slutfört)
-      let winningInfoHTML = '';
-      if (isCompleted && bet.winningOption !== null) {
-        const winningOption = bet.options[bet.winningOption];
-        const winners = bet.participants.filter(p => p.optionIndex === bet.winningOption);
-        
-        // Visa olika meddelanden beroende på om användaren vann eller förlorade
-        if (userParticipation && userParticipation.optionIndex === bet.winningOption) {
-          // Beräkna användarens vinst
-          let userWinnings;
-          if (bet.isWinnerTakesAll) {
-            userWinnings = Math.floor(totalPot / winners.length);
-          } else {
-            userWinnings = Math.floor(bet.amount * winningOption.odds);
-          }
-          
-          winningInfoHTML = `
-            <div class="winning-info">
-              <div class="winning-title">Du vann ${userWinnings} GoCoins!</div>
-              <p>Grattis! Ditt val "${winningOption.text}" var korrekt.</p>
-            </div>
-          `;
-        } else if (userParticipation) {
-          winningInfoHTML = `
-            <div class="winning-info" style="background-color: #fee2e2; border-left-color: #ef4444;">
-              <div class="winning-title" style="color: #7f1d1d;">Du förlorade detta bet</div>
-              <p>Tyvärr, "${bet.options[userParticipation.optionIndex].text}" var inte korrekt.</p>
-            </div>
-          `;
-        }
-      }
-      
-      // Skapa HTML för bet-kortet
-      card.innerHTML = `
-        ${wtaBadge}
-        <div class="bet-header">
-          <div class="bet-title-area">
-            <h3 class="bet-title">${bet.title}</h3>
-            <div class="bet-meta">
-              <span class="bet-meta-item">
-                <i class="fas fa-coins"></i> ${bet.amount} GoCoins
-              </span>
-              <span class="bet-meta-item">
-                <i class="fas fa-calendar"></i> Slutar ${formatDate(bet.endDate)}
-              </span>
-            </div>
-          </div>
-          <div class="bet-creator">
-            <img src="img/avatar.svg" alt="${bet.creatorName}" class="bet-creator-avatar">
-            <span class="bet-creator-name">${bet.creatorName}</span>
-          </div>
-        </div>
-        
-        <div class="bet-description">${bet.description}</div>
-        
-        ${winningInfoHTML}
-        
-        <div class="bet-options">
-          ${optionsHTML}
-        </div>
-        
-        ${potentialWinHTML}
-        
-        <div class="bet-info">
-          <div class="bet-stats">
-            <div class="bet-stat">
-              <i class="fas fa-users"></i>
-              <span class="bet-stat-value participants-count">${bet.participants.length}</span>
-              <span class="bet-stat-label">Deltagare</span>
-            </div>
-            <div class="bet-stat">
-              <i class="fas fa-coins"></i>
-              <span class="bet-stat-value">${totalPot}</span>
-              <span class="bet-stat-label">Total pott</span>
-            </div>
-          </div>
-          <div class="bet-actions">
-            ${!isCompleted && !hasJoined ? `<button class="btn-join">Satsa ${bet.amount} GC</button>` : ''}
-            ${!isCompleted && hasJoined ? `<button class="btn-join disabled">Du har satsat</button>` : ''}
-            ${!isCompleted && isCreator ? `<button class="btn-complete-bet">Slutför bet</button>` : ''}
-          </div>
-        </div>
-      `;
-      
-      // Lägg till händelsehanterare för att välja alternativ
-      if (!isCompleted && !hasJoined) {
-        const options = card.querySelectorAll('.option');
-        options.forEach(option => {
-          option.addEventListener('click', function() {
-            // Ta bort selected-klassen från alla alternativ
-            options.forEach(opt => opt.classList.remove('selected'));
-            
-            // Lägg till selected-klass på det klickade alternativet
-            this.classList.add('selected');
-            
-            // Om det är ett Winner Takes All bet, uppdatera potentiell vinst
-            if (bet.isWinnerTakesAll) {
-              const optionIndex = parseInt(this.getAttribute('data-option-index'));
-              
-              // Räkna deltagare som valt samma alternativ
-              const sameChoiceCount = bet.participants.filter(p => p.optionIndex === optionIndex).length;
-              
-              // Beräkna potentiell vinst baserat på totalPott / antal vinnare
-              // Om detta är första personen som väljer detta alternativ, använd 1 som nämnare
-              const potentialWinners = sameChoiceCount + 1;
-              const potentialWin = Math.floor(totalPot / potentialWinners);
-              
-              // Uppdatera UI
-              const potentialWinElement = card.querySelector(`#potentialWin-${bet.id}`);
-              if (potentialWinElement) {
-                potentialWinElement.textContent = potentialWin;
-              }
-            }
-          });
-        });
-      }
-      
-      return card;
-    }
-    
-    // Hjälpfunktion för att formatera datum
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('sv-SE', { 
-        year: 'numeric', 
-        month: 'short', 
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-    }
-    
-    // Initialisera användarprofil
-    function initUserProfile() {
-      // Hämta användardata från localStorage
-      const userData = JSON.parse(localStorage.getItem('gobet_user') || '{}');
-      const userCoins = parseInt(localStorage.getItem('gobet_user_coins') || '1000');
-      
-      // Uppdatera UI med användardata
-      const userCoinsElement = document.getElementById('userCoins');
-      if (userCoinsElement) {
-        userCoinsElement.textContent = userCoins;
-      }
-      
-      // Hantera utloggning
-      const logoutBtn = document.getElementById('logoutBtn');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          // Rensa användardata från localStorage
-          localStorage.removeItem('gobet_logged_in');
-          
-          // Omdirigera till inloggningssidan
-          window.location.href = 'login.html';
-        });
-      }
-      
-      // Visa/dölj dropdown-meny
-      const userProfileMenu = document.getElementById('userProfileMenu');
-      if (userProfileMenu) {
-        userProfileMenu.addEventListener('click', function(e) {
-          this.classList.toggle('active');
-          e.stopPropagation();
-        });
-        
-        // Stäng dropdown när användaren klickar utanför
-        document.addEventListener('click', function() {
-          userProfileMenu.classList.remove('active');
-        });
-      }
-    }
-  </script>
 </body>
 </html> 

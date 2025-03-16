@@ -123,4 +123,222 @@
   .wheel-wrapper {
     max-width: 250px;
   }
+}
+
+/* ===== Bildrelaterade klasser ===== */
+
+/* Bild- och illustrationskomponent */
+.image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image-container img, 
+.image-container svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Hjulet */
+.wheel-animation {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.wheel-animation img,
+.wheel-animation svg {
+  width: 100%;
+  height: auto;
+}
+
+.wheel-animation .spinner {
+  animation: wheel-spin 16s ease-out;
+}
+
+.wheel-marker {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  z-index: 2;
+}
+
+/* Trofébild */
+.trophy-image {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+  transition: var(--transition);
+}
+
+.trophy-image.shake {
+  animation: trophy-shake 0.5s ease-in-out;
+}
+
+.trophy-image:hover {
+  transform: translateY(-5px);
+}
+
+/* Kategori-ikoner */
+.category-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.category-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.category-icon img,
+.category-icon svg {
+  width: 80px;
+  height: 80px;
+  transition: var(--transition);
+}
+
+.category-icon:hover img,
+.category-icon:hover svg {
+  transform: scale(1.1);
+}
+
+.category-icon-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+/* Premium-badge */
+.premium-badge {
+  position: relative;
+  width: 60px;
+  height: 70px;
+}
+
+.premium-badge img,
+.premium-badge svg {
+  width: 100%;
+  height: auto;
+}
+
+.user-card .premium-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 2;
+}
+
+/* Vän-illustrationer */
+.friends-image {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Pattern-bakgrunder */
+.pattern-dots-bg {
+  position: relative;
+}
+
+.pattern-dots-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../img/pattern-dots.svg');
+  background-repeat: repeat;
+  opacity: 0.05;
+  z-index: 0;
+}
+
+.pattern-dots-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Logotyper */
+.logo-image {
+  height: 2.5rem;
+  width: auto;
+}
+
+.logo-image-small {
+  height: 1.5rem;
+  width: auto;
+}
+
+.logo-image-large {
+  height: 3.5rem;
+  width: auto;
+}
+
+/* Animationer */
+@keyframes wheel-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(3600deg);
+  }
+  100% {
+    transform: rotate(3720deg);
+  }
+}
+
+@keyframes trophy-shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+/* Responsivitet */
+@media (max-width: 768px) {
+  .category-icon img,
+  .category-icon svg {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .premium-badge {
+    width: 50px;
+    height: 60px;
+  }
+  
+  .logo-image {
+    height: 2rem;
+  }
+  
+  .logo-image-large {
+    height: 2.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-icon img,
+  .category-icon svg {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .category-icon-label {
+    font-size: 0.75rem;
+  }
 } 

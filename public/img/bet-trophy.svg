@@ -1,0 +1,68 @@
+<svg width="200" height="240" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Trofé topp -->
+  <path d="M70 40 C70 20 130 20 130 40 L130 90 C130 110 70 110 70 90 L70 40Z" fill="url(#goldGradient)" />
+  
+  <!-- Trofé skål -->
+  <path d="M70 40 C70 30, 50 25, 50 10 L150 10 C150 25, 130 30, 130 40 Z" fill="url(#goldGradient)" />
+  
+  <!-- Trofé handtag vänster -->
+  <path d="M50 10 C50 10, 30 10, 30 30 C30 50, 50 60, 70 40" stroke="url(#goldStrokeGradient)" stroke-width="10" fill="none" />
+  
+  <!-- Trofé handtag höger -->
+  <path d="M150 10 C150 10, 170 10, 170 30 C170 50, 150 60, 130 40" stroke="url(#goldStrokeGradient)" stroke-width="10" fill="none" />
+  
+  <!-- Trofé sockel topp -->
+  <rect x="85" y="110" width="30" height="30" fill="url(#goldGradient)" />
+  
+  <!-- Trofé sockel bas -->
+  <path d="M60 140 L140 140 L130 160 L70 160 Z" fill="url(#goldGradient)" />
+  
+  <!-- Glans/reflexer -->
+  <ellipse cx="85" cy="60" rx="5" ry="25" fill="white" opacity="0.2" />
+  <ellipse cx="75" cy="60" rx="3" ry="20" fill="white" opacity="0.3" />
+  
+  <!-- Troféns skugga -->
+  <ellipse cx="100" cy="220" rx="50" ry="10" fill="#60A5FA" opacity="0.3" />
+  
+  <!-- Medalj i troféns front -->
+  <circle cx="100" cy="70" r="15" fill="#2563EB" />
+  <circle cx="100" cy="70" r="12" fill="#60A5FA" />
+  <text x="93" y="75" font-family="Arial" font-size="12" font-weight="bold" fill="white">GC</text>
+  
+  <!-- Strålar runt troféen -->
+  <g opacity="0.7">
+    <path d="M100 0 L100 15" stroke="#60A5FA" stroke-width="2" />
+    <path d="M70 5 L80 20" stroke="#60A5FA" stroke-width="2" />
+    <path d="M130 5 L120 20" stroke="#60A5FA" stroke-width="2" />
+    <path d="M45 20 L65 30" stroke="#60A5FA" stroke-width="2" />
+    <path d="M155 20 L135 30" stroke="#60A5FA" stroke-width="2" />
+  </g>
+  
+  <!-- Konfetti -->
+  <circle cx="50" cy="130" r="4" fill="#60A5FA" />
+  <circle cx="150" cy="130" r="4" fill="#2563EB" />
+  <circle cx="30" cy="100" r="3" fill="#F59E0B" />
+  <circle cx="170" cy="100" r="3" fill="#F59E0B" />
+  <circle cx="40" cy="170" r="5" fill="#60A5FA" />
+  <circle cx="160" cy="170" r="5" fill="#2563EB" />
+  <rect x="70" y="180" width="8" height="8" rx="1" transform="rotate(45 70 180)" fill="#F59E0B" />
+  <rect x="130" y="180" width="8" height="8" rx="1" transform="rotate(45 130 180)" fill="#F59E0B" />
+  <rect x="100" y="190" width="6" height="6" rx="1" transform="rotate(45 100 190)" fill="#2563EB" />
+  
+  <!-- Stjärnor -->
+  <path d="M30 70 L33 77 L40 78 L35 84 L36 91 L30 87 L24 91 L25 84 L20 78 L27 77 Z" fill="#F59E0B" />
+  <path d="M170 70 L173 77 L180 78 L175 84 L176 91 L170 87 L164 91 L165 84 L160 78 L167 77 Z" fill="#F59E0B" />
+  
+  <!-- Gradienter -->
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+    
+    <linearGradient id="goldStrokeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#FBBF24" />
+    </linearGradient>
+  </defs>
+</svg> 

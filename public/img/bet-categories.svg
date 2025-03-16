@@ -1,0 +1,104 @@
+<svg width="500" height="100" viewBox="0 0 500 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sport -->
+  <g transform="translate(50, 50)">
+    <circle cx="0" cy="0" r="40" fill="#EBF8FF" />
+    <circle cx="0" cy="0" r="35" fill="white" />
+    
+    <!-- Fotboll -->
+    <circle cx="0" cy="0" r="25" fill="#2563EB" />
+    <circle cx="0" cy="0" r="23" fill="#60A5FA" />
+    
+    <!-- Fotbollsmönster -->
+    <path d="M0 -23 L0 -13 M0 13 L0 23 M-23 0 L-13 0 M13 0 L23 0" stroke="white" stroke-width="2" />
+    <path d="M-16 -16 L-9 -9 M16 -16 L9 -9 M-16 16 L-9 9 M16 16 L9 9" stroke="white" stroke-width="2" />
+    
+    <circle cx="0" cy="0" r="7" fill="white" stroke="#60A5FA" stroke-width="1" />
+    <path d="M0 -7 L2 -2 L7 -2 L3 1 L5 6 L0 3 L-5 6 L-3 1 L-7 -2 L-2 -2 Z" fill="#2563EB" />
+    
+    <text x="0" y="50" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB" text-anchor="middle">Sport</text>
+  </g>
+  
+  <!-- Politik -->
+  <g transform="translate(150, 50)">
+    <circle cx="0" cy="0" r="40" fill="#EBF8FF" />
+    <circle cx="0" cy="0" r="35" fill="white" />
+    
+    <!-- Riksdagshus -->
+    <rect x="-20" y="0" width="40" height="18" fill="#2563EB" />
+    <rect x="-23" y="18" width="46" height="5" fill="#60A5FA" />
+    
+    <!-- Pelare -->
+    <rect x="-18" y="-15" width="4" height="15" fill="#2563EB" />
+    <rect x="-8" y="-15" width="4" height="15" fill="#2563EB" />
+    <rect x="4" y="-15" width="4" height="15" fill="#2563EB" />
+    <rect x="14" y="-15" width="4" height="15" fill="#2563EB" />
+    
+    <!-- Tak -->
+    <path d="M-25 -15 L25 -15 L0 -25 Z" fill="#0EA5E9" />
+    
+    <text x="0" y="50" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB" text-anchor="middle">Politik</text>
+  </g>
+  
+  <!-- Nöje -->
+  <g transform="translate(250, 50)">
+    <circle cx="0" cy="0" r="40" fill="#EBF8FF" />
+    <circle cx="0" cy="0" r="35" fill="white" />
+    
+    <!-- Filmrulle -->
+    <circle cx="0" cy="0" r="22" fill="#2563EB" />
+    <circle cx="0" cy="0" r="15" fill="#60A5FA" />
+    <circle cx="0" cy="0" r="8" fill="#0EA5E9" />
+    
+    <!-- Små cirklar runt -->
+    <circle cx="-22" cy="0" r="4" fill="#0EA5E9" />
+    <circle cx="22" cy="0" r="4" fill="#0EA5E9" />
+    <circle cx="0" cy="-22" r="4" fill="#0EA5E9" />
+    <circle cx="0" cy="22" r="4" fill="#0EA5E9" />
+    
+    <circle cx="-15.5" cy="-15.5" r="4" fill="#0EA5E9" />
+    <circle cx="15.5" cy="-15.5" r="4" fill="#0EA5E9" />
+    <circle cx="-15.5" cy="15.5" r="4" fill="#0EA5E9" />
+    <circle cx="15.5" cy="15.5" r="4" fill="#0EA5E9" />
+    
+    <text x="0" y="50" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB" text-anchor="middle">Nöje</text>
+  </g>
+  
+  <!-- Spel -->
+  <g transform="translate(350, 50)">
+    <circle cx="0" cy="0" r="40" fill="#EBF8FF" />
+    <circle cx="0" cy="0" r="35" fill="white" />
+    
+    <!-- Spelkonsoll -->
+    <rect x="-20" y="-12" width="40" height="24" rx="5" fill="#2563EB" />
+    
+    <!-- Kontrolknappar -->
+    <circle cx="-10" cy="0" r="5" fill="#60A5FA" stroke="white" stroke-width="1" />
+    <circle cx="10" cy="0" r="5" fill="#60A5FA" stroke="white" stroke-width="1" />
+    
+    <!-- D-Pad -->
+    <rect x="-20" y="-2" width="6" height="4" fill="#0EA5E9" />
+    <rect x="-18" y="-4" width="2" height="8" fill="#0EA5E9" />
+    
+    <!-- Statuslampor -->
+    <circle cx="0" cy="-7" r="2" fill="#F59E0B" />
+    
+    <text x="0" y="50" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB" text-anchor="middle">Spel</text>
+  </g>
+  
+  <!-- Övrigt -->
+  <g transform="translate(450, 50)">
+    <circle cx="0" cy="0" r="40" fill="#EBF8FF" />
+    <circle cx="0" cy="0" r="35" fill="white" />
+    
+    <!-- Olika symboler för "övrigt" -->
+    <rect x="-15" y="-15" width="10" height="10" rx="2" fill="#2563EB" />
+    <circle cx="10" cy="-10" r="5" fill="#60A5FA" />
+    <path d="M-15 5 L-5 15 L5 5 L-5 -5 Z" fill="#0EA5E9" />
+    <circle cx="10" cy="10" r="5" fill="#2563EB" />
+    
+    <!-- Frågetecken -->
+    <text x="0" y="5" font-family="Arial" font-size="30" font-weight="bold" fill="#60A5FA" text-anchor="middle" opacity="0.5">?</text>
+    
+    <text x="0" y="50" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB" text-anchor="middle">Övrigt</text>
+  </g>
+</svg> 

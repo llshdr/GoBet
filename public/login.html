@@ -3,107 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logga in - GoBet</title>
+    <title>GoBet - Logga in</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/login.css">
     <style>
-        /* Stilar specifika för inloggningssidan */
+        :root {
+            --auth-bg-color: #f8fafc;
+        }
+        
+        body {
+            background-color: var(--auth-bg-color);
+        }
+        
         .auth-container {
+            display: flex;
             min-height: 100vh;
-            display: flex;
-            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            align-items: stretch;
         }
         
-        .auth-content {
-            display: flex;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-        
-        .auth-left {
+        .auth-illustration {
             flex: 1;
-            background-color: #fff;
-            padding: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .auth-right {
-            flex: 1;
-            background-color: #ebf8ff;
-            padding: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             position: relative;
             overflow: hidden;
-            display: none;
+            padding: 2rem;
         }
         
-        .auth-logo {
+        .auth-illustration::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('img/pattern-dots.svg');
+            opacity: 0.1;
+        }
+        
+        .auth-illustration-content {
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
             text-align: center;
+            color: white;
+        }
+        
+        .auth-illustration-image {
+            width: 80%;
+            max-width: 400px;
             margin-bottom: 2rem;
         }
         
-        .auth-logo img {
-            max-width: 120px;
-        }
-        
-        .auth-logo .logo-text {
-            font-size: 1.5rem;
+        .illustration-title {
+            font-size: 2rem;
             font-weight: 700;
-            color: #3182ce;
-            margin-top: 0.5rem;
+            margin-bottom: 1rem;
         }
         
-        .auth-heading {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 0.5rem;
-            text-align: center;
-        }
-        
-        .auth-subheading {
-            font-size: 1rem;
-            color: #718096;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        
-        .auth-tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 1rem;
-        }
-        
-        .auth-tab {
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            color: #718096;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border-bottom: 3px solid transparent;
-            margin: 0 0.5rem;
-        }
-        
-        .auth-tab.active {
-            color: #3182ce;
-            border-bottom-color: #3182ce;
+        .illustration-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            line-height: 1.6;
         }
         
         .auth-form-container {
-            max-width: 400px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+            max-width: 500px;
             margin: 0 auto;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .auth-logo img {
+            height: 40px;
+        }
+        
+        .auth-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .auth-subtitle {
+            color: var(--text-light);
+            font-size: 1rem;
         }
         
         .form-group {
@@ -114,32 +116,50 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: #4a5568;
+            color: var(--text-color);
         }
         
         .form-input {
             width: 100%;
             padding: 0.75rem 1rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.2s ease;
+            border: 1px solid rgba(var(--primary-rgb), 0.2);
+            border-radius: var(--border-radius);
+            background-color: white;
+            transition: var(--transition);
         }
         
         .form-input:focus {
-            border-color: #3182ce;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
             outline: none;
         }
         
-        .form-input.error {
-            border-color: #e53e3e;
+        .form-input-icon {
+            position: relative;
         }
         
-        .error-message {
-            color: #e53e3e;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
+        .form-input-icon .form-input {
+            padding-left: 2.5rem;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
         }
         
         .remember-forgot {
@@ -147,508 +167,414 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
+            font-size: 0.9rem;
         }
         
         .remember-me {
             display: flex;
             align-items: center;
-        }
-        
-        .checkbox-label {
-            margin-left: 0.5rem;
-            font-size: 0.875rem;
-            color: #4a5568;
+            gap: 0.5rem;
         }
         
         .forgot-password {
-            font-size: 0.875rem;
-            color: #3182ce;
+            color: var(--primary-color);
             text-decoration: none;
-            transition: color 0.2s ease;
+            transition: var(--transition);
         }
         
         .forgot-password:hover {
-            color: #2b6cb0;
             text-decoration: underline;
         }
         
         .auth-button {
             width: 100%;
-            padding: 0.75rem 1rem;
-            background-color: #3182ce;
+            padding: 0.875rem;
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: var(--border-radius);
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
-            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
         
         .auth-button:hover {
-            background-color: #2b6cb0;
+            background-color: var(--primary-dark);
         }
         
-        .auth-separator {
+        .auth-divider {
             display: flex;
             align-items: center;
             margin: 1.5rem 0;
-            color: #a0aec0;
+            color: var(--text-light);
+            font-size: 0.9rem;
         }
         
-        .auth-separator::before,
-        .auth-separator::after {
+        .auth-divider::before,
+        .auth-divider::after {
             content: '';
             flex: 1;
-            border-top: 1px solid #e2e8f0;
+            height: 1px;
+            background-color: rgba(var(--primary-rgb), 0.1);
         }
         
-        .auth-separator span {
-            padding: 0 1rem;
-            font-size: 0.875rem;
+        .auth-divider::before {
+            margin-right: 1rem;
+        }
+        
+        .auth-divider::after {
+            margin-left: 1rem;
         }
         
         .social-login {
             display: flex;
-            justify-content: center;
             gap: 1rem;
             margin-bottom: 1.5rem;
         }
         
         .social-button {
-            display: inline-flex;
+            flex: 1;
+            display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid #e2e8f0;
-            color: #4a5568;
-            transition: all 0.2s ease;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(var(--primary-rgb), 0.1);
             background-color: white;
+            color: var(--text-color);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
         }
         
         .social-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            background-color: rgba(var(--primary-rgb), 0.05);
         }
         
-        .social-button.google:hover {
-            color: #DB4437;
-            border-color: #DB4437;
+        .social-google {
+            color: #4285F4;
         }
         
-        .social-button.facebook:hover {
-            color: #4267B2;
-            border-color: #4267B2;
+        .social-facebook {
+            color: #3b5998;
         }
         
-        .social-button.twitter:hover {
+        .social-twitter {
             color: #1DA1F2;
-            border-color: #1DA1F2;
         }
         
-        .auth-switch {
+        .auth-footer {
             text-align: center;
-            font-size: 0.875rem;
-            color: #4a5568;
+            margin-top: 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
         }
         
-        .auth-switch a {
-            color: #3182ce;
-            font-weight: 600;
+        .auth-footer a {
+            color: var(--primary-color);
             text-decoration: none;
-            transition: color 0.2s ease;
+            font-weight: 500;
+            transition: var(--transition);
         }
         
-        .auth-switch a:hover {
-            color: #2b6cb0;
+        .auth-footer a:hover {
             text-decoration: underline;
         }
         
-        .auth-illustration {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 2rem;
-        }
-        
-        .auth-right-content {
+        .auth-switch {
+            margin-top: 1.5rem;
             text-align: center;
-            max-width: 80%;
-            z-index: 1;
+            font-size: 0.95rem;
+            color: var(--text-light);
         }
         
-        .auth-right-heading {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 1rem;
+        .auth-switch a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
         }
         
-        .auth-right-text {
-            color: #4a5568;
-            line-height: 1.5;
-            margin-bottom: 1.5rem;
+        .auth-switch a:hover {
+            text-decoration: underline;
         }
         
-        .decoration-circle {
-            position: absolute;
-            border-radius: 50%;
-            background-color: rgba(66, 153, 225, 0.1);
+        .auth-forms {
+            position: relative;
+            overflow: hidden;
         }
         
-        .circle-1 {
-            width: 200px;
-            height: 200px;
-            top: -100px;
-            right: -50px;
+        .form-container {
+            transition: transform 0.4s ease;
         }
         
-        .circle-2 {
-            width: 150px;
-            height: 150px;
-            bottom: 50px;
-            left: -50px;
-        }
-        
-        .form-wrapper {
+        #registerForm {
             display: none;
         }
         
-        .form-wrapper.active {
-            display: block;
-        }
-        
-        @media (min-width: 768px) {
-            .auth-container {
-                padding: 2rem;
-            }
-            .auth-right {
-                display: flex;
-            }
-        }
-        
-        @media (max-width: 767px) {
-            .auth-content {
-                border-radius: 0;
-                box-shadow: none;
-            }
-            .auth-left {
-                padding: 1.5rem;
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .auth-illustration {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
     <div class="auth-container">
-        <div class="auth-content">
-            <div class="auth-left">
-                <div class="auth-logo">
-                    <img src="img/gobet-logo.svg" alt="GoBet Logo">
-                    <div class="logo-text">GoBet</div>
-                </div>
-                
-                <div class="auth-tabs">
-                    <div class="auth-tab active" id="loginTab">Logga in</div>
-                    <div class="auth-tab" id="registerTab">Registrera</div>
-                </div>
-                
-                <div class="auth-form-container">
-                    <!-- Inloggningsformulär -->
-                    <div class="form-wrapper active" id="loginForm">
-                        <h2 class="auth-heading">Välkommen tillbaka!</h2>
-                        <p class="auth-subheading">Logga in för att fortsätta med dina bets</p>
-                        
-                        <form id="login-form">
-                            <div class="form-group">
-                                <label for="login-email" class="form-label">E-postadress</label>
-                                <input type="email" id="login-email" class="form-input" placeholder="din.email@exempel.se" required>
+        <div class="auth-illustration">
+            <div class="auth-illustration-content">
+                <img src="img/auth-illustration.svg" alt="Betting bland vänner" class="auth-illustration-image">
+                <h2 class="illustration-title">Vadslagning bland vänner har aldrig varit enklare</h2>
+                <p class="illustration-text">Skapa och delta i roliga vadslagningar med dina vänner. Gör spelandet mer spännande och socialt med GoBet!</p>
+            </div>
+        </div>
+        
+        <div class="auth-form-container">
+            <div class="auth-header">
+                <a href="index.html" class="auth-logo">
+                    <img src="img/gobet-logo.svg" alt="GoBet">
+                </a>
+                <h1 class="auth-title">Välkommen tillbaka!</h1>
+                <p class="auth-subtitle">Logga in på ditt konto för att fortsätta</p>
+            </div>
+            
+            <div class="auth-forms">
+                <div class="form-container" id="loginForm">
+                    <form>
+                        <div class="form-group">
+                            <label for="loginEmail" class="form-label">E-postadress</label>
+                            <div class="form-input-icon">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" id="loginEmail" class="form-input" placeholder="exempel@gobet.com" required>
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="login-password" class="form-label">Lösenord</label>
-                                <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
-                            </div>
-                            
-                            <div class="remember-forgot">
-                                <div class="remember-me">
-                                    <input type="checkbox" id="remember-me">
-                                    <label for="remember-me" class="checkbox-label">Kom ihåg mig</label>
-                                </div>
-                                <a href="#" class="forgot-password">Glömt lösenord?</a>
-                            </div>
-                            
-                            <button type="submit" class="auth-button">Logga in</button>
-                        </form>
-                        
-                        <div class="auth-separator">
-                            <span>Eller fortsätt med</span>
                         </div>
                         
-                        <div class="social-login">
-                            <button class="social-button google">
-                                <i class="fab fa-google"></i>
-                            </button>
-                            <button class="social-button facebook">
-                                <i class="fab fa-facebook-f"></i>
-                            </button>
-                            <button class="social-button twitter">
-                                <i class="fab fa-twitter"></i>
-                            </button>
+                        <div class="form-group">
+                            <label for="loginPassword" class="form-label">Lösenord</label>
+                            <div class="form-input-icon">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input type="password" id="loginPassword" class="form-input" placeholder="Minst 8 tecken" required>
+                                <button type="button" class="password-toggle" id="loginTogglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
                         
-                        <div class="auth-switch">
-                            Har du inget konto? <a href="#" id="switchToRegister">Registrera dig</a>
+                        <div class="remember-forgot">
+                            <label class="remember-me">
+                                <input type="checkbox" id="rememberMe">
+                                <span>Kom ihåg mig</span>
+                            </label>
+                            <a href="#" class="forgot-password">Glömt lösenord?</a>
                         </div>
+                        
+                        <button type="submit" class="auth-button" id="loginButton">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Logga in
+                        </button>
+                    </form>
+                    
+                    <div class="auth-divider">eller fortsätt med</div>
+                    
+                    <div class="social-login">
+                        <button class="social-button social-google">
+                            <i class="fab fa-google"></i>
+                            Google
+                        </button>
+                        <button class="social-button social-facebook">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </button>
+                        <button class="social-button social-twitter">
+                            <i class="fab fa-twitter"></i>
+                            Twitter
+                        </button>
                     </div>
                     
-                    <!-- Registreringsformulär -->
-                    <div class="form-wrapper" id="registerForm">
-                        <h2 class="auth-heading">Skapa ett konto</h2>
-                        <p class="auth-subheading">Registrera dig för att börja använda GoBet</p>
-                        
-                        <form id="register-form">
-                            <div class="form-group">
-                                <label for="register-name" class="form-label">Namn</label>
-                                <input type="text" id="register-name" class="form-input" placeholder="Ditt namn" required>
+                    <div class="auth-switch">
+                        Har inget konto? <a href="#" id="showRegisterBtn">Registrera dig</a>
+                    </div>
+                </div>
+                
+                <div class="form-container" id="registerForm">
+                    <form>
+                        <div class="form-group">
+                            <label for="registerName" class="form-label">Fullständigt namn</label>
+                            <div class="form-input-icon">
+                                <i class="fas fa-user input-icon"></i>
+                                <input type="text" id="registerName" class="form-input" placeholder="Ditt namn" required>
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="register-username" class="form-label">Användarnamn</label>
-                                <input type="text" id="register-username" class="form-input" placeholder="dinAnvandare123" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="register-email" class="form-label">E-postadress</label>
-                                <input type="email" id="register-email" class="form-input" placeholder="din.email@exempel.se" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="register-password" class="form-label">Lösenord</label>
-                                <input type="password" id="register-password" class="form-input" placeholder="••••••••" required>
-                                <small class="password-hint">Lösenordet måste vara minst 8 tecken långt</small>
-                            </div>
-                            
-                            <div class="form-group">
-                                <input type="checkbox" id="terms-agree" required>
-                                <label for="terms-agree" class="checkbox-label">Jag godkänner <a href="terms.html">användarvillkoren</a> och <a href="privacy.html">integritetspolicyn</a></label>
-                            </div>
-                            
-                            <button type="submit" class="auth-button">Skapa konto</button>
-                        </form>
-                        
-                        <div class="auth-separator">
-                            <span>Eller registrera med</span>
                         </div>
                         
-                        <div class="social-login">
-                            <button class="social-button google">
-                                <i class="fab fa-google"></i>
-                            </button>
-                            <button class="social-button facebook">
-                                <i class="fab fa-facebook-f"></i>
-                            </button>
-                            <button class="social-button twitter">
-                                <i class="fab fa-twitter"></i>
-                            </button>
+                        <div class="form-group">
+                            <label for="registerEmail" class="form-label">E-postadress</label>
+                            <div class="form-input-icon">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" id="registerEmail" class="form-input" placeholder="exempel@gobet.com" required>
+                            </div>
                         </div>
                         
-                        <div class="auth-switch">
-                            Har du redan ett konto? <a href="#" id="switchToLogin">Logga in</a>
+                        <div class="form-group">
+                            <label for="registerPassword" class="form-label">Lösenord</label>
+                            <div class="form-input-icon">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input type="password" id="registerPassword" class="form-input" placeholder="Minst 8 tecken" required>
+                                <button type="button" class="password-toggle" id="registerTogglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="registerConfirmPassword" class="form-label">Bekräfta lösenord</label>
+                            <div class="form-input-icon">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input type="password" id="registerConfirmPassword" class="form-input" placeholder="Bekräfta ditt lösenord" required>
+                                <button type="button" class="password-toggle" id="registerToggleConfirmPassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="remember-forgot">
+                            <label class="remember-me">
+                                <input type="checkbox" id="agreeTerms" required>
+                                <span>Jag godkänner <a href="#">villkoren</a> och <a href="#">integritetspolisyn</a></span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="auth-button" id="registerButton">
+                            <i class="fas fa-user-plus"></i>
+                            Skapa konto
+                        </button>
+                    </form>
+                    
+                    <div class="auth-divider">eller registrera med</div>
+                    
+                    <div class="social-login">
+                        <button class="social-button social-google">
+                            <i class="fab fa-google"></i>
+                            Google
+                        </button>
+                        <button class="social-button social-facebook">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </button>
+                        <button class="social-button social-twitter">
+                            <i class="fab fa-twitter"></i>
+                            Twitter
+                        </button>
+                    </div>
+                    
+                    <div class="auth-switch">
+                        Har redan ett konto? <a href="#" id="showLoginBtn">Logga in</a>
                     </div>
                 </div>
             </div>
             
-            <div class="auth-right">
-                <div class="decoration-circle circle-1"></div>
-                <div class="decoration-circle circle-2"></div>
-                
-                <div class="auth-right-content">
-                    <img src="img/auth-illustration.svg" alt="GoBet Illustration" class="auth-illustration">
-                    <h3 class="auth-right-heading">Skapa och delta i bets med vänner</h3>
-                    <p class="auth-right-text">Med GoBet kan du enkelt skapa personliga bets för dina favoritspel, delta i vänners bets och vinna GoCoins. Prova vårt nya "Winner Takes All"-format för maximal spänning!</p>
-                </div>
+            <div class="auth-footer">
+                &copy; 2025 GoBet. <a href="#">Användarvillkor</a> och <a href="#">Integritetspolicy</a>
             </div>
         </div>
     </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Hantera växling mellan inloggning och registrering
-            const loginTab = document.getElementById('loginTab');
-            const registerTab = document.getElementById('registerTab');
+            // Toggle password visibility
+            const togglePassword = (inputId, buttonId) => {
+                const input = document.getElementById(inputId);
+                const button = document.getElementById(buttonId);
+                
+                button.addEventListener('click', function() {
+                    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                    input.setAttribute('type', type);
+                    
+                    // Toggle icon
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-eye');
+                    icon.classList.toggle('fa-eye-slash');
+                });
+            };
+            
+            togglePassword('loginPassword', 'loginTogglePassword');
+            togglePassword('registerPassword', 'registerTogglePassword');
+            togglePassword('registerConfirmPassword', 'registerToggleConfirmPassword');
+            
+            // Switch between login and register forms
             const loginForm = document.getElementById('loginForm');
             const registerForm = document.getElementById('registerForm');
-            const switchToRegister = document.getElementById('switchToRegister');
-            const switchToLogin = document.getElementById('switchToLogin');
+            const showRegisterBtn = document.getElementById('showRegisterBtn');
+            const showLoginBtn = document.getElementById('showLoginBtn');
             
-            function showLoginForm() {
-                loginTab.classList.add('active');
-                registerTab.classList.remove('active');
-                loginForm.classList.add('active');
-                registerForm.classList.remove('active');
-            }
-            
-            function showRegisterForm() {
-                registerTab.classList.add('active');
-                loginTab.classList.remove('active');
-                registerForm.classList.add('active');
-                loginForm.classList.remove('active');
-            }
-            
-            loginTab.addEventListener('click', showLoginForm);
-            registerTab.addEventListener('click', showRegisterForm);
-            switchToRegister.addEventListener('click', function(e) {
+            showRegisterBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                showRegisterForm();
-            });
-            switchToLogin.addEventListener('click', function(e) {
-                e.preventDefault();
-                showLoginForm();
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                document.querySelector('.auth-title').textContent = 'Skapa ett konto';
+                document.querySelector('.auth-subtitle').textContent = 'Registrera dig för att börja satsa med vänner';
             });
             
-            // Hantera inloggningsformulär
-            const loginForm2 = document.getElementById('login-form');
-            loginForm2.addEventListener('submit', function(e) {
+            showLoginBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                
-                // Hämta formulärvärden
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                
-                // Simulera inloggning (i en verklig app skulle detta göra ett API-anrop)
-                simulateLogin(email, password);
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                document.querySelector('.auth-title').textContent = 'Välkommen tillbaka!';
+                document.querySelector('.auth-subtitle').textContent = 'Logga in på ditt konto för att fortsätta';
             });
             
-            // Hantera registreringsformulär
-            const registerForm2 = document.getElementById('register-form');
-            registerForm2.addEventListener('submit', function(e) {
+            // Login form submission
+            document.querySelector('#loginForm form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Hämta formulärvärden
-                const name = document.getElementById('register-name').value;
-                const username = document.getElementById('register-username').value;
-                const email = document.getElementById('register-email').value;
-                const password = document.getElementById('register-password').value;
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
                 
-                // Validera formuläret
-                if (password.length < 8) {
-                    showError('register-password', 'Lösenordet måste vara minst 8 tecken långt');
-                    return;
-                }
-                
-                // Simulera registrering (i en verklig app skulle detta göra ett API-anrop)
-                simulateRegistration(name, username, email, password);
-            });
-            
-            function showError(inputId, message) {
-                const input = document.getElementById(inputId);
-                input.classList.add('error');
-                
-                // Ta bort befintligt felmeddelande om det finns
-                const existingError = input.parentElement.querySelector('.error-message');
-                if (existingError) {
-                    existingError.remove();
-                }
-                
-                // Lägg till felmeddelande
-                const errorElement = document.createElement('div');
-                errorElement.className = 'error-message';
-                errorElement.textContent = message;
-                input.parentElement.appendChild(errorElement);
-            }
-            
-            function clearError(inputId) {
-                const input = document.getElementById(inputId);
-                input.classList.remove('error');
-                
-                // Ta bort felmeddelande om det finns
-                const existingError = input.parentElement.querySelector('.error-message');
-                if (existingError) {
-                    existingError.remove();
-                }
-            }
-            
-            // För demo-syfte, i en verklig app skulle dessa göra API-anrop
-            function simulateLogin(email, password) {
-                console.log('Försöker logga in:', email);
-                
-                // Hämta registrerade användare från localStorage
-                const registeredUsers = JSON.parse(localStorage.getItem('gobet_registered_users') || '[]');
-                
-                // Sök efter användaren
-                const user = registeredUsers.find(u => u.userData.email === email);
-                
-                if (user && user.userData.password === password) {
-                    // Lyckad inloggning
-                    localStorage.setItem('gobet_logged_in', 'true');
-                    localStorage.setItem('gobet_user', JSON.stringify(user.userData));
-                    localStorage.setItem('gobet_user_coins', user.coins.toString());
-                    
-                    // Omdirigera till hemsidan
-                    window.location.href = 'index.html';
-                } else {
-                    // Misslyckad inloggning
-                    showError('login-email', 'Felaktig e-post eller lösenord');
-                }
-            }
-            
-            function simulateRegistration(name, username, email, password) {
-                console.log('Försöker registrera:', email);
-                
-                // Hämta befintliga användare
-                const registeredUsers = JSON.parse(localStorage.getItem('gobet_registered_users') || '[]');
-                
-                // Kontrollera om e-postadressen redan används
-                if (registeredUsers.some(u => u.userData.email === email)) {
-                    showError('register-email', 'E-postadressen används redan');
-                    return;
-                }
-                
-                // Kontrollera om användarnamnet redan används
-                if (registeredUsers.some(u => u.userData.username === username)) {
-                    showError('register-username', 'Användarnamnet är upptaget');
-                    return;
-                }
-                
-                // Skapa ny användare
-                const userId = Date.now().toString(36) + Math.random().toString(36).substr(2);
-                const newUser = {
-                    userData: {
-                        id: userId,
-                        name: name,
-                        username: username,
-                        displayName: username,
-                        email: email,
-                        password: password,
-                        registeredAt: new Date().toISOString()
-                    },
-                    coins: 1000, // Startbelopp
-                    stats: {
-                        betsCreated: 0,
-                        betsJoined: 0,
-                        betsWon: 0,
-                        betsLost: 0,
-                        winPercentage: 0,
-                        totalWinnings: 0
-                    }
-                };
-                
-                // Lägg till användaren i listan och spara
-                registeredUsers.push(newUser);
-                localStorage.setItem('gobet_registered_users', JSON.stringify(registeredUsers));
-                
-                // Logga in användaren automatiskt
+                // Simulate login (replace with actual API call)
                 localStorage.setItem('gobet_logged_in', 'true');
-                localStorage.setItem('gobet_user', JSON.stringify(newUser.userData));
-                localStorage.setItem('gobet_user_coins', newUser.coins.toString());
-                localStorage.setItem('gobet_user_stats', JSON.stringify(newUser.stats));
+                localStorage.setItem('gobet_user', JSON.stringify({
+                    email: email,
+                    name: 'Test Användare',
+                    avatar: 'img/avatar.jpg'
+                }));
+                localStorage.setItem('gobet_user_coins', '2500');
                 
-                // Omdirigera till hemsidan
+                // Redirect to home page
                 window.location.href = 'index.html';
-            }
+            });
+            
+            // Register form submission
+            document.querySelector('#registerForm form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('registerName').value;
+                const email = document.getElementById('registerEmail').value;
+                const password = document.getElementById('registerPassword').value;
+                const confirmPassword = document.getElementById('registerConfirmPassword').value;
+                
+                // Validate passwords match
+                if (password !== confirmPassword) {
+                    alert('Lösenorden matchar inte!');
+                    return;
+                }
+                
+                // Simulate registration (replace with actual API call)
+                localStorage.setItem('gobet_logged_in', 'true');
+                localStorage.setItem('gobet_user', JSON.stringify({
+                    email: email,
+                    name: name,
+                    avatar: 'img/avatar.jpg'
+                }));
+                localStorage.setItem('gobet_user_coins', '1000');
+                
+                // Redirect to home page
+                window.location.href = 'index.html';
+            });
         });
     </script>
 </body>

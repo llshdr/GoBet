@@ -1,0 +1,62 @@
+<svg width="120" height="140" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bakgrundssköld -->
+  <path d="M60 10 L110 30 V80 C110 100 85 120 60 130 C35 120 10 100 10 80 V30 L60 10Z" fill="url(#shieldGradient)" />
+  
+  <!-- Inre sköld -->
+  <path d="M60 20 L100 35 V75 C100 90 80 110 60 120 C40 110 20 90 20 75 V35 L60 20Z" fill="url(#innerGradient)" />
+  
+  <!-- Krona -->
+  <path d="M40 40 L50 25 L60 40 L70 25 L80 40 L90 50 L30 50 L40 40Z" fill="url(#crownGradient)" />
+  
+  <!-- Kronans spetsar -->
+  <circle cx="50" cy="25" r="4" fill="#F59E0B" />
+  <circle cx="70" cy="25" r="4" fill="#F59E0B" />
+  <circle cx="40" cy="40" r="3" fill="#F59E0B" />
+  <circle cx="80" cy="40" r="3" fill="#F59E0B" />
+  
+  <!-- Kronans juveler -->
+  <circle cx="50" cy="35" r="3" fill="#2563EB" />
+  <circle cx="70" cy="35" r="3" fill="#2563EB" />
+  <circle cx="60" cy="35" r="3" fill="#2563EB" />
+  
+  <!-- Stjärna -->
+  <path d="M60 55 L64 67 L76 67 L66 75 L70 87 L60 79 L50 87 L54 75 L44 67 L56 67 Z" fill="url(#starGradient)" />
+  
+  <!-- Text -->
+  <text x="60" y="100" font-family="Arial" font-size="16" font-weight="bold" fill="white" text-anchor="middle">PREMIUM</text>
+  
+  <!-- Guldkant -->
+  <path d="M60 10 L110 30 V80 C110 100 85 120 60 130 C35 120 10 100 10 80 V30 L60 10Z" fill="none" stroke="url(#borderGradient)" stroke-width="2" />
+  
+  <!-- Glanseffekt -->
+  <path d="M30 30 C40 50, 50 40, 60 60 C70 40, 80 50, 90 30" stroke="white" stroke-width="2" opacity="0.3" />
+  
+  <!-- Gradienter -->
+  <defs>
+    <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#0EA5E9" />
+    </linearGradient>
+    
+    <linearGradient id="innerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#60A5FA" />
+    </linearGradient>
+    
+    <linearGradient id="crownGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+    
+    <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+    
+    <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="50%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+  </defs>
+</svg> 
