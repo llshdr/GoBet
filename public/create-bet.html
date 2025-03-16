@@ -3,252 +3,319 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Skapa Bet - GoBet</title>
+  <title>GoBet - Skapa Bet</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/plans.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/images.css">
+  <link rel="stylesheet" href="css/bet-cards.css">
+  <link rel="stylesheet" href="css/login-modal.css">
+  <link rel="stylesheet" href="css/plans.css">
   <!-- Lägg till Google Fonts: Inter och Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-  <!-- Lägg till moderna ikoner med Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 </head>
 <body>
-  <div class="app">
-    <!-- Header -->
-    <header class="header">
-      <div class="container">
+  <header class="app-header">
+    <div class="container header-container">
+      <div class="logo-container">
         <a href="index.html" class="logo">
-          <img src="img/logo.svg" alt="GoBet Logo">
+          <img src="img/gobet-logo.svg" alt="GoBet" class="logo-image">
         </a>
+      </div>
+      
+      <button class="mobile-menu-toggle" aria-label="Öppna meny">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="fas fa-home"></i>
+              <span>Hem</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="friends.html" class="nav-link">
+              <i class="fas fa-user-friends"></i>
+              <span>Vänner</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="wheel.html" class="nav-link">
+              <i class="fas fa-dharmachakra"></i>
+              <span>Lyckohjul</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="create-bet.html" class="nav-link">
+              <i class="fas fa-plus-circle"></i>
+              <span>Skapa Bet</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="bets.html" class="nav-link">
+              <i class="fas fa-dice"></i>
+              <span>Vadslagningar</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="shop.html" class="nav-link">
+              <i class="fas fa-store"></i>
+              <span>Butik</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="leaderboard.html" class="nav-link">
+              <i class="fas fa-trophy"></i>
+              <span>Topplista</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="user-area">
+        <div class="balance-display">
+          <div class="coin-icon">
+            <i class="fas fa-coins"></i>
+          </div>
+          <span class="balance-amount">2,500</span>
+        </div>
         
-        <button class="mobile-menu-toggle" id="mobileMenuToggle">
-          <i class="fa-solid fa-bars"></i>
+        <button class="btn btn-primary login-button">
+          <i class="fas fa-sign-in-alt"></i>
+          Logga in
         </button>
+      </div>
+    </div>
+  </header>
+  
+  <main class="main-content">
+    <div class="container">
+      <section class="page-header">
+        <div class="section-header">
+          <h1 class="section-title">Skapa ett nytt bet</h1>
+        </div>
+        <p class="section-description">
+          Skapa bets med dina vänner och bekanta. Du bestämmer reglerna, deltagarna och vinsterna.
+        </p>
+      </section>
+
+      <!-- Create Bet Form -->
+      <section class="create-bet-section glass-card">
+        <h3 class="section-title"><i class="fa-solid fa-plus-circle"></i> Nytt bet</h3>
         
-        <nav class="main-nav" id="mainNav">
-          <ul>
-            <li><a href="index.html"><i class="fa-solid fa-home"></i> Hem</a></li>
-            <li><a href="create-bet.html" class="active"><i class="fa-solid fa-plus"></i> Skapa Bet</a></li>
-            <li><a href="wheel.html"><i class="fa-solid fa-dharmachakra"></i> Lyckohjul</a></li>
-            <li><a href="friends.html"><i class="fa-solid fa-users"></i> Vänner</a></li>
-            <li><a href="plans.html"><i class="fa-solid fa-crown"></i> Planer</a></li>
-          </ul>
-        </nav>
-        
-        <div class="user-area">
-          <div class="balance">
-            <i class="fa-solid fa-coins"></i>
-            <span>5,000 GoCoins</span>
+        <form class="create-bet-form">
+          <div class="form-group">
+            <label for="bet-title" class="form-label">Titel</label>
+            <input type="text" id="bet-title" name="bet-title" class="form-control" placeholder="Ge ditt bet en catchy titel" required>
           </div>
           
-          <div class="user-menu">
-            <img src="img/avatar.svg" alt="Avatar" class="avatar" id="userAvatar">
-            <span class="username" id="userDisplayName">Användare</span>
-            <i class="fa-solid fa-chevron-down"></i>
-            <span class="user-plan-badge free">Gratis</span>
+          <div class="form-group">
+            <label for="bet-description" class="form-label">Beskrivning</label>
+            <textarea id="bet-description" name="bet-description" class="form-control" placeholder="Beskriv vad ditt bet handlar om" rows="3" required></textarea>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="bet-amount" class="form-label">Insats per person (GoCoins)</label>
+              <input type="number" id="bet-amount" name="bet-amount" class="form-control" placeholder="Hur mycket GoCoin ska satsas per person?" min="50" value="100" required>
+            </div>
             
-            <div class="dropdown-menu">
-              <a href="profile.html"><i class="fa-solid fa-user"></i> Profil</a>
-              <a href="#"><i class="fa-solid fa-trophy"></i> Mina Bets</a>
-              <a href="#"><i class="fa-solid fa-history"></i> Historik</a>
-              <a href="plans.html"><i class="fa-solid fa-crown"></i> Uppgradera</a>
-              <a href="settings.html"><i class="fa-solid fa-gear"></i> Inställningar</a>
-              <a href="#" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logga ut</a>
+            <div class="form-group col-md-6">
+              <label for="bet-end-date" class="form-label">Slutdatum</label>
+              <input type="datetime-local" id="bet-end-date" name="bet-end-date" class="form-control" required>
             </div>
           </div>
           
-          <a href="login.html" class="login-button" style="display: none;">
-            <i class="fa-solid fa-right-to-bracket"></i> Logga in
+          <div class="form-group bet-type-selection">
+            <label class="form-label">Typ av bet</label>
+            <div class="bet-type-buttons">
+              <button type="button" class="bet-type-button active" data-bet-type="standard">
+                <i class="fa-solid fa-trophy"></i>
+                <span>Standard</span>
+                <small>Vinnaren får insats × odds</small>
+              </button>
+              <button type="button" class="bet-type-button" data-bet-type="winner-takes-all">
+                <i class="fa-solid fa-crown"></i>
+                <span>Winner Takes All</span>
+                <small>Alla vinnare delar på den totala insatsen</small>
+              </button>
+            </div>
+          </div>
+          
+          <div class="winner-takes-all-info" style="display: none;">
+            <div class="info-card">
+              <div class="info-icon"><i class="fa-solid fa-info-circle"></i></div>
+              <div class="info-content">
+                <h4>Winner Takes All</h4>
+                <p>I denna typ av bet samlas alla insatser i en gemensam pott. Alla som satsat på rätt resultat delar lika på den totala vinstsumman. Insatsen är per person, och det finns inga fasta odds.</p>
+                <p>Exempel: Om 10 personer satsar 100 GoCoins var och 2 personer satsar på rätt resultat, får varje vinnare 500 GoCoins (10 × 100 ÷ 2).</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Synlighet</label>
+            <div class="form-check">
+              <input type="radio" id="visibility-public" name="bet-visibility" value="public" class="form-check-input" checked>
+              <label for="visibility-public" class="form-check-label">Offentlig (synlig för alla)</label>
+            </div>
+            <div class="form-check">
+              <input type="radio" id="visibility-friends" name="bet-visibility" value="friends" class="form-check-input">
+              <label for="visibility-friends" class="form-check-label">Endast vänner</label>
+            </div>
+            <div class="form-check">
+              <input type="radio" id="visibility-invite" name="bet-visibility" value="invite" class="form-check-input">
+              <label for="visibility-invite" class="form-check-label">Endast inbjudna</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Bet-alternativ</label>
+            <p class="form-text">Lägg till minst två alternativ som deltagarna kan satsa på. Exempel: "Lag A vinner", "Lag B vinner" eller "Oavgjort".</p>
+            
+            <div class="bet-options-container">
+              <div class="bet-option">
+                <div class="option-header">
+                  <span class="option-number">1</span>
+                  <input type="text" class="form-control option-input" name="option[]" placeholder="Alternativ 1" required>
+                  <div class="odds-container" id="standard-odds-1">
+                    <label>Odds:</label>
+                    <input type="number" class="form-control odds-input" name="odds[]" placeholder="1.5" min="1.1" step="0.1" value="2.0">
+                  </div>
+                </div>
+              </div>
+              <div class="bet-option">
+                <div class="option-header">
+                  <span class="option-number">2</span>
+                  <input type="text" class="form-control option-input" name="option[]" placeholder="Alternativ 2" required>
+                  <div class="odds-container" id="standard-odds-2">
+                    <label>Odds:</label>
+                    <input type="number" class="form-control odds-input" name="odds[]" placeholder="1.5" min="1.1" step="0.1" value="2.0">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <button type="button" class="btn-add-option">
+              <i class="fa-solid fa-plus"></i> Lägg till fler alternativ
+            </button>
+          </div>
+          
+          <div class="form-group mt-30">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fa-solid fa-check"></i> Skapa bet
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+  
+  <footer class="app-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="img/gobet-logo.svg" alt="GoBet" class="footer-logo-image">
+          </a>
+          <p class="footer-tagline">Skapa spännande vadslagningar med dina vänner och vinn tillsammans.</p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Plattform</h3>
+            <ul class="footer-links-list">
+              <li><a href="index.html">Hem</a></li>
+              <li><a href="features.html">Funktioner</a></li>
+              <li><a href="pricing.html">Priser</a></li>
+              <li><a href="faq.html">Vanliga frågor</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Bets</h3>
+            <ul class="footer-links-list">
+              <li><a href="bets.html">Utforska bets</a></li>
+              <li><a href="create-bet.html">Skapa bet</a></li>
+              <li><a href="my-bets.html">Mina bets</a></li>
+              <li><a href="how-to.html">Hur fungerar det</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Konto</h3>
+            <ul class="footer-links-list">
+              <li><a href="#" class="login-button">Logga in</a></li>
+              <li><a href="register.html">Skapa konto</a></li>
+              <li><a href="forgot-password.html">Glömt lösenord</a></li>
+              <li><a href="premium.html">Premium</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Företag</h3>
+            <ul class="footer-links-list">
+              <li><a href="about.html">Om oss</a></li>
+              <li><a href="blog.html">Blogg</a></li>
+              <li><a href="contact.html">Kontakta oss</a></li>
+              <li><a href="careers.html">Karriär</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="copyright">&copy; 2023 GoBet. Alla rättigheter förbehållna.</div>
+        
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Discord">
+            <i class="fab fa-discord"></i>
           </a>
         </div>
       </div>
-    </header>
-
-    <!-- Main content -->
-    <main class="main-content">
-      <div class="container">
-        <!-- Hero section -->
-        <section class="hero">
-          <div class="hero-content">
-            <h2>Skapa ett nytt bet</h2>
-            <p>Skapa bets med dina vänner och bekanta. Du bestämmer reglerna, deltagarna och vinsterna.</p>
-          </div>
-        </section>
-
-        <!-- Create Bet Form -->
-        <section class="create-bet-section glass-card">
-          <h3 class="section-title"><i class="fa-solid fa-plus-circle"></i> Nytt bet</h3>
-          
-          <form class="create-bet-form">
-            <div class="form-group">
-              <label for="bet-title" class="form-label">Titel</label>
-              <input type="text" id="bet-title" name="bet-title" class="form-control" placeholder="Ge ditt bet en catchy titel" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="bet-description" class="form-label">Beskrivning</label>
-              <textarea id="bet-description" name="bet-description" class="form-control" placeholder="Beskriv vad ditt bet handlar om" rows="3" required></textarea>
-            </div>
-            
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="bet-amount" class="form-label">Insats per person (GoCoins)</label>
-                <input type="number" id="bet-amount" name="bet-amount" class="form-control" placeholder="Hur mycket GoCoin ska satsas per person?" min="50" value="100" required>
-              </div>
-              
-              <div class="form-group col-md-6">
-                <label for="bet-end-date" class="form-label">Slutdatum</label>
-                <input type="datetime-local" id="bet-end-date" name="bet-end-date" class="form-control" required>
-              </div>
-            </div>
-            
-            <div class="form-group bet-type-selection">
-              <label class="form-label">Typ av bet</label>
-              <div class="bet-type-buttons">
-                <button type="button" class="bet-type-button active" data-bet-type="standard">
-                  <i class="fa-solid fa-trophy"></i>
-                  <span>Standard</span>
-                  <small>Vinnaren får insats × odds</small>
-                </button>
-                <button type="button" class="bet-type-button" data-bet-type="winner-takes-all">
-                  <i class="fa-solid fa-crown"></i>
-                  <span>Winner Takes All</span>
-                  <small>Alla vinnare delar på den totala insatsen</small>
-                </button>
-              </div>
-            </div>
-            
-            <div class="winner-takes-all-info" style="display: none;">
-              <div class="info-card">
-                <div class="info-icon"><i class="fa-solid fa-info-circle"></i></div>
-                <div class="info-content">
-                  <h4>Winner Takes All</h4>
-                  <p>I denna typ av bet samlas alla insatser i en gemensam pott. Alla som satsat på rätt resultat delar lika på den totala vinstsumman. Insatsen är per person, och det finns inga fasta odds.</p>
-                  <p>Exempel: Om 10 personer satsar 100 GoCoins var och 2 personer satsar på rätt resultat, får varje vinnare 500 GoCoins (10 × 100 ÷ 2).</p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Synlighet</label>
-              <div class="form-check">
-                <input type="radio" id="visibility-public" name="bet-visibility" value="public" class="form-check-input" checked>
-                <label for="visibility-public" class="form-check-label">Offentlig (synlig för alla)</label>
-              </div>
-              <div class="form-check">
-                <input type="radio" id="visibility-friends" name="bet-visibility" value="friends" class="form-check-input">
-                <label for="visibility-friends" class="form-check-label">Endast vänner</label>
-              </div>
-              <div class="form-check">
-                <input type="radio" id="visibility-invite" name="bet-visibility" value="invite" class="form-check-input">
-                <label for="visibility-invite" class="form-check-label">Endast inbjudna</label>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Bet-alternativ</label>
-              <p class="form-text">Lägg till minst två alternativ som deltagarna kan satsa på. Exempel: "Lag A vinner", "Lag B vinner" eller "Oavgjort".</p>
-              
-              <div class="bet-options-container">
-                <div class="bet-option">
-                  <div class="option-header">
-                    <span class="option-number">1</span>
-                    <input type="text" class="form-control option-input" name="option[]" placeholder="Alternativ 1" required>
-                    <div class="odds-container" id="standard-odds-1">
-                      <label>Odds:</label>
-                      <input type="number" class="form-control odds-input" name="odds[]" placeholder="1.5" min="1.1" step="0.1" value="2.0">
-                    </div>
-                  </div>
-                </div>
-                <div class="bet-option">
-                  <div class="option-header">
-                    <span class="option-number">2</span>
-                    <input type="text" class="form-control option-input" name="option[]" placeholder="Alternativ 2" required>
-                    <div class="odds-container" id="standard-odds-2">
-                      <label>Odds:</label>
-                      <input type="number" class="form-control odds-input" name="odds[]" placeholder="1.5" min="1.1" step="0.1" value="2.0">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <button type="button" class="btn-add-option">
-                <i class="fa-solid fa-plus"></i> Lägg till fler alternativ
-              </button>
-            </div>
-            
-            <div class="form-actions">
-              <button type="button" class="btn btn-secondary">Avbryt</button>
-              <button type="submit" class="btn btn-primary">Skapa Bet</button>
-            </div>
-          </form>
-        </section>
-      </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-brand">
-            <img src="img/logo-footer.svg" alt="GoBet Logo" class="footer-logo">
-            <p>GoBet är plattformen där du kan skapa och delta i vadslagningar med dina vänner. Allt i en rolig och säker miljö.</p>
-            
-            <div class="social-links">
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-discord"></i></a>
-            </div>
-          </div>
-          
-          <div class="footer-links">
-            <div class="footer-links-column">
-              <h3>Snabblänkar</h3>
-              <ul>
-                <li><a href="index.html">Hem</a></li>
-                <li><a href="create-bet.html">Skapa Bet</a></li>
-                <li><a href="wheel.html">Lyckohjul</a></li>
-                <li><a href="friends.html">Vänner</a></li>
-              </ul>
-            </div>
-            
-            <div class="footer-links-column">
-              <h3>Support</h3>
-              <ul>
-                <li><a href="#">Vanliga frågor</a></li>
-                <li><a href="#">Kontakta oss</a></li>
-                <li><a href="#">Användarvillkor</a></li>
-                <li><a href="#">Integritetspolicy</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        
-        <div class="footer-bottom">
-          <p>&copy; <span class="current-year">2023</span> GoBet. Alla rättigheter förbehållna.</p>
-        </div>
-      </div>
-    </footer>
-  </div>
-
-  <!-- JavaScript -->
-  <script src="js/main.js"></script>
-  <script src="js/createBet.js"></script>
+    </div>
+  </footer>
+  
+  <!-- Create Bet Specific JS -->
   <script>
-    // Hantera växling mellan olika bet-typer
     document.addEventListener('DOMContentLoaded', function() {
+      // Sätt standard värde för slutdatum (en dag framåt)
+      const today = new Date();
+      today.setDate(today.getDate() + 1);
+      today.setHours(today.getHours() + 1);
+      today.setMinutes(0);
+      
+      const dateTimeStr = today.toISOString().slice(0, 16);
+      document.getElementById('bet-end-date').value = dateTimeStr;
+      
+      // Hantera bet-typ (Standard/WTA)
       const betTypeButtons = document.querySelectorAll('.bet-type-button');
       const winnerTakesAllInfo = document.querySelector('.winner-takes-all-info');
       const standardOddsContainers = document.querySelectorAll('[id^="standard-odds-"]');
       
       betTypeButtons.forEach(button => {
         button.addEventListener('click', function() {
-          // Ta bort aktiv klass från alla knappar
-          betTypeButtons.forEach(btn => btn.classList.remove('active'));
+          // Avmarkera alla knappar
+          betTypeButtons.forEach(btn => {
+            btn.classList.remove('active');
+          });
           
           // Markera klickad knapp
           this.classList.add('active');
@@ -289,30 +356,32 @@
               <label>Odds:</label>
               <input type="number" class="form-control odds-input" name="odds[]" placeholder="1.5" min="1.1" step="0.1" value="2.0">
             </div>
-            <button type="button" class="btn-remove-option">
-              <i class="fa-solid fa-trash"></i>
-            </button>
+            <button type="button" class="btn-remove-option"><i class="fa-solid fa-times"></i></button>
           </div>
         `;
         
         optionsContainer.appendChild(newOption);
-        
-        // Lägg till händelselyssnare för ta bort-knappen
-        newOption.querySelector('.btn-remove-option').addEventListener('click', function() {
-          newOption.remove();
-          // Uppdatera numreringen av alternativ
-          updateOptionNumbers();
-        });
       });
       
-      // Funktion för att uppdatera numreringen av alternativ
-      function updateOptionNumbers() {
-        const options = optionsContainer.querySelectorAll('.bet-option');
-        options.forEach((option, index) => {
-          option.querySelector('.option-number').textContent = index + 1;
-        });
-      }
+      // Ta bort bet-alternativ
+      optionsContainer.addEventListener('click', function(e) {
+        if (e.target.closest('.btn-remove-option')) {
+          const optionToRemove = e.target.closest('.bet-option');
+          optionsContainer.removeChild(optionToRemove);
+          
+          // Uppdatera numreringen på kvarvarande alternativ
+          const options = optionsContainer.querySelectorAll('.bet-option');
+          options.forEach((option, index) => {
+            option.querySelector('.option-number').textContent = index + 1;
+            option.querySelector('.option-input').placeholder = `Alternativ ${index + 1}`;
+          });
+        }
+      });
     });
   </script>
+  
+  <script src="js/main.js"></script>
+  <script src="js/login-modal.js"></script>
+  <script src="js/navigation.js"></script>
 </body>
 </html> 
