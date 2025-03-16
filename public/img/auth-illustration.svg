@@ -1,0 +1,140 @@
+<svg width="500" height="380" viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bakgrund och dekorelement -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EBF8FF" />
+      <stop offset="100%" stop-color="#BEE3F8" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000" flood-opacity="0.1" />
+    </filter>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4299E1" />
+      <stop offset="100%" stop-color="#3182CE" />
+    </linearGradient>
+  </defs>
+
+  <!-- Abstrakta former i bakgrunden -->
+  <circle cx="150" cy="100" r="80" fill="#EBF8FF" />
+  <circle cx="400" cy="350" r="60" fill="#BEE3F8" />
+  <circle cx="50" cy="280" r="30" fill="#EBF8FF" />
+  <circle cx="450" cy="120" r="40" fill="#BEE3F8" />
+
+  <!-- Central mobiltelefon med app-vy -->
+  <g transform="translate(250, 190)">
+    <!-- Telefonramverk -->
+    <rect x="-80" y="-140" width="160" height="280" rx="20" ry="20" fill="white" stroke="#E2E8F0" stroke-width="2" filter="url(#shadow)" />
+    
+    <!-- Skärm -->
+    <rect x="-70" y="-130" width="140" height="260" rx="10" ry="10" fill="url(#bgGradient)" />
+    
+    <!-- App-topbar -->
+    <rect x="-70" y="-130" width="140" height="40" rx="10" ry="10" fill="url(#cardGradient)" />
+    
+    <!-- App-titel "GoBet" -->
+    <text x="0" y="-105" font-family="Inter, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">GoBet</text>
+    
+    <!-- Profilbild -->
+    <circle cx="-55" y="-110" r="8" fill="white" />
+    <text x="-55" y="-107" font-family="Inter, sans-serif" font-size="9" font-weight="bold" fill="#3182CE" text-anchor="middle">G</text>
+    
+    <!-- Meny-ikon -->
+    <rect x="50" y="-115" width="12" height="2" rx="1" ry="1" fill="white" />
+    <rect x="50" y="-110" width="12" height="2" rx="1" ry="1" fill="white" />
+    <rect x="50" y="-105" width="12" height="2" rx="1" ry="1" fill="white" />
+    
+    <!-- Bet-kort 1 -->
+    <rect x="-60" y="-75" width="120" height="70" rx="8" ry="8" fill="white" stroke="#E2E8F0" stroke-width="1" />
+    <text x="-50" y="-55" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#2D3748">CS:GO Major Final</text>
+    <rect x="-50" y="-45" width="100" height="30" rx="5" ry="5" fill="#F7FAFC" />
+    
+    <rect x="-45" y="-35" width="40" height="15" rx="3" ry="3" fill="#EBF8FF" stroke="#3182CE" stroke-width="1" />
+    <text x="-25" y="-25" font-family="Inter, sans-serif" font-size="7" fill="#2D3748" text-anchor="middle">Team A</text>
+    
+    <rect x="5" y="-35" width="40" height="15" rx="3" ry="3" fill="#EBF8FF" stroke="#3182CE" stroke-width="1" />
+    <text x="25" y="-25" font-family="Inter, sans-serif" font-size="7" fill="#2D3748" text-anchor="middle">Team B</text>
+    
+    <text x="40" y="-60" font-family="Inter, sans-serif" font-size="7" fill="#718096">Vinnare: 2500 GC</text>
+    
+    <!-- Bet-kort 2 -->
+    <rect x="-60" y="10" width="120" height="70" rx="8" ry="8" fill="white" stroke="#E2E8F0" stroke-width="1" />
+    <text x="-50" y="30" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#2D3748">Fortnite Tournament</text>
+    <rect x="-50" y="40" width="100" height="30" rx="5" ry="5" fill="#F7FAFC" />
+    
+    <rect x="-45" y="50" width="40" height="15" rx="3" ry="3" fill="#EBF8FF" stroke="#3182CE" stroke-width="1" />
+    <text x="-25" y="60" font-family="Inter, sans-serif" font-size="7" fill="#2D3748" text-anchor="middle">Player X</text>
+    
+    <rect x="5" y="50" width="40" height="15" rx="3" ry="3" fill="#EBF8FF" stroke="#3182CE" stroke-width="1" />
+    <text x="25" y="60" font-family="Inter, sans-serif" font-size="7" fill="#2D3748" text-anchor="middle">Player Y</text>
+    
+    <text x="40" y="25" font-family="Inter, sans-serif" font-size="7" fill="#718096">Vinnare: 1000 GC</text>
+    
+    <!-- Bottom navigation bar -->
+    <rect x="-70" y="90" width="140" height="40" rx="0" ry="0" fill="white" stroke="#E2E8F0" stroke-width="1" />
+    
+    <!-- Navigation icons -->
+    <circle cx="-45" cy="110" r="8" fill="#F7FAFC" />
+    <text x="-45" y="113" font-family="Inter, sans-serif" font-size="9" fill="#3182CE" text-anchor="middle">H</text>
+    
+    <circle cx="-15" cy="110" r="8" fill="#F7FAFC" />
+    <text x="-15" y="113" font-family="Inter, sans-serif" font-size="9" fill="#718096" text-anchor="middle">B</text>
+    
+    <circle cx="15" cy="110" r="8" fill="#F7FAFC" />
+    <text x="15" y="113" font-family="Inter, sans-serif" font-size="9" fill="#718096" text-anchor="middle">W</text>
+    
+    <circle cx="45" cy="110" r="8" fill="#F7FAFC" />
+    <text x="45" y="113" font-family="Inter, sans-serif" font-size="9" fill="#718096" text-anchor="middle">P</text>
+  </g>
+  
+  <!-- Coins elements -->
+  <g transform="translate(120, 90)">
+    <circle cx="0" cy="0" r="30" fill="#F6E05E" stroke="#D69E2E" stroke-width="2" />
+    <text x="0" y="5" font-family="Inter, sans-serif" font-size="16" font-weight="bold" fill="#744210" text-anchor="middle">GC</text>
+  </g>
+  
+  <g transform="translate(400, 280)">
+    <circle cx="0" cy="0" r="20" fill="#F6E05E" stroke="#D69E2E" stroke-width="2" />
+    <text x="0" y="5" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#744210" text-anchor="middle">GC</text>
+  </g>
+  
+  <g transform="translate(370, 90)">
+    <circle cx="0" cy="0" r="25" fill="#F6E05E" stroke="#D69E2E" stroke-width="2" />
+    <text x="0" y="5" font-family="Inter, sans-serif" font-size="14" font-weight="bold" fill="#744210" text-anchor="middle">GC</text>
+  </g>
+  
+  <!-- Trophy in corner -->
+  <g transform="translate(90, 280) scale(0.4)">
+    <!-- Trophy body -->
+    <path d="M-40,80 C-40,0 40,0 40,80 L30,80 C30,15 -30,15 -30,80 Z" fill="#F6E05E" stroke="#D69E2E" stroke-width="2" />
+    
+    <!-- Trophy base -->
+    <rect x="-30" y="80" width="60" height="20" fill="#F6E05E" stroke="#D69E2E" stroke-width="2" rx="5" />
+    <rect x="-15" y="100" width="30" height="40" fill="#F6E05E" stroke="#D69E2E" stroke-width="2" />
+    
+    <!-- Trophy handles -->
+    <path d="M-40,40 C-65,40 -65,20 -40,20" stroke="#D69E2E" stroke-width="8" fill="none" />
+    <path d="M40,40 C65,40 65,20 40,20" stroke="#D69E2E" stroke-width="8" fill="none" />
+  </g>
+  
+  <!-- Friends avatars -->
+  <g transform="translate(390, 200)">
+    <circle cx="0" cy="0" r="15" fill="#4299E1" />
+    <text x="0" y="5" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">A</text>
+  </g>
+  
+  <g transform="translate(420, 180)">
+    <circle cx="0" cy="0" r="12" fill="#3182CE" />
+    <text x="0" y="4" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="white" text-anchor="middle">B</text>
+  </g>
+  
+  <g transform="translate(405, 230)">
+    <circle cx="0" cy="0" r="10" fill="#2B6CB0" />
+    <text x="0" y="3" font-family="Inter, sans-serif" font-size="8" font-weight="bold" fill="white" text-anchor="middle">C</text>
+  </g>
+  
+  <!-- Connect lines -->
+  <line x1="120" y1="90" x2="170" y2="90" stroke="#3182CE" stroke-width="2" stroke-dasharray="5,3" />
+  <line x1="370" y1="90" x2="320" y2="90" stroke="#3182CE" stroke-width="2" stroke-dasharray="5,3" />
+  <line x1="400" y1="280" x2="340" y2="240" stroke="#3182CE" stroke-width="2" stroke-dasharray="5,3" />
+  <line x1="90" y1="280" x2="170" y2="240" stroke="#3182CE" stroke-width="2" stroke-dasharray="5,3" />
+</svg> 
