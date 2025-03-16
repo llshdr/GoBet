@@ -623,4 +623,75 @@ img {
   .cta-button {
     width: 100%;
   }
+}
+
+/* User Area Styles */
+.user-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-balance {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    font-weight: 500;
+}
+
+.user-balance i {
+    color: var(--accent-color);
+}
+
+.login-button,
+.register-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.login-button {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.login-button:hover {
+    background-color: var(--primary-dark);
+}
+
+.register-button {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.register-button:hover {
+    background-color: var(--accent-dark);
+}
+
+@media (max-width: 768px) {
+    .user-area {
+        gap: 0.5rem;
+    }
+
+    .user-balance,
+    .login-button,
+    .register-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .user-balance span,
+    .login-button span,
+    .register-button span {
+        display: none;
+    }
 } 

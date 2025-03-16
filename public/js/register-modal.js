@@ -92,8 +92,11 @@ const registerModalHTML = `
   </div>
 `;
 
-// Lägg till modalen i DOM:en när skriptet laddas
-document.body.insertAdjacentHTML('beforeend', registerModalHTML);
+// Kontrollera om modalen redan finns i DOM:en
+if (!document.getElementById('registerModal')) {
+  // Lägg till modalen i DOM:en när skriptet laddas
+  document.body.insertAdjacentHTML('beforeend', registerModalHTML);
+}
 
 // Hämta DOM-element
 const registerModal = document.getElementById('registerModal');
@@ -107,14 +110,27 @@ const overlay = registerModal.querySelector('.login-modal-overlay');
 
 // Funktion för att öppna modalen
 function openRegisterModal() {
+  // Spara nuvarande sidans scroll-position
+  const scrollY = window.scrollY;
+  
   registerModal.classList.add('open');
   document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollY}px`;
+  document.body.style.width = '100%';
 }
 
 // Funktion för att stänga modalen
 function closeRegisterModal() {
   registerModal.classList.remove('open');
+  
+  // Återställ scroll-position
+  const scrollY = document.body.style.top;
+  document.body.style.position = '';
+  document.body.style.top = '';
   document.body.style.overflow = '';
+  document.body.style.width = '';
+  window.scrollTo(0, parseInt(scrollY || '0') * -1);
 }
 
 // Hantera stängning av modalen
