@@ -3,202 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skapa konto | GoBet</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Skapa konto - GoBet</title>
+    
+    <!-- Stilmallar -->
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/login-modal.css">
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-    <meta name="description" content="Skapa ett konto på GoBet för att börja betta med dina vänner.">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- App Header -->
-    <header class="app-header">
-        <div class="container">
-            <div class="header-wrapper">
-                <div class="logo-container">
-                    <a href="index.html" class="logo">
-                        <img src="img/logo.svg" alt="GoBet">
-                        <span class="logo-text">GoBet</span>
-                    </a>
-                </div>
-                
-                <nav class="main-nav">
-                    <ul class="nav-links">
-                        <li><a href="index.html"><i class="fas fa-home"></i> Hem</a></li>
-                        <li><a href="friends.html"><i class="fas fa-user-friends"></i> Vänner</a></li>
-                        <li><a href="wheel.html"><i class="fas fa-dharmachakra"></i> Lyckohjul</a></li>
-                        <li><a href="create-bet.html"><i class="fas fa-plus-circle"></i> Skapa Bet</a></li>
-                        <li><a href="bets.html"><i class="fas fa-coins"></i> Bets</a></li>
-                        <li><a href="shop.html"><i class="fas fa-shopping-cart"></i> Butik</a></li>
-                        <li><a href="leaderboard.html"><i class="fas fa-trophy"></i> Topplista</a></li>
-                    </ul>
-                </nav>
-                
-                <div class="user-area">
-                    <div class="user-balance">
-                        <i class="fas fa-coins"></i>
-                        <span>0 GoCoins</span>
-                    </div>
-                    <button id="loginButton" class="login-button">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>Logga in</span>
-                    </button>
-                </div>
-                
-                <button class="mobile-menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-    
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
-            <section class="register-overview-section">
-                <div class="page-header">
-                    <h1>Bli en del av GoBet-gemenskapen</h1>
-                    <p>Skapa ditt konto och börja betta med dina vänner idag!</p>
-                </div>
-                
-                <div class="register-overview-content">
-                    <div class="feature-cards">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-handshake"></i>
-                            </div>
-                            <h3>Betta med vänner</h3>
-                            <p>Skapa roliga vadslagningar med dina vänner om vad som helst!</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-trophy"></i>
-                            </div>
-                            <h3>Tävla & vinn</h3>
-                            <p>Ta dig upp på topplistan och vinn exklusiva priser och bragdrättigheter!</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-coins"></i>
-                            </div>
-                            <h3>Tjäna GoCoins</h3>
-                            <p>Vinn GoCoins när dina bets går in och använd dem i vår butik!</p>
-                        </div>
-                    </div>
-                    
-                    <div class="register-cta">
-                        <h2>Redo att börja?</h2>
-                        <p>Det tar bara några sekunder att skapa ditt konto och börja betta med dina vänner.</p>
-                        <button id="openRegisterModalBtn" class="cta-button">
-                            <i class="fas fa-user-plus"></i> Skapa konto
-                        </button>
-                        <div class="login-redirect">
-                            Har du redan ett konto? <a href="#" id="loginRedirectButton">Logga in här</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
-    
-    <!-- App Footer -->
-    <footer class="app-footer">
-        <div class="container">
-            <div class="footer-columns">
-                <div class="footer-column">
-                    <div class="footer-logo">
-                        <img src="img/logo.svg" alt="GoBet Logo">
-                        <span>GoBet</span>
-                    </div>
-                    <p class="footer-tagline">Sociala vadslagningar med vänner</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-column">
-                    <h4>Sidor</h4>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Hem</a></li>
-                        <li><a href="friends.html">Vänner</a></li>
-                        <li><a href="wheel.html">Lyckohjul</a></li>
-                        <li><a href="create-bet.html">Skapa Bet</a></li>
-                        <li><a href="bets.html">Bets</a></li>
-                        <li><a href="shop.html">Butik</a></li>
-                        <li><a href="leaderboard.html">Topplista</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h4>Support</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Hjälp & FAQ</a></li>
-                        <li><a href="#">Kontakta oss</a></li>
-                        <li><a href="#">Regler & Villkor</a></li>
-                        <li><a href="#">Integritetspolicy</a></li>
-                        <li><a href="#">Ansvarsfull betting</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h4>Nyhetsbrev</h4>
-                    <p>Prenumerera för att få de senaste uppdateringarna.</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Din email" required>
-                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
-                    </form>
-                    <p class="newsletter-notice">Genom att prenumerera godkänner du våra villkor.</p>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p class="copyright">&copy; 2023 GoBet. Alla rättigheter förbehållna.</p>
-                <p class="legal">GoBet är en plattform för sociala vadslagningar med låtsaspengar. Ingen riktig valuta används.</p>
-            </div>
-        </div>
-    </footer>
-    
-    <!-- Scripts -->
-    <script src="js/main.js"></script>
+    <!-- Huvudinnehåll -->
+    <div class="container">
+        <h1>Välkommen till GoBet</h1>
+        <p>Du kommer att omdirigeras till registreringsformuläret...</p>
+    </div>
+
+    <!-- Skript -->
     <script src="js/login-modal.js"></script>
     <script src="js/register-modal.js"></script>
     <script>
+        // Öppna registreringsmodalen automatiskt när sidan laddas
         document.addEventListener('DOMContentLoaded', function() {
-            // Öppna registreringsmodalen när knappen klickas
-            const openRegisterModalBtn = document.getElementById('openRegisterModalBtn');
-            if (openRegisterModalBtn) {
-                openRegisterModalBtn.addEventListener('click', function() {
-                    if (typeof openRegisterModal === 'function') {
-                        openRegisterModal();
-                    }
-                });
-            }
-            
-            // Redirect till login-modal när login-länken klickas
-            const loginRedirectButton = document.getElementById('loginRedirectButton');
-            if (loginRedirectButton) {
-                loginRedirectButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (typeof openLoginModal === 'function') {
-                        openLoginModal();
-                    }
-                });
-            }
-            
-            // Öppna login-modal när login-knappen klickas
-            const loginButton = document.getElementById('loginButton');
-            if (loginButton) {
-                loginButton.addEventListener('click', function() {
-                    if (typeof openLoginModal === 'function') {
-                        openLoginModal();
-                    }
-                });
-            }
+            setTimeout(function() {
+                if (typeof openRegisterModal === 'function') {
+                    openRegisterModal();
+                }
+            }, 500);
         });
     </script>
 </body>

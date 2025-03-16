@@ -4,8 +4,7 @@
  */
 
 /* Modal-container (gemensamma stilar) */
-.login-modal,
-.register-modal {
+.login-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -20,14 +19,12 @@
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.login-modal.open,
-.register-modal.open {
+.login-modal.open {
   opacity: 1;
   visibility: visible;
 }
 
-.login-modal-overlay,
-.register-modal-overlay {
+.login-modal-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -37,8 +34,7 @@
   backdrop-filter: blur(4px);
 }
 
-.login-modal-container,
-.register-modal-container {
+.login-modal-container {
   position: relative;
   width: 100%;
   max-width: 480px;
@@ -51,13 +47,11 @@
   transition: transform 0.3s ease;
 }
 
-.login-modal.open .login-modal-container,
-.register-modal.open .register-modal-container {
+.login-modal.open .login-modal-container {
   transform: translateY(0);
 }
 
-.login-modal-header,
-.register-modal-header {
+.login-modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -66,16 +60,14 @@
   color: white;
 }
 
-.login-modal-header h2,
-.register-modal-header h2 {
+.login-modal-header h2 {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
   color: white;
 }
 
-.login-modal-close,
-.register-modal-close {
+.login-modal-close {
   background: none;
   border: none;
   color: white;
@@ -90,13 +82,11 @@
   transition: var(--transition);
 }
 
-.login-modal-close:hover,
-.register-modal-close:hover {
+.login-modal-close:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.login-modal-body,
-.register-modal-body {
+.login-modal-body {
   padding: 2rem;
 }
 
@@ -202,6 +192,11 @@
 
 .auth-button:hover {
   background-color: var(--primary-dark);
+}
+
+.auth-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .auth-divider {
@@ -335,33 +330,33 @@
   text-decoration: underline;
 }
 
+/* Register-specifika stilar */
+.register-modal .login-modal-container {
+  max-width: 520px;
+}
+
 /* Responsivitet */
 @media (max-width: 768px) {
   .login-modal-container,
-  .register-modal-container {
+  .register-modal .login-modal-container {
     max-width: 100%;
     margin: 1rem;
   }
   
-  .login-modal-header,
-  .register-modal-header {
+  .login-modal-header {
     padding: 1rem;
   }
   
-  .login-modal-body,
-  .register-modal-body {
+  .login-modal-body {
     padding: 1.5rem;
   }
-}
-
-@media (max-width: 480px) {
-  .social-login {
-    flex-direction: column;
+  
+  .form-row {
+    grid-template-columns: 1fr;
   }
   
-  .login-modal-container,
-  .register-modal-container {
-    margin: 0.5rem;
+  .social-login {
+    flex-direction: column;
   }
   
   .remember-forgot {
@@ -369,21 +364,19 @@
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
-  .form-row {
-    grid-template-columns: 1fr;
+}
+
+@media (max-width: 480px) {
+  .login-modal-container,
+  .register-modal .login-modal-container {
+    margin: 0.5rem;
   }
-}
-
-/* Register-specifika stilar */
-.register-modal-container {
-  max-width: 520px;
-}
-
-/* Anpassad stilar för mobil */
-@media (max-width: 768px) {
-  .register-modal-body {
-    max-height: calc(100vh - 150px);
-    overflow-y: auto;
+  
+  .login-modal-body {
+    padding: 1rem;
+  }
+  
+  .auth-button {
+    padding: 0.75rem;
   }
 } 
