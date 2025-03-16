@@ -6,12 +6,14 @@
   <title>Skapa Bet - GoBet</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/plans.css">
+  <link rel="stylesheet" href="css/images.css">
   <!-- Lägg till Google Fonts: Inter och Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <!-- Lägg till moderna ikoner med Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 </head>
 <body>
   <div class="app">
@@ -19,8 +21,7 @@
     <header class="header">
       <div class="container">
         <a href="index.html" class="logo">
-          <i class="fa-solid fa-dice logo-icon"></i>
-          <h1>GoBet</h1>
+          <img src="img/logo.svg" alt="GoBet Logo">
         </a>
         
         <button class="mobile-menu-toggle" id="mobileMenuToggle">
@@ -29,9 +30,10 @@
         
         <nav class="main-nav" id="mainNav">
           <ul>
-            <li><a href="index.html"><i class="fa-solid fa-trophy"></i> Bets</a></li>
+            <li><a href="index.html"><i class="fa-solid fa-home"></i> Hem</a></li>
             <li><a href="create-bet.html" class="active"><i class="fa-solid fa-plus"></i> Skapa Bet</a></li>
             <li><a href="wheel.html"><i class="fa-solid fa-dharmachakra"></i> Lyckohjul</a></li>
+            <li><a href="friends.html"><i class="fa-solid fa-users"></i> Vänner</a></li>
             <li><a href="plans.html"><i class="fa-solid fa-crown"></i> Planer</a></li>
           </ul>
         </nav>
@@ -43,22 +45,24 @@
           </div>
           
           <div class="user-menu">
-            <button class="user-menu-btn">
-              <img src="images/avatar.jpg" alt="Avatar" id="userAvatar">
-              <span class="username" id="userDisplayName">Användare</span>
-              <i class="fa-solid fa-chevron-down"></i>
-            </button>
-            <div class="user-dropdown">
-              <ul>
-                <li><a href="profile.html"><i class="fa-solid fa-user"></i> Min Profil</a></li>
-                <li><a href="#"><i class="fa-solid fa-wallet"></i> Plånbok</a></li>
-                <li><a href="#"><i class="fa-solid fa-trophy"></i> Mina Bets</a></li>
-                <li><a href="settings.html"><i class="fa-solid fa-gear"></i> Inställningar</a></li>
-                <li class="divider"></li>
-                <li><a href="#" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i> Logga ut</a></li>
-              </ul>
+            <img src="img/avatar.svg" alt="Avatar" class="avatar" id="userAvatar">
+            <span class="username" id="userDisplayName">Användare</span>
+            <i class="fa-solid fa-chevron-down"></i>
+            <span class="user-plan-badge free">Gratis</span>
+            
+            <div class="dropdown-menu">
+              <a href="profile.html"><i class="fa-solid fa-user"></i> Profil</a>
+              <a href="#"><i class="fa-solid fa-trophy"></i> Mina Bets</a>
+              <a href="#"><i class="fa-solid fa-history"></i> Historik</a>
+              <a href="plans.html"><i class="fa-solid fa-crown"></i> Uppgradera</a>
+              <a href="settings.html"><i class="fa-solid fa-gear"></i> Inställningar</a>
+              <a href="#" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logga ut</a>
             </div>
           </div>
+          
+          <a href="login.html" class="login-button" style="display: none;">
+            <i class="fa-solid fa-right-to-bracket"></i> Logga in
+          </a>
         </div>
       </div>
     </header>
@@ -70,12 +74,14 @@
         <section class="hero">
           <div class="hero-content">
             <h2>Skapa ett nytt bet</h2>
-            <p>Skapa bets med dina vänner, sätt upp regler och villkor. På GoBet kan du skapa bets om allt från sportresultat till privatbets med vänner.</p>
+            <p>Skapa bets med dina vänner och bekanta. Du bestämmer reglerna, deltagarna och vinsterna.</p>
           </div>
         </section>
 
         <!-- Create Bet Form -->
-        <section class="create-bet-section">
+        <section class="create-bet-section glass-card">
+          <h3 class="section-title"><i class="fa-solid fa-plus-circle"></i> Nytt bet</h3>
+          
           <form class="create-bet-form">
             <div class="form-group">
               <label for="bet-title" class="form-label">Titel</label>
@@ -87,14 +93,43 @@
               <textarea id="bet-description" name="bet-description" class="form-control" placeholder="Beskriv vad ditt bet handlar om" rows="3" required></textarea>
             </div>
             
-            <div class="form-group">
-              <label for="bet-amount" class="form-label">Insats (GoCoins)</label>
-              <input type="number" id="bet-amount" name="bet-amount" class="form-control" placeholder="Hur mycket GoCoin ska satsas?" min="50" value="100" required>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="bet-amount" class="form-label">Insats per person (GoCoins)</label>
+                <input type="number" id="bet-amount" name="bet-amount" class="form-control" placeholder="Hur mycket GoCoin ska satsas per person?" min="50" value="100" required>
+              </div>
+              
+              <div class="form-group col-md-6">
+                <label for="bet-end-date" class="form-label">Slutdatum</label>
+                <input type="datetime-local" id="bet-end-date" name="bet-end-date" class="form-control" required>
+              </div>
             </div>
             
-            <div class="form-group">
-              <label for="bet-end-date" class="form-label">Slutdatum</label>
-              <input type="datetime-local" id="bet-end-date" name="bet-end-date" class="form-control" required>
+            <div class="form-group bet-type-selection">
+              <label class="form-label">Typ av bet</label>
+              <div class="bet-type-buttons">
+                <button type="button" class="bet-type-button active" data-bet-type="standard">
+                  <i class="fa-solid fa-trophy"></i>
+                  <span>Standard</span>
+                  <small>Vinnaren får insats × odds</small>
+                </button>
+                <button type="button" class="bet-type-button" data-bet-type="winner-takes-all">
+                  <i class="fa-solid fa-crown"></i>
+                  <span>Winner Takes All</span>
+                  <small>Alla vinnare delar på den totala insatsen</small>
+                </button>
+              </div>
+            </div>
+            
+            <div class="winner-takes-all-info" style="display: none;">
+              <div class="info-card">
+                <div class="info-icon"><i class="fa-solid fa-info-circle"></i></div>
+                <div class="info-content">
+                  <h4>Winner Takes All</h4>
+                  <p>I denna typ av bet samlas alla insatser i en gemensam pott. Alla som satsat på rätt resultat delar lika på den totala vinstsumman. Insatsen är per person, och det finns inga fasta odds.</p>
+                  <p>Exempel: Om 10 personer satsar 100 GoCoins var och 2 personer satsar på rätt resultat, får varje vinnare 500 GoCoins (10 × 100 ÷ 2).</p>
+                </div>
+              </div>
             </div>
             
             <div class="form-group">
@@ -107,39 +142,37 @@
                 <input type="radio" id="visibility-friends" name="bet-visibility" value="friends" class="form-check-input">
                 <label for="visibility-friends" class="form-check-label">Endast vänner</label>
               </div>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Specialfunktioner</label>
               <div class="form-check">
-                <input type="checkbox" id="winner-takes-all" name="winner-takes-all" class="form-check-input">
-                <label for="winner-takes-all" class="form-check-label">Winner-takes-all (insatsen är per person och vinnaren tar allt)</label>
-              </div>
-              <div class="form-check">
-                <input type="checkbox" id="tournament-bet" name="tournament-bet" class="form-check-input">
-                <label for="tournament-bet" class="form-check-label">Turnering (koppla bettet till ett turneringsresultat)</label>
-              </div>
-            </div>
-            
-            <div class="tournament-details" style="display: none;">
-              <div class="form-group">
-                <label for="tournament-type" class="form-label">Turneringstyp</label>
-                <select id="tournament-type" name="tournament-type" class="form-control">
-                  <option value="">-- Välj en turneringstyp --</option>
-                  <option value="csgo">CS:GO Turnering</option>
-                  <option value="sports">Sportevenemang</option>
-                  <option value="custom">Anpassad turnering</option>
-                </select>
-                <p id="tournament-description" class="form-text"></p>
+                <input type="radio" id="visibility-invite" name="bet-visibility" value="invite" class="form-check-input">
+                <label for="visibility-invite" class="form-check-label">Endast inbjudna</label>
               </div>
             </div>
             
             <div class="form-group">
               <label class="form-label">Bet-alternativ</label>
-              <p class="form-text">Lägg till minst två alternativ för ditt bet. Exempelvis "Lag A" eller "Lag B" för en match.</p>
+              <p class="form-text">Lägg till minst två alternativ som deltagarna kan satsa på. Exempel: "Lag A vinner", "Lag B vinner" eller "Oavgjort".</p>
               
               <div class="bet-options-container">
-                <!-- Alternativ kommer att läggas till med JavaScript -->
+                <div class="bet-option">
+                  <div class="option-header">
+                    <span class="option-number">1</span>
+                    <input type="text" class="form-control option-input" name="option[]" placeholder="Alternativ 1" required>
+                    <div class="odds-container" id="standard-odds-1">
+                      <label>Odds:</label>
+                      <input type="number" class="form-control odds-input" name="odds[]" placeholder="1.5" min="1.1" step="0.1" value="2.0">
+                    </div>
+                  </div>
+                </div>
+                <div class="bet-option">
+                  <div class="option-header">
+                    <span class="option-number">2</span>
+                    <input type="text" class="form-control option-input" name="option[]" placeholder="Alternativ 2" required>
+                    <div class="odds-container" id="standard-odds-2">
+                      <label>Odds:</label>
+                      <input type="number" class="form-control odds-input" name="odds[]" placeholder="1.5" min="1.1" step="0.1" value="2.0">
+                    </div>
+                  </div>
+                </div>
               </div>
               
               <button type="button" class="btn-add-option">
@@ -147,120 +180,138 @@
               </button>
             </div>
             
-            <div class="bets-remaining-info">
-              <p>
-                <i class="fa-solid fa-info-circle"></i>
-                Du har <strong id="free-bets-remaining">1</strong> gratis bets kvar denna vecka.
-                <a href="plans.html">Uppgradera till Premium</a> för fler bets och funktioner.
-              </p>
-            </div>
-            
             <div class="form-actions">
-              <button type="submit" class="btn btn-primary btn-lg">Skapa Bet</button>
-              <button type="button" class="btn btn-outline" onclick="window.history.back()">Avbryt</button>
+              <button type="button" class="btn btn-secondary">Avbryt</button>
+              <button type="submit" class="btn btn-primary">Skapa Bet</button>
             </div>
           </form>
-        </section>
-        
-        <!-- Tips Section -->
-        <section class="tips-section">
-          <h2 class="section-title">Tips för att skapa populära bets</h2>
-          
-          <div class="tips-grid">
-            <div class="tip-card glass-card">
-              <i class="fa-solid fa-lightbulb"></i>
-              <h3>Tydliga regler</h3>
-              <p>Skriv tydliga regler och villkor för ditt bet så att alla deltagare förstår hur det fungerar.</p>
-            </div>
-            
-            <div class="tip-card glass-card">
-              <i class="fa-solid fa-clock"></i>
-              <h3>Rimlig tidsfrist</h3>
-              <p>Sätt en rimlig tidsfrist som ger deltagare tid att gå med, men inte så lång att intresset svalnar.</p>
-            </div>
-            
-            <div class="tip-card glass-card">
-              <i class="fa-solid fa-coins"></i>
-              <h3>Attraktiva priser</h3>
-              <p>Sätt en insats som är tillräckligt hög för att vara intressant, men inte så hög att det avskräcker deltagare.</p>
-            </div>
-            
-            <div class="tip-card glass-card">
-              <i class="fa-solid fa-share-nodes"></i>
-              <h3>Dela med dina vänner</h3>
-              <p>Bjud in dina vänner för att göra ditt bet mer populärt och öka chansen för en aktiv och spännande tävling.</p>
-            </div>
-          </div>
         </section>
       </div>
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="site-footer">
       <div class="container">
         <div class="footer-content">
-          <div class="footer-logo">
-            <i class="fa-solid fa-dice"></i>
-            <h2>GoBet</h2>
-            <p>Den ultimata plattformen för att skapa och delta i betting-utmaningar med dina vänner. Vinn stora priser och ha kul tillsammans!</p>
-            <div class="social-icons">
-              <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
-              <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
-              <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
-              <a href="#" class="social-icon"><i class="fa-brands fa-discord"></i></a>
+          <div class="footer-brand">
+            <img src="img/logo-footer.svg" alt="GoBet Logo" class="footer-logo">
+            <p>GoBet är plattformen där du kan skapa och delta i vadslagningar med dina vänner. Allt i en rolig och säker miljö.</p>
+            
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-discord"></i></a>
             </div>
           </div>
           
           <div class="footer-links">
-            <h3>Snabblänkar</h3>
-            <ul>
-              <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Hem</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Om oss</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Hur det fungerar</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Villkor</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Integritetspolicy</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Kontakta oss</a></li>
-            </ul>
-          </div>
-          
-          <div class="footer-social">
-            <h3>Kontakt</h3>
-            <ul>
-              <li><a href="#"><i class="fa-solid fa-envelope"></i> support@gobet.com</a></li>
-              <li><a href="#"><i class="fa-solid fa-phone"></i> +46 123 456 789</a></li>
-              <li><a href="#"><i class="fa-solid fa-location-dot"></i> Stockholm, Sverige</a></li>
-            </ul>
+            <div class="footer-links-column">
+              <h3>Snabblänkar</h3>
+              <ul>
+                <li><a href="index.html">Hem</a></li>
+                <li><a href="create-bet.html">Skapa Bet</a></li>
+                <li><a href="wheel.html">Lyckohjul</a></li>
+                <li><a href="friends.html">Vänner</a></li>
+              </ul>
+            </div>
+            
+            <div class="footer-links-column">
+              <h3>Support</h3>
+              <ul>
+                <li><a href="#">Vanliga frågor</a></li>
+                <li><a href="#">Kontakta oss</a></li>
+                <li><a href="#">Användarvillkor</a></li>
+                <li><a href="#">Integritetspolicy</a></li>
+              </ul>
+            </div>
           </div>
         </div>
         
         <div class="footer-bottom">
-          <p>&copy; 2023 GoBet. Alla rättigheter reserverade.</p>
+          <p>&copy; <span class="current-year">2023</span> GoBet. Alla rättigheter förbehållna.</p>
         </div>
       </div>
     </footer>
   </div>
 
   <!-- JavaScript -->
-  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/plans.js"></script>
   <script src="js/createBet.js"></script>
-  
   <script>
-    // Sätt slutdatum till en vecka framåt som standard
-    document.addEventListener('DOMContentLoaded', () => {
-      const now = new Date();
-      now.setDate(now.getDate() + 7);
+    // Hantera växling mellan olika bet-typer
+    document.addEventListener('DOMContentLoaded', function() {
+      const betTypeButtons = document.querySelectorAll('.bet-type-button');
+      const winnerTakesAllInfo = document.querySelector('.winner-takes-all-info');
+      const standardOddsContainers = document.querySelectorAll('[id^="standard-odds-"]');
       
-      // Formatera datumet till datetime-local format (YYYY-MM-DDThh:mm)
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
+      betTypeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Ta bort aktiv klass från alla knappar
+          betTypeButtons.forEach(btn => btn.classList.remove('active'));
+          
+          // Markera klickad knapp
+          this.classList.add('active');
+          
+          // Visa/dölj winner-takes-all info och odds-input baserat på vald bet-typ
+          const betType = this.getAttribute('data-bet-type');
+          if (betType === 'winner-takes-all') {
+            winnerTakesAllInfo.style.display = 'block';
+            // Dölj odds-inmatningar för winner-takes-all
+            standardOddsContainers.forEach(container => {
+              container.style.display = 'none';
+            });
+          } else {
+            winnerTakesAllInfo.style.display = 'none';
+            // Visa odds-inmatningar för standard bet
+            standardOddsContainers.forEach(container => {
+              container.style.display = 'flex';
+            });
+          }
+        });
+      });
       
-      const defaultEndDate = `${year}-${month}-${day}T${hours}:${minutes}`;
-      document.getElementById('bet-end-date').value = defaultEndDate;
+      // Lägg till bet-alternativ
+      const addOptionButton = document.querySelector('.btn-add-option');
+      const optionsContainer = document.querySelector('.bet-options-container');
+      
+      addOptionButton.addEventListener('click', function() {
+        const optionCount = optionsContainer.children.length + 1;
+        const showOdds = document.querySelector('.bet-type-button[data-bet-type="standard"]').classList.contains('active');
+        
+        const newOption = document.createElement('div');
+        newOption.className = 'bet-option';
+        newOption.innerHTML = `
+          <div class="option-header">
+            <span class="option-number">${optionCount}</span>
+            <input type="text" class="form-control option-input" name="option[]" placeholder="Alternativ ${optionCount}" required>
+            <div class="odds-container" id="standard-odds-${optionCount}" ${!showOdds ? 'style="display: none;"' : ''}>
+              <label>Odds:</label>
+              <input type="number" class="form-control odds-input" name="odds[]" placeholder="1.5" min="1.1" step="0.1" value="2.0">
+            </div>
+            <button type="button" class="btn-remove-option">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        `;
+        
+        optionsContainer.appendChild(newOption);
+        
+        // Lägg till händelselyssnare för ta bort-knappen
+        newOption.querySelector('.btn-remove-option').addEventListener('click', function() {
+          newOption.remove();
+          // Uppdatera numreringen av alternativ
+          updateOptionNumbers();
+        });
+      });
+      
+      // Funktion för att uppdatera numreringen av alternativ
+      function updateOptionNumbers() {
+        const options = optionsContainer.querySelectorAll('.bet-option');
+        options.forEach((option, index) => {
+          option.querySelector('.option-number').textContent = index + 1;
+        });
+      }
     });
   </script>
 </body>

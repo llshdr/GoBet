@@ -1,315 +1,661 @@
 /**
- * GoBet - Create Bet Functionality
+ * GoBet - Bet-hantering
+ * Script för att hantera bet-skapande, deltagande och administration
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    initCreateBetForm();
-    initSpecialBetTypes();
+  console.log('Bet-hantering initialiserad');
+
+  // Initialisera komponenter
+  initBetCreation();
+  initBetParticipation();
+  initBetAdministration();
+  initBetStatsUpdates();
 });
 
 /**
- * Initialisera formulär för att skapa nya bets
+ * Initialisera bet-skapande
  */
-function initCreateBetForm() {
-    const createBetForm = document.querySelector('.create-bet-form');
+function initBetCreation() {
+  const createBetForm = document.querySelector('.create-bet-form');
+  
+  if (!createBetForm) return;
+  
+  createBetForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
     
-    if (!createBetForm) return;
+    // Hämta formulärvärden
+    const title = document.getElementById('bet-title').value;
+    const description = document.getElementById('bet-description').value;
+    const amount = parseInt(document.getElementById('bet-amount').value);
+    const endDate = new Date(document.getElementById('bet-end-date').value);
     
-    // Lyssna efter formuläröverföring
-    createBetForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Kontrollera om användaren kan skapa ett bet (baserat på prenumerationsplan)
-        if (!canCreateBet()) {
-            return;
-        }
-        
-        // Samla formulärdata
-        const formData = new FormData(this);
-        const betData = {
-            title: formData.get('bet-title'),
-            description: formData.get('bet-description'),
-            amount: formData.get('bet-amount'),
-            endDate: formData.get('bet-end-date'),
-            isPublic: formData.get('bet-visibility') === 'public',
-            winnerTakesAll: formData.get('winner-takes-all') === 'on',
-            isTournament: formData.get('tournament-bet') === 'on',
-            tournamentType: formData.get('tournament-type') || null,
-            options: getBetOptions(),
-        };
-        
-        // Validera formuläret
-        if (!validateBetForm(betData)) {
-            return;
-        }
-        
-        // Simulerad API-anrop för att spara bet
-        saveBet(betData);
+    // Hämta synlighet
+    const visibilityInputs = document.querySelectorAll('input[name="bet-visibility"]');
+    let visibility = '';
+    visibilityInputs.forEach(input => {
+      if (input.checked) {
+        visibility = input.value;
+      }
     });
     
-    // Initiera alternativhantering
-    initBetOptions();
-}
-
-/**
- * Kontrollera om användaren kan skapa ett bet baserat på deras prenumerationsplan
- */
-function canCreateBet() {
-    // För demo använder vi bara localStorage
-    const currentPlan = localStorage.getItem('userPlan') || 'free';
+    // Kontrollera om "Winner Takes All" är valt
+    const isWinnerTakesAll = document.querySelector('.bet-type-button[data-bet-type="winner-takes-all"]').classList.contains('active');
     
-    // Kontrollera antalet kvarvarande gratisbets för denna vecka
-    if (currentPlan === 'free') {
-        const remainingBets = calculateFreeBetsRemaining();
-        
-        if (remainingBets <= 0) {
-            showNotification('Du har använt ditt gratis-bet för denna vecka. Uppgradera till Premium för fler bets!', 'warning');
-            return false;
-        }
-    }
-    
-    return true;
-}
-
-/**
- * Validera bet-formuläret
- */
-function validateBetForm(betData) {
-    // Kontrollera obligatoriska fält
-    if (!betData.title || betData.title.trim() === '') {
-        showNotification('Var god ange en titel för bettet', 'error');
-        return false;
-    }
-    
-    if (!betData.description || betData.description.trim() === '') {
-        showNotification('Var god ange en beskrivning för bettet', 'error');
-        return false;
-    }
-    
-    if (!betData.amount || isNaN(betData.amount) || parseInt(betData.amount) <= 0) {
-        showNotification('Var god ange ett giltigt belopp för insatsen', 'error');
-        return false;
-    }
-    
-    if (!betData.endDate) {
-        showNotification('Var god ange ett slutdatum för bettet', 'error');
-        return false;
-    }
-    
-    // Kontrollera att slutdatum är i framtiden
-    const endDate = new Date(betData.endDate);
-    if (endDate <= new Date()) {
-        showNotification('Slutdatumet måste vara i framtiden', 'error');
-        return false;
-    }
-    
-    // Kontrollera att det finns minst två alternativ
-    if (!betData.options || betData.options.length < 2) {
-        showNotification('Du måste ange minst två alternativ för bettet', 'error');
-        return false;
-    }
-    
-    // Kontrollera att alla alternativ har namn
-    for (const option of betData.options) {
-        if (!option.name || option.name.trim() === '') {
-            showNotification('Alla alternativ måste ha ett namn', 'error');
-            return false;
-        }
-    }
-    
-    return true;
-}
-
-/**
- * Initialisera hantering av bet-alternativ
- */
-function initBetOptions() {
-    const optionsContainer = document.querySelector('.bet-options-container');
-    const addOptionButton = document.querySelector('.btn-add-option');
-    
-    if (!optionsContainer || !addOptionButton) return;
-    
-    // Lägg till initiala två alternativ
-    addBetOption(optionsContainer);
-    addBetOption(optionsContainer);
-    
-    // Lyssna efter klick på Lägg till alternativ-knappen
-    addOptionButton.addEventListener('click', () => {
-        addBetOption(optionsContainer);
-    });
-    
-    // Lyssna efter klick på ta bort alternativ-knappar (delegerad händelse)
-    optionsContainer.addEventListener('click', (e) => {
-        if (e.target.closest('.btn-remove-option')) {
-            const optionRow = e.target.closest('.bet-option-row');
-            
-            // Kontrollera att vi har minst två alternativ kvar
-            const optionRows = optionsContainer.querySelectorAll('.bet-option-row');
-            if (optionRows.length <= 2) {
-                showNotification('Ett bet måste ha minst två alternativ', 'warning');
-                return;
-            }
-            
-            // Ta bort alternativraden
-            optionRow.remove();
-        }
-    });
-}
-
-/**
- * Lägg till ett nytt alternativ i bet-formuläret
- */
-function addBetOption(container) {
-    const optionRow = document.createElement('div');
-    optionRow.className = 'bet-option-row';
-    
-    optionRow.innerHTML = `
-        <input type="text" class="form-control" name="option-name" placeholder="Alternativnamn" required>
-        <input type="number" class="form-control" name="option-odds" placeholder="Odds (valfritt)" min="1" step="0.1">
-        <button type="button" class="btn-remove-option" title="Ta bort alternativ">
-            <i class="fa-solid fa-times"></i>
-        </button>
-    `;
-    
-    container.appendChild(optionRow);
-}
-
-/**
- * Hämta alla alternativ från formuläret
- */
-function getBetOptions() {
+    // Hämta alternativ
     const options = [];
-    const optionRows = document.querySelectorAll('.bet-option-row');
+    const optionInputs = document.querySelectorAll('.option-input');
+    const oddsInputs = document.querySelectorAll('.odds-input');
     
-    optionRows.forEach(row => {
-        const nameInput = row.querySelector('input[name="option-name"]');
-        const oddsInput = row.querySelector('input[name="option-odds"]');
-        
-        if (nameInput && nameInput.value.trim() !== '') {
-            options.push({
-                name: nameInput.value.trim(),
-                odds: oddsInput && oddsInput.value ? parseFloat(oddsInput.value) : null
-            });
-        }
+    optionInputs.forEach((input, index) => {
+      const optionText = input.value;
+      const odds = isWinnerTakesAll ? 0 : parseFloat(oddsInputs[index].value);
+      
+      options.push({
+        text: optionText,
+        odds: odds
+      });
     });
     
-    return options;
-}
-
-/**
- * Initialisera specialfunktioner för olika bettyper
- */
-function initSpecialBetTypes() {
-    const winnerTakesAllCheck = document.getElementById('winner-takes-all');
-    const tournamentCheck = document.getElementById('tournament-bet');
-    const tournamentTypeSelect = document.getElementById('tournament-type');
-    const tournamentDetailsDiv = document.querySelector('.tournament-details');
-    
-    // Hantera vinnare-tar-allt-val
-    if (winnerTakesAllCheck) {
-        winnerTakesAllCheck.addEventListener('change', function() {
-            // Uppdatera UI baserat på status
-            const betAmountLabel = document.querySelector('label[for="bet-amount"]');
-            
-            if (this.checked) {
-                betAmountLabel.textContent = 'Insats per person (GoCoins):';
-            } else {
-                betAmountLabel.textContent = 'Insats (GoCoins):';
-            }
-        });
+    // Validera formuläret
+    if (!title || !description || !amount || !endDate) {
+      showNotification('Vänligen fyll i alla obligatoriska fält.', 'error');
+      return;
     }
     
-    // Hantera turnering-val
-    if (tournamentCheck && tournamentTypeSelect && tournamentDetailsDiv) {
-        tournamentCheck.addEventListener('change', function() {
-            if (this.checked) {
-                tournamentDetailsDiv.style.display = 'block';
-            } else {
-                tournamentDetailsDiv.style.display = 'none';
-            }
-        });
-        
-        // Uppdatera beskrivning baserat på vald turneringstyp
-        tournamentTypeSelect.addEventListener('change', function() {
-            const tournamentDescription = document.getElementById('tournament-description');
-            
-            if (!tournamentDescription) return;
-            
-            switch (this.value) {
-                case 'csgo':
-                    tournamentDescription.textContent = 'CS:GO-turneringar använder matchresultat för att avgöra vinnare.';
-                    break;
-                case 'custom':
-                    tournamentDescription.textContent = 'Anpassade turneringar låter dig sätta egna regler och villkor.';
-                    break;
-                case 'sports':
-                    tournamentDescription.textContent = 'Sportturneringar följer officiella resultat från sportmatcher.';
-                    break;
-                default:
-                    tournamentDescription.textContent = '';
-            }
-        });
+    if (options.length < 2) {
+      showNotification('Lägg till minst två alternativ för ditt bet.', 'error');
+      return;
     }
-}
-
-/**
- * Simulerad funktion för att spara ett bet
- */
-function saveBet(betData) {
-    // I en verklig applikation skulle detta göra ett API-anrop
-    console.log('Sparar bet:', betData);
     
-    // Simulera sparande av bet
-    setTimeout(() => {
-        // Uppdatera användarens kvarvarande gratisbets om det behövs
-        const currentPlan = localStorage.getItem('userPlan') || 'free';
-        if (currentPlan === 'free') {
-            useFreeBet();
-        }
-        
-        // Lägg till det nya bettet i listan över bets
-        addBetToLocalStorage(betData);
-        
-        // Visa bekräftelse
-        showNotification('Ditt bet har skapats!', 'success');
-        
-        // Omdirigera till betlistan efter en kort fördröjning
-        setTimeout(() => {
-            window.location.href = betData.isPublic ? '#public-bets' : '#friend-bets';
-            window.location.reload();
-        }, 1500);
-    }, 1000);
-}
-
-/**
- * Lägg till bet i localStorage (för demo)
- */
-function addBetToLocalStorage(betData) {
-    // Hämta befintliga bets från localStorage eller skapa en tom array
-    const existingBets = JSON.parse(localStorage.getItem('userBets') || '[]');
+    if (endDate <= new Date()) {
+      showNotification('Slutdatumet måste vara i framtiden.', 'error');
+      return;
+    }
     
-    // Lägg till vårt nya bet med ett unikt ID och skapardatum
+    // Skapa bet-objekt
     const newBet = {
-        ...betData,
-        id: generateUniqueId(),
-        createdAt: new Date().toISOString(),
-        createdBy: {
-            username: 'MaxBettman',
-            avatar: 'https://ui-avatars.com/api/?name=Max+Bettman&background=6643b5&color=fff'
-        },
-        participants: []
+      id: generateUniqueId(),
+      title: title,
+      description: description,
+      amount: amount,
+      endDate: endDate.toISOString(),
+      creationDate: new Date().toISOString(),
+      visibility: visibility,
+      isWinnerTakesAll: isWinnerTakesAll,
+      options: options,
+      creatorId: getUserId(),
+      creatorName: getUserDisplayName(),
+      participants: [],
+      status: 'active',
+      winningOption: null
     };
     
-    // Lägg till det nya bettet först i listan
-    existingBets.unshift(newBet);
+    // Spara bettet i localStorage
+    saveBet(newBet);
     
-    // Spara tillbaka till localStorage
-    localStorage.setItem('userBets', JSON.stringify(existingBets));
+    // Uppdatera skaparens statistik
+    updateUserStats('created', 0);
+    
+    // Visa bekräftelse
+    showNotification('Bettet har skapats!', 'success');
+    
+    // Omdirigera till hemsidan efter en kort fördröjning
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 1500);
+  });
 }
 
 /**
- * Generera ett unikt ID för ett nytt bet
+ * Initialisera bet-deltagande
  */
+function initBetParticipation() {
+  const joinButtons = document.querySelectorAll('.btn-join');
+  
+  if (!joinButtons.length) return;
+  
+  joinButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Kontrollera om användaren är inloggad
+      if (!isUserLoggedIn()) {
+        showLoginPrompt();
+        return;
+      }
+      
+      const betCard = this.closest('.bet-card');
+      if (!betCard) return;
+      
+      const betId = betCard.getAttribute('data-bet-id');
+      const selectedOption = betCard.querySelector('.option.selected');
+      
+      if (!selectedOption) {
+        showNotification('Välj ett alternativ först.', 'warning');
+        return;
+      }
+      
+      // Hämta bettet från localStorage
+      const bet = getBetById(betId);
+      if (!bet) {
+        showNotification('Bettet kunde inte hittas.', 'error');
+        return;
+      }
+      
+      // Kontrollera om användaren redan har deltagit
+      const userId = getUserId();
+      if (bet.participants.some(p => p.userId === userId)) {
+        showNotification('Du har redan deltagit i detta bet.', 'warning');
+        return;
+      }
+      
+      // Kontrollera saldo
+      const userCoins = getUserCoins();
+      if (userCoins < bet.amount) {
+        showNotification('Du har inte tillräckligt med GoCoins för att delta.', 'error');
+        return;
+      }
+      
+      // Lägg till användaren som deltagare
+      const optionIndex = parseInt(selectedOption.getAttribute('data-option-index'));
+      const selectedOptionText = bet.options[optionIndex].text;
+      
+      bet.participants.push({
+        userId: userId,
+        username: getUserDisplayName(),
+        optionIndex: optionIndex,
+        optionText: selectedOptionText,
+        amount: bet.amount,
+        participationDate: new Date().toISOString()
+      });
+      
+      // Uppdatera bettet i localStorage
+      saveBet(bet);
+      
+      // Dra av kostnaden från användarens saldo
+      updateUserCoins(-bet.amount);
+      
+      // Uppdatera användarens statistik
+      updateUserStats('joined', 0);
+      
+      // Visa bekräftelse
+      showNotification(`Du har satsat ${bet.amount} GoCoins på "${selectedOptionText}"!`, 'success');
+      
+      // Uppdatera gränssnittet
+      updateBetCardUI(betCard, bet);
+    });
+  });
+}
+
+/**
+ * Initialisera bet-administration
+ */
+function initBetAdministration() {
+  // Hantera slutförande av bets (endast för skaparen)
+  const completeButtons = document.querySelectorAll('.btn-complete-bet');
+  
+  if (!completeButtons.length) return;
+  
+  completeButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const betCard = this.closest('.bet-card');
+      if (!betCard) return;
+      
+      const betId = betCard.getAttribute('data-bet-id');
+      
+      // Visa dialog för att välja vinnande alternativ
+      showCompleteDialog(betId);
+    });
+  });
+}
+
+/**
+ * Visa dialog för att slutföra bet
+ */
+function showCompleteDialog(betId) {
+  // Hämta bettet från localStorage
+  const bet = getBetById(betId);
+  if (!bet) {
+    showNotification('Bettet kunde inte hittas.', 'error');
+    return;
+  }
+  
+  // Kontrollera att användaren är skapare av bettet
+  if (bet.creatorId !== getUserId()) {
+    showNotification('Endast skaparen av bettet kan slutföra det.', 'error');
+    return;
+  }
+  
+  // Skapa dialog
+  const dialog = document.createElement('div');
+  dialog.className = 'complete-bet-dialog';
+  
+  let optionsHtml = '';
+  bet.options.forEach((option, index) => {
+    optionsHtml += `
+      <div class="dialog-option">
+        <input type="radio" id="option-${index}" name="winning-option" value="${index}">
+        <label for="option-${index}">${option.text}</label>
+      </div>
+    `;
+  });
+  
+  dialog.innerHTML = `
+    <div class="dialog-content">
+      <h3>Slutför bet: ${bet.title}</h3>
+      <p>Välj det vinnande alternativet:</p>
+      
+      <div class="dialog-options">
+        ${optionsHtml}
+      </div>
+      
+      <div class="dialog-actions">
+        <button type="button" class="btn-cancel">Avbryt</button>
+        <button type="button" class="btn-confirm">Bekräfta vinnare</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(dialog);
+  
+  // Hantera knapptryck
+  dialog.querySelector('.btn-cancel').addEventListener('click', () => {
+    dialog.remove();
+  });
+  
+  dialog.querySelector('.btn-confirm').addEventListener('click', () => {
+    const selectedOption = dialog.querySelector('input[name="winning-option"]:checked');
+    
+    if (!selectedOption) {
+      showNotification('Välj ett vinnande alternativ.', 'warning');
+      return;
+    }
+    
+    const winningOptionIndex = parseInt(selectedOption.value);
+    completeBet(betId, winningOptionIndex);
+    
+    dialog.remove();
+  });
+}
+
+/**
+ * Slutför ett bet och distribuera vinster
+ */
+function completeBet(betId, winningOptionIndex) {
+  // Hämta bettet från localStorage
+  const bet = getBetById(betId);
+  if (!bet) {
+    showNotification('Bettet kunde inte hittas.', 'error');
+    return;
+  }
+  
+  // Uppdatera bettets status
+  bet.status = 'completed';
+  bet.winningOption = winningOptionIndex;
+  bet.completionDate = new Date().toISOString();
+  
+  // Distribuera vinster
+  const winners = bet.participants.filter(p => p.optionIndex === winningOptionIndex);
+  const totalParticipants = bet.participants.length;
+  const totalPot = totalParticipants * bet.amount;
+  
+  if (winners.length > 0) {
+    if (bet.isWinnerTakesAll) {
+      // Winner Takes All: Dela potten lika mellan alla vinnare
+      const winPerPerson = Math.floor(totalPot / winners.length);
+      
+      winners.forEach(winner => {
+        // Ge vinsterna till användarna
+        const userId = winner.userId;
+        distributeWinnings(userId, winPerPerson);
+        
+        // Uppdatera användarens statistik
+        updateUserStatsByUserId(userId, 'win', winPerPerson);
+      });
+    } else {
+      // Standard bet: Varje vinnare får sin insats × odds
+      winners.forEach(winner => {
+        const userId = winner.userId;
+        const winningOption = bet.options[winningOptionIndex];
+        const winAmount = Math.floor(winner.amount * winningOption.odds);
+        
+        // Ge vinsterna till användarna
+        distributeWinnings(userId, winAmount);
+        
+        // Uppdatera användarens statistik
+        updateUserStatsByUserId(userId, 'win', winAmount);
+      });
+    }
+    
+    // Uppdatera statistik för förlorare
+    const losers = bet.participants.filter(p => p.optionIndex !== winningOptionIndex);
+    losers.forEach(loser => {
+      updateUserStatsByUserId(loser.userId, 'loss', 0);
+    });
+  } else {
+    // Ingen vann, återbetala insatserna
+    bet.participants.forEach(participant => {
+      distributeWinnings(participant.userId, participant.amount);
+    });
+  }
+  
+  // Spara uppdaterat bet
+  saveBet(bet);
+  
+  // Visa bekräftelse
+  showNotification('Bettet har slutförts och vinsterna har distribuerats!', 'success');
+  
+  // Uppdatera gränssnittet
+  updateAllBetCardsUI();
+}
+
+/**
+ * Uppdatera användarstatistik
+ */
+function initBetStatsUpdates() {
+  // Uppdatera statistikvisning om vi är på profilsidan
+  const statsElements = document.querySelectorAll('.profile-stats .stat-value');
+  
+  if (!statsElements.length) return;
+  
+  // Hämta användarens statistik
+  const stats = getUserStats();
+  
+  // Uppdatera statistikvisning
+  statsElements.forEach(element => {
+    const statType = element.getAttribute('data-stat-type');
+    
+    if (statType && stats[statType] !== undefined) {
+      element.textContent = stats[statType];
+    }
+  });
+}
+
+/**
+ * Hjälpfunktioner för att hantera bets i localStorage
+ */
+
+function saveBet(bet) {
+  // Hämta befintliga bets från localStorage
+  const bets = JSON.parse(localStorage.getItem('gobet_bets') || '[]');
+  
+  // Kontrollera om bettet redan finns
+  const existingIndex = bets.findIndex(b => b.id === bet.id);
+  
+  if (existingIndex !== -1) {
+    // Uppdatera existerande bet
+    bets[existingIndex] = bet;
+  } else {
+    // Lägg till nytt bet
+    bets.push(bet);
+  }
+  
+  // Spara tillbaka till localStorage
+  localStorage.setItem('gobet_bets', JSON.stringify(bets));
+}
+
+function getBetById(betId) {
+  const bets = JSON.parse(localStorage.getItem('gobet_bets') || '[]');
+  return bets.find(b => b.id === betId);
+}
+
+function getAllBets() {
+  return JSON.parse(localStorage.getItem('gobet_bets') || '[]');
+}
+
+function updateBetCardUI(betCard, bet) {
+  // Denna funktion uppdaterar UI för ett bet-kort efter att en användare har deltagit
+  if (!betCard) return;
+  
+  // Uppdatera antal deltagare
+  const participantsCounter = betCard.querySelector('.participants-count');
+  if (participantsCounter) {
+    participantsCounter.textContent = bet.participants.length;
+  }
+  
+  // Om det är Winner Takes All, uppdatera potentiell vinst
+  if (bet.isWinnerTakesAll) {
+    const potentialWinSpan = betCard.querySelector('.potential-win-amount');
+    if (potentialWinSpan) {
+      const totalPot = bet.participants.length * bet.amount;
+      
+      // Uppskatta antal vinnare (generellt 1, men kan vara fler)
+      const selectedOption = betCard.querySelector('.option.selected');
+      if (selectedOption) {
+        const optionIndex = parseInt(selectedOption.getAttribute('data-option-index'));
+        
+        // Räkna deltagare som valt samma alternativ
+        const sameChoiceCount = bet.participants.filter(p => p.optionIndex === optionIndex).length;
+        
+        // Beräkna potentiell vinst baserat på nuvarande deltagare
+        // Om ingen annan har valt samma, anta att det bara är nuvarande användare
+        const estimatedWinners = Math.max(1, sameChoiceCount);
+        const potentialWin = Math.floor(totalPot / estimatedWinners);
+        
+        potentialWinSpan.textContent = potentialWin;
+      }
+    }
+  }
+  
+  // Ändra knappen till "Du har satsat"
+  const joinButton = betCard.querySelector('.btn-join');
+  if (joinButton) {
+    joinButton.textContent = 'Du har satsat';
+    joinButton.classList.add('disabled');
+    joinButton.disabled = true;
+  }
+}
+
+function updateAllBetCardsUI() {
+  // Uppdatera alla bet-kort på sidan
+  const betCards = document.querySelectorAll('.bet-card');
+  
+  betCards.forEach(card => {
+    const betId = card.getAttribute('data-bet-id');
+    if (betId) {
+      const bet = getBetById(betId);
+      if (bet) {
+        updateBetCardUI(card, bet);
+      }
+    }
+  });
+}
+
+/**
+ * Hjälpfunktioner för användarhantering
+ */
+
+function isUserLoggedIn() {
+  return localStorage.getItem('gobet_logged_in') === 'true';
+}
+
+function getUserId() {
+  const userData = JSON.parse(localStorage.getItem('gobet_user') || '{}');
+  return userData.id || 'guest';
+}
+
+function getUserDisplayName() {
+  const userData = JSON.parse(localStorage.getItem('gobet_user') || '{}');
+  return userData.displayName || userData.username || 'Gäst';
+}
+
+function getUserCoins() {
+  return parseInt(localStorage.getItem('gobet_user_coins') || '0');
+}
+
+function updateUserCoins(amount) {
+  const currentCoins = getUserCoins();
+  const newCoins = currentCoins + amount;
+  localStorage.setItem('gobet_user_coins', newCoins.toString());
+}
+
+function getUserStats() {
+  return JSON.parse(localStorage.getItem('gobet_user_stats') || '{}');
+}
+
+function updateUserStats(action, amount) {
+  // Hämta nuvarande statistik
+  const stats = getUserStats();
+  
+  // Uppdatera statistik baserat på action
+  switch (action) {
+    case 'created':
+      stats.betsCreated = (stats.betsCreated || 0) + 1;
+      break;
+    case 'joined':
+      stats.betsJoined = (stats.betsJoined || 0) + 1;
+      break;
+    case 'win':
+      stats.betsWon = (stats.betsWon || 0) + 1;
+      stats.totalWinnings = (stats.totalWinnings || 0) + amount;
+      break;
+    case 'loss':
+      stats.betsLost = (stats.betsLost || 0) + 1;
+      break;
+  }
+  
+  // Räkna om vinstprocent
+  const totalBets = (stats.betsWon || 0) + (stats.betsLost || 0);
+  if (totalBets > 0) {
+    stats.winPercentage = Math.round(((stats.betsWon || 0) / totalBets) * 100);
+  }
+  
+  // Spara uppdaterad statistik
+  localStorage.setItem('gobet_user_stats', JSON.stringify(stats));
+}
+
+function updateUserStatsByUserId(userId, action, amount) {
+  // Om det är den aktuella användaren, använd den vanliga funktionen
+  if (userId === getUserId()) {
+    updateUserStats(action, amount);
+    return;
+  }
+  
+  // Annars behöver vi uppdatera statistik för en annan användare
+  // Detta är en förenklad version, i en riktig app skulle detta hanteras av en server
+  const allUsers = JSON.parse(localStorage.getItem('gobet_registered_users') || '[]');
+  const userIndex = allUsers.findIndex(u => u.userData.id === userId);
+  
+  if (userIndex !== -1) {
+    const user = allUsers[userIndex];
+    
+    // Hämta eller skapa statistik
+    const stats = JSON.parse(localStorage.getItem(`gobet_user_stats_${userId}`) || '{}');
+    
+    // Uppdatera statistik baserat på action
+    switch (action) {
+      case 'win':
+        stats.betsWon = (stats.betsWon || 0) + 1;
+        stats.totalWinnings = (stats.totalWinnings || 0) + amount;
+        break;
+      case 'loss':
+        stats.betsLost = (stats.betsLost || 0) + 1;
+        break;
+    }
+    
+    // Räkna om vinstprocent
+    const totalBets = (stats.betsWon || 0) + (stats.betsLost || 0);
+    if (totalBets > 0) {
+      stats.winPercentage = Math.round(((stats.betsWon || 0) / totalBets) * 100);
+    }
+    
+    // Spara uppdaterad statistik
+    localStorage.setItem(`gobet_user_stats_${userId}`, JSON.stringify(stats));
+  }
+}
+
+function distributeWinnings(userId, amount) {
+  // Om det är den aktuella användaren, använd den vanliga funktionen
+  if (userId === getUserId()) {
+    updateUserCoins(amount);
+    return;
+  }
+  
+  // Annars behöver vi uppdatera saldo för en annan användare
+  // Detta är en förenklad version, i en riktig app skulle detta hanteras av en server
+  const allUsers = JSON.parse(localStorage.getItem('gobet_registered_users') || '[]');
+  const userIndex = allUsers.findIndex(u => u.userData.id === userId);
+  
+  if (userIndex !== -1) {
+    // Uppdatera användarens saldo
+    const currentCoins = parseInt(localStorage.getItem(`gobet_user_coins_${userId}`) || '0');
+    const newCoins = currentCoins + amount;
+    localStorage.setItem(`gobet_user_coins_${userId}`, newCoins.toString());
+  }
+}
+
+function showLoginPrompt() {
+  showNotification('Du måste vara inloggad för att delta i bets.', 'warning');
+  
+  // Omdirigera till inloggningssidan efter en kort fördröjning
+  setTimeout(() => {
+    window.location.href = 'login.html';
+  }, 1500);
+}
+
 function generateUniqueId() {
-    return 'bet_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+function showNotification(message, type = 'info') {
+  // Visa en notifikation på skärmen
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  
+  notification.innerHTML = `
+    <div class="notification-icon">
+      <i class="fa-solid ${getIconForType(type)}"></i>
+    </div>
+    <div class="notification-content">
+      <p>${message}</p>
+    </div>
+    <button class="notification-close">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Animera in
+  setTimeout(() => {
+    notification.classList.add('active');
+  }, 10);
+  
+  // Stängknapp
+  const closeBtn = notification.querySelector('.notification-close');
+  closeBtn.addEventListener('click', () => {
+    notification.classList.remove('active');
+    setTimeout(() => {
+      notification.remove();
+    }, 300);
+  });
+  
+  // Auto-hide efter 5 sekunder
+  setTimeout(() => {
+    if (document.body.contains(notification)) {
+      notification.classList.remove('active');
+      setTimeout(() => {
+        if (document.body.contains(notification)) {
+          notification.remove();
+        }
+      }, 300);
+    }
+  }, 5000);
+}
+
+function getIconForType(type) {
+  switch (type) {
+    case 'success':
+      return 'fa-circle-check';
+    case 'error':
+      return 'fa-circle-xmark';
+    case 'warning':
+      return 'fa-triangle-exclamation';
+    case 'info':
+    default:
+      return 'fa-circle-info';
+  }
 } 

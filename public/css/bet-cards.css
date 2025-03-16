@@ -1,0 +1,609 @@
+/**
+ * Bet-kort styling
+ * Tillhandahåller stilar för bet-kort och bet-visning på GoBet-plattformen
+ */
+
+/* Huvudcontainer för bets */
+.bets-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+/* Filter och sorteringskontroller */
+.bet-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.bet-filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.bet-sort {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-button, 
+.sort-select {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: white;
+  color: #4a5568;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.filter-button:hover {
+  border-color: #4299e1;
+  color: #4299e1;
+}
+
+.filter-button.active {
+  background-color: #4299e1;
+  color: white;
+  border-color: #4299e1;
+}
+
+/* Bet-kort styling */
+.bet-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  position: relative;
+}
+
+.bet-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Winner Takes All badge */
+.bet-card .wta-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(45deg, #6B46C1, #3182CE);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.bet-card .wta-badge i {
+  font-size: 0.7rem;
+}
+
+/* Bet-kort huvud */
+.bet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.bet-title-area {
+  flex: 1;
+}
+
+.bet-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.bet-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #718096;
+  flex-wrap: wrap;
+}
+
+.bet-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.bet-creator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bet-creator-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bet-creator-name {
+  font-weight: 600;
+  color: #4a5568;
+}
+
+/* Bet-description */
+.bet-description {
+  margin-bottom: 1.5rem;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+/* Bet options */
+.bet-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #f8fafc;
+}
+
+.option:hover {
+  border-color: #4299e1;
+  background-color: #ebf8ff;
+}
+
+.option.selected {
+  background-color: #ebf8ff;
+  border-color: #3182ce;
+  position: relative;
+}
+
+.option.selected::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #3182ce;
+  border-radius: 4px 0 0 4px;
+}
+
+.option-text {
+  font-weight: 500;
+  color: #2d3748;
+  flex: 1;
+}
+
+.option-odds {
+  font-weight: 700;
+  color: #3182ce;
+  background-color: rgba(49, 130, 206, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+/* Bet-information och handlingar */
+.bet-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.bet-stats {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.bet-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bet-stat-value {
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.bet-stat-label {
+  color: #718096;
+  font-size: 0.875rem;
+}
+
+.bet-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-join, .btn-complete-bet {
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-join {
+  background-color: #3182ce;
+  color: white;
+  border: 2px solid #3182ce;
+}
+
+.btn-join:hover {
+  background-color: #2b6cb0;
+  border-color: #2b6cb0;
+}
+
+.btn-join.disabled {
+  background-color: #cbd5e0;
+  border-color: #cbd5e0;
+  cursor: not-allowed;
+}
+
+.btn-complete-bet {
+  background-color: transparent;
+  color: #3182ce;
+  border: 2px solid #3182ce;
+}
+
+.btn-complete-bet:hover {
+  background-color: #ebf8ff;
+}
+
+/* Slut på bet-markör */
+.bet-card.completed {
+  opacity: 0.8;
+}
+
+.bet-card.completed::after {
+  content: 'AVSLUTAD';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 3rem;
+  font-weight: 800;
+  color: rgba(49, 130, 206, 0.2);
+  border: 5px solid rgba(49, 130, 206, 0.2);
+  padding: 0.5rem 2rem;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* Vinnande alternativ */
+.option.winner {
+  background-color: #c6f6d5;
+  border-color: #38a169;
+}
+
+.option.winner::before {
+  background-color: #38a169;
+}
+
+.option.winner .option-text {
+  color: #22543d;
+}
+
+.option.winner .option-odds {
+  background-color: rgba(56, 161, 105, 0.1);
+  color: #22543d;
+}
+
+.option.loser {
+  opacity: 0.7;
+}
+
+/* Container för vinstinfo */
+.winning-info {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #f0fff4;
+  border-radius: 8px;
+  border-left: 4px solid #38a169;
+}
+
+.winning-title {
+  font-weight: 600;
+  color: #22543d;
+  margin-bottom: 0.5rem;
+}
+
+/* Potentiell vinst box */
+.potential-win-container {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: #ebf8ff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-left: 4px solid #3182ce;
+}
+
+.potential-win-label {
+  color: #3182ce;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.potential-win-value {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.potential-win-amount {
+  font-weight: 700;
+  color: #3182ce;
+  font-size: 1.25rem;
+}
+
+/* Ingen bets-hittade meddelande */
+.no-bets-found {
+  text-align: center;
+  padding: 3rem 0;
+  color: #718096;
+}
+
+.no-bets-found i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #e2e8f0;
+}
+
+.no-bets-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #2d3748;
+}
+
+.no-bets-message {
+  font-size: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Dialog för att slutföra bet */
+.complete-bet-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.dialog-content {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  padding: 2rem;
+}
+
+.dialog-content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #2d3748;
+}
+
+.dialog-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.dialog-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.dialog-option:hover {
+  background-color: #f7fafc;
+}
+
+.dialog-option input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #3182ce;
+}
+
+.dialog-option label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4a5568;
+  cursor: pointer;
+  flex: 1;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-cancel, .btn-confirm {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-cancel:hover {
+  background-color: #f7fafc;
+}
+
+.btn-confirm {
+  background-color: #3182ce;
+  color: white;
+  border: 1px solid #3182ce;
+}
+
+.btn-confirm:hover {
+  background-color: #2b6cb0;
+}
+
+/* Notifications */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  max-width: 350px;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.notification.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.notification-icon {
+  font-size: 1.5rem;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-content p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a0aec0;
+  font-size: 0.875rem;
+  padding: 0.25rem;
+}
+
+.notification-close:hover {
+  color: #4a5568;
+}
+
+.notification-success .notification-icon {
+  color: #38a169;
+}
+
+.notification-error .notification-icon {
+  color: #e53e3e;
+}
+
+.notification-warning .notification-icon {
+  color: #dd6b20;
+}
+
+.notification-info .notification-icon {
+  color: #3182ce;
+}
+
+/* Responsiv design för mobil */
+@media (max-width: 768px) {
+  .bet-card {
+    padding: 1.25rem;
+  }
+  
+  .bet-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .bet-creator {
+    margin-left: 0;
+  }
+  
+  .bet-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .bet-stats {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .bet-actions {
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .btn-join, .btn-complete-bet {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .dialog-content {
+    padding: 1.5rem;
+  }
+} 

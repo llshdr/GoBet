@@ -1,13 +1,13 @@
 /* ===== Moderna designvariabler ===== */
 :root {
-  --primary-color: #6643b5;
-  --primary-light: #a98be7;
-  --primary-dark: #4e32a0;
-  --secondary-color: #ff7e47;
-  --secondary-light: #ffa47b;
-  --secondary-dark: #e05f23;
-  --accent-color: #00c2cb;
-  --background-color: #f5f7fb;
+  --primary-color: #1e88e5;
+  --primary-light: #6ab7ff;
+  --primary-dark: #005cb2;
+  --secondary-color: #0d47a1;
+  --secondary-light: #5472d3;
+  --secondary-dark: #002171;
+  --accent-color: #29b6f6;
+  --background-color: #ffffff;
   --surface-color: #ffffff;
   --text-color: #2b3240;
   --text-light: #5d6977;
@@ -17,9 +17,14 @@
   
   /* Glassmorfism */
   --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --glass-border: rgba(30, 136, 229, 0.2);
+  --glass-shadow: 0 8px 32px rgba(30, 136, 229, 0.1);
   --glass-blur: blur(10px);
+  
+  /* RGB-värden för lättare manipulation */
+  --primary-rgb: 30, 136, 229;
+  --secondary-rgb: 13, 71, 161;
+  --accent-rgb: 41, 182, 246;
   
   /* Radier och skuggor */
   --border-radius-sm: 0.5rem;
@@ -43,6 +48,10 @@
   --container-width: 1200px;
   --container-padding: 1.25rem;
   --content-spacing: 2rem;
+  
+  /* Konsistenta kort-stilar */
+  --card-shadow: 0 4px 12px rgba(30, 136, 229, 0.1);
+  --card-border: 1px solid rgba(30, 136, 229, 0.1);
 }
 
 /* ===== Grundläggande stilar ===== */
@@ -64,11 +73,11 @@ body {
   background-color: var(--background-color);
   background-image: radial-gradient(
     circle at top right,
-    var(--primary-light),
+    rgba(30, 136, 229, 0.1),
     transparent 30%
   ), radial-gradient(
     circle at bottom left,
-    var(--secondary-light),
+    rgba(41, 182, 246, 0.1),
     transparent 30%
   );
   background-attachment: fixed;
