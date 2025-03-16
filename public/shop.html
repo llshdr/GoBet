@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoBet - Butik</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/images.css">
+  <link rel="stylesheet" href="css/bet-cards.css">
+  <link rel="stylesheet" href="css/login-modal.css">
+  <style>
+    /* Butik-specifika stilar */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .product-card {
+      background-color: var(--surface-color);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      transition: var(--transition);
+      border: 1px solid rgba(var(--primary-rgb), 0.1);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shadow-lg);
+    }
+    
+    .product-card-header {
+      position: relative;
+    }
+    
+    .product-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .product-card-body {
+      padding: 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .product-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+    
+    .product-description {
+      color: var(--text-light);
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+    
+    .product-price {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      font-size: 1.25rem;
+    }
+    
+    .price-icon {
+      margin-right: 0.5rem;
+      color: var(--accent-color);
+    }
+    
+    .product-category-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--border-radius);
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: rgba(var(--primary-rgb), 0.1);
+      color: var(--primary-color);
+    }
+    
+    .limited-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--border-radius);
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: rgba(var(--accent-rgb), 0.1);
+      color: var(--accent-color);
+    }
+    
+    .product-action-btn {
+      width: 100%;
+      padding: 0.75rem;
+      border: none;
+      border-radius: var(--border-radius);
+      background-color: var(--primary-color);
+      color: var(--text-white);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    .product-action-btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .shop-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .shop-filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .filter-button {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      background-color: var(--surface-color);
+      color: var(--text-light);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .filter-button:hover,
+    .filter-button.active {
+      background-color: rgba(var(--primary-rgb), 0.1);
+      color: var(--primary-color);
+      border-color: rgba(var(--primary-rgb), 0.2);
+    }
+    
+    .filter-button.active {
+      font-weight: 600;
+    }
+    
+    .section-description {
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      max-width: 800px;
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="container header-container">
+      <div class="logo-container">
+        <a href="index.html" class="logo">
+          <img src="img/gobet-logo.svg" alt="GoBet" class="logo-image">
+        </a>
+      </div>
+      
+      <button class="mobile-menu-toggle" aria-label="Öppna meny">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="fas fa-home"></i>
+              <span>Hem</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="friends.html" class="nav-link">
+              <i class="fas fa-user-friends"></i>
+              <span>Vänner</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="wheel.html" class="nav-link">
+              <i class="fas fa-dharmachakra"></i>
+              <span>Lyckohjul</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="create-bet.html" class="nav-link">
+              <i class="fas fa-plus-circle"></i>
+              <span>Skapa Bet</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="bets.html" class="nav-link">
+              <i class="fas fa-dice"></i>
+              <span>Vadslagningar</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="shop.html" class="nav-link">
+              <i class="fas fa-store"></i>
+              <span>Butik</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="leaderboard.html" class="nav-link">
+              <i class="fas fa-trophy"></i>
+              <span>Topplista</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="user-area">
+        <div class="balance-display">
+          <div class="coin-icon">
+            <i class="fas fa-coins"></i>
+          </div>
+          <span class="balance-amount">2,500</span>
+        </div>
+        
+        <button class="btn btn-primary login-button">
+          <i class="fas fa-sign-in-alt"></i>
+          Logga in
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <main class="main-content">
+    <div class="container">
+      <section class="page-header">
+        <div class="section-header">
+          <h1 class="section-title">GoBet Butik</h1>
+        </div>
+        <p class="section-description">
+          Hitta spännande uppgraderingar, avatarer och premiumprodukter. Använd dina vinstpengar för att förbättra din GoBet-upplevelse!
+        </p>
+      </section>
+      
+      <section class="shop-filters-section">
+        <div class="shop-controls">
+          <div class="shop-filters">
+            <button class="filter-button active">Alla produkter</button>
+            <button class="filter-button">
+              <i class="fas fa-user-circle"></i>
+              Avatarer
+            </button>
+            <button class="filter-button">
+              <i class="fas fa-palette"></i>
+              Teman
+            </button>
+            <button class="filter-button">
+              <i class="fas fa-crown"></i>
+              Premium
+            </button>
+            <button class="filter-button">
+              <i class="fas fa-gift"></i>
+              Bonusar
+            </button>
+          </div>
+          
+          <div class="shop-sort">
+            <label for="sort-products">Sortera efter:</label>
+            <select id="sort-products" class="sort-select">
+              <option value="popular">Populärast</option>
+              <option value="price-low">Lägsta pris</option>
+              <option value="price-high">Högsta pris</option>
+              <option value="newest">Nyast</option>
+            </select>
+          </div>
+        </div>
+      </section>
+      
+      <section class="featured-products">
+        <h2 class="section-title">Populära produkter</h2>
+        <div class="shop-grid">
+          <!-- Produkt 1 -->
+          <div class="product-card">
+            <div class="product-card-header">
+              <img src="img/premium-pack.jpg" alt="Premium medlemskap" class="product-image">
+              <div class="product-category-badge">Premium</div>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-title">Premium Medlemskap (30 dagar)</h3>
+              <p class="product-description">Få tillgång till exklusiva vadslagningar, högre vinstmultiplikatorer och VIP-funktioner.</p>
+              <div class="product-price">
+                <i class="fas fa-coins price-icon"></i>
+                5,000
+              </div>
+              <button class="product-action-btn login-button">
+                <i class="fas fa-crown"></i>
+                Köp premium
+              </button>
+            </div>
+          </div>
+          
+          <!-- Produkt 2 -->
+          <div class="product-card">
+            <div class="product-card-header">
+              <img src="img/custom-avatar.jpg" alt="Anpassad avatar" class="product-image">
+              <div class="product-category-badge">Avatar</div>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-title">Anpassad Avatar</h3>
+              <p class="product-description">Skapa din egen unika avatar med avancerade anpassningsalternativ och stil.</p>
+              <div class="product-price">
+                <i class="fas fa-coins price-icon"></i>
+                2,000
+              </div>
+              <button class="product-action-btn login-button">
+                <i class="fas fa-user-edit"></i>
+                Anpassa nu
+              </button>
+            </div>
+          </div>
+          
+          <!-- Produkt 3 -->
+          <div class="product-card">
+            <div class="product-card-header">
+              <img src="img/dark-theme.jpg" alt="Mörkt tema" class="product-image">
+              <div class="product-category-badge">Tema</div>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-title">Mörkt Tema</h3>
+              <p class="product-description">Ett elegant mörkt tema för din GoBet-upplevelse. Skonsamt för ögonen på natten.</p>
+              <div class="product-price">
+                <i class="fas fa-coins price-icon"></i>
+                1,000
+              </div>
+              <button class="product-action-btn login-button">
+                <i class="fas fa-palette"></i>
+                Köp tema
+              </button>
+            </div>
+          </div>
+          
+          <!-- Produkt 4 -->
+          <div class="product-card">
+            <div class="product-card-header">
+              <img src="img/bonus-pack.jpg" alt="Bonus paket" class="product-image">
+              <div class="product-category-badge">Bonus</div>
+              <div class="limited-badge">Begränsad tid</div>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-title">Lucky Streak Bonus</h3>
+              <p class="product-description">Öka dina vinstchanser med 15% på alla vadslagningar under 24 timmar.</p>
+              <div class="product-price">
+                <i class="fas fa-coins price-icon"></i>
+                3,500
+              </div>
+              <button class="product-action-btn login-button">
+                <i class="fas fa-fire"></i>
+                Aktivera bonus
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="avatars-section">
+        <div class="section-header">
+          <h2 class="section-title">Avatarer</h2>
+          <a href="shop-avatars.html" class="see-more-link">Se alla <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="shop-grid">
+          <!-- Avatar 1 -->
+          <div class="product-card">
+            <div class="product-card-header">
+              <img src="img/avatar-premium1.jpg" alt="Sport Avatar" class="product-image">
+              <div class="product-category-badge">Avatar</div>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-title">Sport Fanatiker</h3>
+              <p class="product-description">Visa din passion för sport med denna dynamiska sportavatarbild.</p>
+              <div class="product-price">
+                <i class="fas fa-coins price-icon"></i>
+                800
+              </div>
+              <button class="product-action-btn login-button">
+                <i class="fas fa-shopping-cart"></i>
+                Köp nu
+              </button>
+            </div>
+          </div>
+          
+          <!-- Avatar 2 -->
+          <div class="product-card">
+            <div class="product-card-header">
+              <img src="img/avatar-premium2.jpg" alt="Spel avatar" class="product-image">
+              <div class="product-category-badge">Avatar</div>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-title">Gamer Pro</h3>
+              <p class="product-description">Den perfekta avataren för spelentusiaster med ett modernt, futuristiskt utseende.</p>
+              <div class="product-price">
+                <i class="fas fa-coins price-icon"></i>
+                800
+              </div>
+              <button class="product-action-btn login-button">
+                <i class="fas fa-shopping-cart"></i>
+                Köp nu
+              </button>
+            </div>
+          </div>
+          
+          <!-- Avatar 3 -->
+          <div class="product-card">
+            <div class="product-card-header">
+              <img src="img/avatar-premium3.jpg" alt="Filmfantast avatar" class="product-image">
+              <div class="product-category-badge">Avatar</div>
+              <div class="limited-badge">Ny</div>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-title">Filmfantast</h3>
+              <p class="product-description">För filmälskare som gillar att betta på underhållningsevenemang.</p>
+              <div class="product-price">
+                <i class="fas fa-coins price-icon"></i>
+                800
+              </div>
+              <button class="product-action-btn login-button">
+                <i class="fas fa-shopping-cart"></i>
+                Köp nu
+              </button>
+            </div>
+          </div>
+          
+          <!-- Avatar 4 -->
+          <div class="product-card">
+            <div class="product-card-header">
+              <img src="img/avatar-premium4.jpg" alt="Politik avatar" class="product-image">
+              <div class="product-category-badge">Avatar</div>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-title">Politik Proffs</h3>
+              <p class="product-description">Perfekt för de som gillar att följa politiska skeenden och vadslagningar.</p>
+              <div class="product-price">
+                <i class="fas fa-coins price-icon"></i>
+                800
+              </div>
+              <button class="product-action-btn login-button">
+                <i class="fas fa-shopping-cart"></i>
+                Köp nu
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="premium-section">
+        <div class="cta-card">
+          <div class="cta-content">
+            <h2 class="cta-title">Uppgradera till Premium</h2>
+            <p class="cta-description">Få exklusiv tillgång till premiumfunktioner, högre vinstmultiplikatorer och specialtillverkade vadslagningar. Prova premium idag!</p>
+            <button class="btn btn-primary btn-lg login-button">
+              <i class="fas fa-crown"></i>
+              Uppgradera nu
+            </button>
+          </div>
+          <div class="cta-image">
+            <img src="img/premium-illustration.svg" alt="Premium fördelar" class="premium-image">
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <footer class="app-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="img/gobet-logo.svg" alt="GoBet" class="footer-logo-image">
+          </a>
+          <p class="footer-tagline">Skapa spännande vadslagningar med dina vänner och vinn tillsammans.</p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Plattform</h3>
+            <ul class="footer-links-list">
+              <li><a href="index.html">Hem</a></li>
+              <li><a href="features.html">Funktioner</a></li>
+              <li><a href="pricing.html">Priser</a></li>
+              <li><a href="faq.html">Vanliga frågor</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Bets</h3>
+            <ul class="footer-links-list">
+              <li><a href="bets.html">Utforska bets</a></li>
+              <li><a href="create-bet.html">Skapa bet</a></li>
+              <li><a href="my-bets.html">Mina bets</a></li>
+              <li><a href="how-to.html">Hur fungerar det</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Konto</h3>
+            <ul class="footer-links-list">
+              <li><a href="#" class="login-button">Logga in</a></li>
+              <li><a href="register.html">Skapa konto</a></li>
+              <li><a href="forgot-password.html">Glömt lösenord</a></li>
+              <li><a href="premium.html">Premium</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Företag</h3>
+            <ul class="footer-links-list">
+              <li><a href="about.html">Om oss</a></li>
+              <li><a href="blog.html">Blogg</a></li>
+              <li><a href="contact.html">Kontakta oss</a></li>
+              <li><a href="careers.html">Karriär</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="copyright">&copy; 2023 GoBet. Alla rättigheter förbehållna.</div>
+        
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Discord">
+            <i class="fab fa-discord"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="js/main.js"></script>
+  <script src="js/login-modal.js"></script>
+  <script src="js/navigation.js"></script>
+</body>
+</html> 

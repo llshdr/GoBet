@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoBet - Topplista</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/images.css">
+  <link rel="stylesheet" href="css/bet-cards.css">
+  <link rel="stylesheet" href="css/login-modal.css">
+  <style>
+    /* Topplista-specifika stilar */
+    .leaderboard-container {
+      background-color: var(--surface-color);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--box-shadow);
+      padding: 2rem;
+      overflow: hidden;
+      border: 1px solid rgba(var(--primary-rgb), 0.1);
+      margin-bottom: 2rem;
+    }
+    
+    .leaderboard-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+    }
+    
+    .tab-button {
+      padding: 0.5rem 1.25rem;
+      background-color: var(--surface-light);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .tab-button:hover {
+      background-color: rgba(var(--primary-rgb), 0.05);
+    }
+    
+    .tab-button.active {
+      background-color: var(--primary-color);
+      color: #fff;
+      border-color: var(--primary-color);
+    }
+    
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .leaderboard-table th,
+    .leaderboard-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .leaderboard-table th {
+      font-weight: 600;
+      color: var(--text-color);
+      background-color: var(--surface-light);
+      position: sticky;
+      top: 0;
+    }
+    
+    .leaderboard-table tr:hover {
+      background-color: rgba(var(--primary-rgb), 0.02);
+    }
+    
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    .user-name {
+      font-weight: 500;
+      color: var(--text-color);
+    }
+    
+    .rank {
+      font-weight: 700;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    
+    .rank-1 {
+      background-color: gold;
+      color: #333;
+    }
+    
+    .rank-2 {
+      background-color: silver;
+      color: #333;
+    }
+    
+    .rank-3 {
+      background-color: #cd7f32; /* Bronze */
+      color: #fff;
+    }
+    
+    .stats-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--border-radius);
+      font-size: 0.875rem;
+      background-color: rgba(var(--primary-rgb), 0.1);
+      color: var(--primary-color);
+      gap: 0.35rem;
+    }
+    
+    .trophy-icon {
+      color: var(--accent-color);
+    }
+    
+    .featured-users {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .featured-user-card {
+      background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.05), rgba(var(--secondary-rgb), 0.05));
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(var(--primary-rgb), 0.1);
+    }
+    
+    .featured-user-card.top1 {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+    
+    .featured-user-card.top2 {
+      background: linear-gradient(135deg, rgba(192, 192, 192, 0.15), rgba(192, 192, 192, 0.05));
+      border: 1px solid rgba(192, 192, 192, 0.3);
+    }
+    
+    .featured-user-card.top3 {
+      background: linear-gradient(135deg, rgba(205, 127, 50, 0.15), rgba(205, 127, 50, 0.05));
+      border: 1px solid rgba(205, 127, 50, 0.3);
+    }
+    
+    .featured-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .featured-rank {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.125rem;
+    }
+    
+    .featured-username {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .featured-stats {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .featured-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .stat-value {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--primary-color);
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+    
+    .trophy-icon-lg {
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="container header-container">
+      <div class="logo-container">
+        <a href="index.html" class="logo">
+          <img src="img/gobet-logo.svg" alt="GoBet" class="logo-image">
+        </a>
+      </div>
+      
+      <button class="mobile-menu-toggle" aria-label="Öppna meny">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="fas fa-home"></i>
+              <span>Hem</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="friends.html" class="nav-link">
+              <i class="fas fa-user-friends"></i>
+              <span>Vänner</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="wheel.html" class="nav-link">
+              <i class="fas fa-dharmachakra"></i>
+              <span>Lyckohjul</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="create-bet.html" class="nav-link">
+              <i class="fas fa-plus-circle"></i>
+              <span>Skapa Bet</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="bets.html" class="nav-link">
+              <i class="fas fa-dice"></i>
+              <span>Vadslagningar</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="shop.html" class="nav-link">
+              <i class="fas fa-store"></i>
+              <span>Butik</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="leaderboard.html" class="nav-link">
+              <i class="fas fa-trophy"></i>
+              <span>Topplista</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="user-area">
+        <div class="balance-display">
+          <div class="coin-icon">
+            <i class="fas fa-coins"></i>
+          </div>
+          <span class="balance-amount">2,500</span>
+        </div>
+        
+        <button class="btn btn-primary login-button">
+          <i class="fas fa-sign-in-alt"></i>
+          Logga in
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <main class="main-content">
+    <div class="container">
+      <section class="page-header">
+        <div class="section-header">
+          <h1 class="section-title">Topplista</h1>
+        </div>
+        <p class="section-description">
+          Kolla vilka spelare som har mest framgång på GoBet! Vinstfrekvens, vinstbelopp och särskilda prestationer ger poäng på topplistan.
+        </p>
+      </section>
+      
+      <section class="top-players-section">
+        <div class="featured-users">
+          <!-- Topp 1 spelare -->
+          <div class="featured-user-card top1">
+            <div class="featured-rank rank-1">1</div>
+            <img src="img/avatar-premium1.jpg" alt="Topp 1 spelare" class="featured-avatar">
+            <h3 class="featured-username">BetMaster88</h3>
+            <span class="stats-badge">
+              <i class="fas fa-trophy trophy-icon"></i>
+              Vinstfrekvens: 78%
+            </span>
+            <div class="featured-stats">
+              <div class="featured-stat">
+                <span class="stat-value">264</span>
+                <span class="stat-label">Vinster</span>
+              </div>
+              <div class="featured-stat">
+                <span class="stat-value">156,000</span>
+                <span class="stat-label">Vinstbelopp</span>
+              </div>
+              <div class="featured-stat">
+                <span class="stat-value">341</span>
+                <span class="stat-label">Bets</span>
+              </div>
+            </div>
+            <i class="fas fa-trophy trophy-icon-lg"></i>
+          </div>
+          
+          <!-- Topp 2 spelare -->
+          <div class="featured-user-card top2">
+            <div class="featured-rank rank-2">2</div>
+            <img src="img/avatar-premium2.jpg" alt="Topp 2 spelare" class="featured-avatar">
+            <h3 class="featured-username">SportsFan42</h3>
+            <span class="stats-badge">
+              <i class="fas fa-trophy trophy-icon"></i>
+              Vinstfrekvens: 72%
+            </span>
+            <div class="featured-stats">
+              <div class="featured-stat">
+                <span class="stat-value">231</span>
+                <span class="stat-label">Vinster</span>
+              </div>
+              <div class="featured-stat">
+                <span class="stat-value">128,500</span>
+                <span class="stat-label">Vinstbelopp</span>
+              </div>
+              <div class="featured-stat">
+                <span class="stat-value">320</span>
+                <span class="stat-label">Bets</span>
+              </div>
+            </div>
+            <i class="fas fa-trophy trophy-icon-lg"></i>
+          </div>
+          
+          <!-- Topp 3 spelare -->
+          <div class="featured-user-card top3">
+            <div class="featured-rank rank-3">3</div>
+            <img src="img/avatar-premium3.jpg" alt="Topp 3 spelare" class="featured-avatar">
+            <h3 class="featured-username">LuckyCharm</h3>
+            <span class="stats-badge">
+              <i class="fas fa-trophy trophy-icon"></i>
+              Vinstfrekvens: 69%
+            </span>
+            <div class="featured-stats">
+              <div class="featured-stat">
+                <span class="stat-value">198</span>
+                <span class="stat-label">Vinster</span>
+              </div>
+              <div class="featured-stat">
+                <span class="stat-value">102,000</span>
+                <span class="stat-label">Vinstbelopp</span>
+              </div>
+              <div class="featured-stat">
+                <span class="stat-value">287</span>
+                <span class="stat-label">Bets</span>
+              </div>
+            </div>
+            <i class="fas fa-trophy trophy-icon-lg"></i>
+          </div>
+        </div>
+      </section>
+      
+      <section class="leaderboard-section">
+        <div class="leaderboard-container">
+          <div class="leaderboard-tabs">
+            <button class="tab-button active">
+              <i class="fas fa-star"></i>
+              Alla spelare
+            </button>
+            <button class="tab-button">
+              <i class="fas fa-user-friends"></i>
+              Dina vänner
+            </button>
+            <button class="tab-button">
+              <i class="fas fa-futbol"></i>
+              Sport
+            </button>
+            <button class="tab-button">
+              <i class="fas fa-film"></i>
+              Nöje
+            </button>
+            <button class="tab-button">
+              <i class="fas fa-landmark"></i>
+              Politik
+            </button>
+          </div>
+          
+          <div class="leaderboard-table-container">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Användare</th>
+                  <th>Vinster</th>
+                  <th>Vinstfrekvens</th>
+                  <th>Bets</th>
+                  <th>Vinstbelopp</th>
+                  <th>Senaste vinst</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="rank rank-1">1</div></td>
+                  <td>
+                    <div class="user-cell">
+                      <img src="img/avatar-premium1.jpg" alt="BetMaster88" class="user-avatar">
+                      <span class="user-name">BetMaster88</span>
+                    </div>
+                  </td>
+                  <td>264</td>
+                  <td>78%</td>
+                  <td>341</td>
+                  <td>156,000</td>
+                  <td>För 2 timmar sedan</td>
+                </tr>
+                <tr>
+                  <td><div class="rank rank-2">2</div></td>
+                  <td>
+                    <div class="user-cell">
+                      <img src="img/avatar-premium2.jpg" alt="SportsFan42" class="user-avatar">
+                      <span class="user-name">SportsFan42</span>
+                    </div>
+                  </td>
+                  <td>231</td>
+                  <td>72%</td>
+                  <td>320</td>
+                  <td>128,500</td>
+                  <td>För 5 timmar sedan</td>
+                </tr>
+                <tr>
+                  <td><div class="rank rank-3">3</div></td>
+                  <td>
+                    <div class="user-cell">
+                      <img src="img/avatar-premium3.jpg" alt="LuckyCharm" class="user-avatar">
+                      <span class="user-name">LuckyCharm</span>
+                    </div>
+                  </td>
+                  <td>198</td>
+                  <td>69%</td>
+                  <td>287</td>
+                  <td>102,000</td>
+                  <td>För 1 dag sedan</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>
+                    <div class="user-cell">
+                      <img src="img/avatar-premium4.jpg" alt="BettingQueen" class="user-avatar">
+                      <span class="user-name">BettingQueen</span>
+                    </div>
+                  </td>
+                  <td>176</td>
+                  <td>65%</td>
+                  <td>270</td>
+                  <td>89,200</td>
+                  <td>För 6 timmar sedan</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>
+                    <div class="user-cell">
+                      <img src="img/avatar-tech.svg" alt="PredictionGuru" class="user-avatar">
+                      <span class="user-name">PredictionGuru</span>
+                    </div>
+                  </td>
+                  <td>154</td>
+                  <td>63%</td>
+                  <td>245</td>
+                  <td>78,400</td>
+                  <td>För 2 dagar sedan</td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td>
+                    <div class="user-cell">
+                      <img src="img/avatar-gaming.svg" alt="GameMaster" class="user-avatar">
+                      <span class="user-name">GameMaster</span>
+                    </div>
+                  </td>
+                  <td>142</td>
+                  <td>61%</td>
+                  <td>232</td>
+                  <td>65,300</td>
+                  <td>För 1 dag sedan</td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td>
+                    <div class="user-cell">
+                      <img src="img/avatar.jpg" alt="BetWizard" class="user-avatar">
+                      <span class="user-name">BetWizard</span>
+                    </div>
+                  </td>
+                  <td>128</td>
+                  <td>58%</td>
+                  <td>221</td>
+                  <td>54,900</td>
+                  <td>För 4 dagar sedan</td>
+                </tr>
+                <tr>
+                  <td>8</td>
+                  <td>
+                    <div class="user-cell">
+                      <img src="img/avatar-premium1.jpg" alt="ProBettor" class="user-avatar">
+                      <span class="user-name">ProBettor</span>
+                    </div>
+                  </td>
+                  <td>112</td>
+                  <td>55%</td>
+                  <td>205</td>
+                  <td>48,700</td>
+                  <td>För 3 dagar sedan</td>
+                </tr>
+                <tr>
+                  <td>9</td>
+                  <td>
+                    <div class="user-cell">
+                      <img src="img/avatar-premium2.jpg" alt="OddsExpert" class="user-avatar">
+                      <span class="user-name">OddsExpert</span>
+                    </div>
+                  </td>
+                  <td>98</td>
+                  <td>52%</td>
+                  <td>187</td>
+                  <td>41,200</td>
+                  <td>För 1 vecka sedan</td>
+                </tr>
+                <tr>
+                  <td>10</td>
+                  <td>
+                    <div class="user-cell">
+                      <img src="img/avatar-premium3.jpg" alt="BetsAndBeats" class="user-avatar">
+                      <span class="user-name">BetsAndBeats</span>
+                    </div>
+                  </td>
+                  <td>89</td>
+                  <td>50%</td>
+                  <td>178</td>
+                  <td>36,800</td>
+                  <td>För 5 dagar sedan</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      
+      <section class="your-stats-section">
+        <div class="leaderboard-container">
+          <h2 class="section-title">Din statistik</h2>
+          <p class="section-description">Logga in för att se din plats på topplistan och din vinststatistik.</p>
+          <div class="text-center" style="margin-top: 2rem;">
+            <button class="btn btn-primary btn-lg login-button">
+              <i class="fas fa-sign-in-alt"></i>
+              Logga in för att se dina statistik
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <section class="achievement-section">
+        <div class="section-header">
+          <h2 class="section-title">Prestationer att låsa upp</h2>
+        </div>
+        <div class="featured-users" style="margin-bottom: 3rem;">
+          <div class="featured-user-card">
+            <i class="fas fa-fire trophy-icon-lg"></i>
+            <h3 class="featured-username">Vinstsviten</h3>
+            <p style="margin-bottom: 1rem;">Vinn 5 vadslagningar i rad för att låsa upp denna prestation.</p>
+            <span class="stats-badge">
+              <i class="fas fa-medal"></i>
+              100 bonuspoäng
+            </span>
+          </div>
+          
+          <div class="featured-user-card">
+            <i class="fas fa-bolt trophy-icon-lg"></i>
+            <h3 class="featured-username">Risktagaren</h3>
+            <p style="margin-bottom: 1rem;">Vinn en vadslagning med odds på 5.0 eller högre.</p>
+            <span class="stats-badge">
+              <i class="fas fa-medal"></i>
+              250 bonuspoäng
+            </span>
+          </div>
+          
+          <div class="featured-user-card">
+            <i class="fas fa-users trophy-icon-lg"></i>
+            <h3 class="featured-username">Sociala spelaren</h3>
+            <p style="margin-bottom: 1rem;">Bjud in 10 vänner som registrerar sig och deltar i vadslagningar.</p>
+            <span class="stats-badge">
+              <i class="fas fa-medal"></i>
+              500 bonuspoäng
+            </span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <footer class="app-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="img/gobet-logo.svg" alt="GoBet" class="footer-logo-image">
+          </a>
+          <p class="footer-tagline">Skapa spännande vadslagningar med dina vänner och vinn tillsammans.</p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Plattform</h3>
+            <ul class="footer-links-list">
+              <li><a href="index.html">Hem</a></li>
+              <li><a href="features.html">Funktioner</a></li>
+              <li><a href="pricing.html">Priser</a></li>
+              <li><a href="faq.html">Vanliga frågor</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Bets</h3>
+            <ul class="footer-links-list">
+              <li><a href="bets.html">Utforska bets</a></li>
+              <li><a href="create-bet.html">Skapa bet</a></li>
+              <li><a href="my-bets.html">Mina bets</a></li>
+              <li><a href="how-to.html">Hur fungerar det</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Konto</h3>
+            <ul class="footer-links-list">
+              <li><a href="#" class="login-button">Logga in</a></li>
+              <li><a href="register.html">Skapa konto</a></li>
+              <li><a href="forgot-password.html">Glömt lösenord</a></li>
+              <li><a href="premium.html">Premium</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Företag</h3>
+            <ul class="footer-links-list">
+              <li><a href="about.html">Om oss</a></li>
+              <li><a href="blog.html">Blogg</a></li>
+              <li><a href="contact.html">Kontakta oss</a></li>
+              <li><a href="careers.html">Karriär</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="copyright">&copy; 2023 GoBet. Alla rättigheter förbehållna.</div>
+        
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Discord">
+            <i class="fab fa-discord"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="js/main.js"></script>
+  <script src="js/login-modal.js"></script>
+  <script src="js/navigation.js"></script>
+</body>
+</html> 

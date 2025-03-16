@@ -3,399 +3,766 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GoBet - Lyckohjul | Testa din tur</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/wheel.css">
+  <title>GoBet - Lyckohjul</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/images.css">
+  <link rel="stylesheet" href="css/bet-cards.css">
+  <link rel="stylesheet" href="css/login-modal.css">
+  <style>
+    /* Lyckohjul-specifika stilar */
+    .wheel-container {
+      background-color: var(--surface-color);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--box-shadow);
+      padding: 2rem;
+      overflow: hidden;
+      border: 1px solid rgba(var(--primary-rgb), 0.1);
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    
+    .wheel-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .wheel-graphic-container {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .wheel-graphic {
+      max-width: 100%;
+      height: auto;
+      transition: transform 5s cubic-bezier(0.1, 0.7, 0.1, 1);
+      transform-origin: center;
+    }
+    
+    .wheel-pointer {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      z-index: 2;
+    }
+    
+    .wheel-controls {
+      flex: 1;
+      min-width: 300px;
+      padding: 1rem;
+    }
+    
+    .wheel-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+    }
+    
+    .wheel-description {
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+    
+    .wheel-action {
+      margin-bottom: 2rem;
+    }
+    
+    .wheel-button {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: var(--border-radius);
+      font-size: 1.125rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      box-shadow: 0 4px 10px rgba(var(--primary-rgb), 0.3);
+    }
+    
+    .wheel-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(var(--primary-rgb), 0.4);
+    }
+    
+    .wheel-button:active {
+      transform: translateY(1px);
+    }
+    
+    .wheel-button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    
+    .wheel-status {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      background-color: rgba(var(--primary-rgb), 0.05);
+      margin-bottom: 2rem;
+    }
+    
+    .spins-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    .timer {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+    
+    .timer-icon,
+    .spins-icon {
+      font-size: 1.25rem;
+    }
+    
+    .prize-list {
+      margin-top: 2rem;
+    }
+    
+    .prize-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+    }
+    
+    .prize-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+    
+    .prize-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      background-color: var(--surface-light);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+    
+    .prize-item:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--box-shadow);
+      border-color: rgba(var(--primary-rgb), 0.2);
+    }
+    
+    .prize-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1), rgba(var(--secondary-rgb), 0.1));
+      border-radius: 50%;
+      color: var(--primary-color);
+      font-size: 1.25rem;
+    }
+    
+    .prize-info {
+      flex: 1;
+    }
+    
+    .prize-name {
+      font-weight: 600;
+      color: var(--text-color);
+      margin-bottom: 0.25rem;
+    }
+    
+    .prize-odds {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+    
+    .wheel-result {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.1), rgba(var(--accent-rgb), 0.05));
+      border: 1px solid rgba(var(--accent-rgb), 0.2);
+      display: none; /* Dold som standard */
+    }
+    
+    .result-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+    }
+    
+    .result-icon {
+      font-size: 3rem;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+    }
+    
+    .result-description {
+      color: var(--text-color);
+      margin-bottom: 1.5rem;
+      font-size: 1.125rem;
+    }
+    
+    .wheel-history {
+      margin-top: 2rem;
+    }
+    
+    .history-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+    }
+    
+    .history-list {
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+    
+    .history-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--surface-color);
+    }
+    
+    .history-item:last-child {
+      border-bottom: none;
+    }
+    
+    .history-prize {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .history-prize-icon {
+      color: var(--accent-color);
+    }
+    
+    .history-prize-name {
+      font-weight: 500;
+      color: var(--text-color);
+    }
+    
+    .history-date {
+      color: var(--text-light);
+      font-size: 0.875rem;
+    }
+    
+    .upgrade-message {
+      background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.05), rgba(var(--secondary-rgb), 0.05));
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .upgrade-icon {
+      color: var(--accent-color);
+      font-size: 1.25rem;
+    }
+    
+    .upgrade-text {
+      color: var(--text-light);
+      font-size: 0.875rem;
+      flex: 1;
+    }
+    
+    .upgrade-link {
+      color: var(--primary-color);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    
+    .upgrade-link:hover {
+      text-decoration: underline;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(1440deg); }
+    }
+    
+    .section-description {
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      max-width: 800px;
+    }
+    
+    .spinning {
+      animation: spin 5s cubic-bezier(0.1, 0.7, 0.1, 1) forwards;
+    }
+    
+    .premium-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--border-radius);
+      font-size: 0.875rem;
+      background-color: rgba(var(--accent-rgb), 0.1);
+      color: var(--accent-color);
+      gap: 0.35rem;
+      margin-left: 1rem;
+    }
+  </style>
 </head>
 <body>
-  <div class="app">
-    <!-- Header -->
-    <header class="site-header">
-      <div class="container">
-        <div class="header-content">
-          <a href="index.html" class="logo">
-            <img src="img/logo.png" alt="GoBet Logo">
-          </a>
-          
-          <button class="mobile-menu-toggle" aria-label="Öppna menyn" aria-expanded="false">
-            <i class="fas fa-bars"></i>
-          </button>
-          
-          <nav class="main-nav">
-            <ul class="nav-list">
-              <li><a href="index.html"><i class="fas fa-home"></i> Hem</a></li>
-              <li><a href="bets.html"><i class="fas fa-trophy"></i> Vadslagningar</a></li>
-              <li class="active"><a href="wheel.html"><i class="fas fa-dharmachakra"></i> Lyckohjul</a></li>
-              <li><a href="shop.html"><i class="fas fa-store"></i> Butik</a></li>
-              <li><a href="leaderboard.html"><i class="fas fa-medal"></i> Topplista</a></li>
-              <li><a href="friends.html"><i class="fas fa-users"></i> Vänner</a></li>
-            </ul>
-          </nav>
-          
-          <div class="user-menu">
-            <div class="user-coins">
-              <i class="fas fa-coins"></i>
-              <span id="userCoins">5,000</span>
-            </div>
-            
-            <div class="user-dropdown">
-              <button class="user-dropdown-toggle">
-                <div class="user-avatar">
-                  <img src="img/avatar1.jpg" alt="User Avatar">
-                  <span class="status-indicator online"></span>
-                </div>
-                <span class="user-name">AnvändarNamn</span>
-                <i class="fas fa-chevron-down"></i>
-              </button>
-              
-              <div class="user-dropdown-menu">
-                <a href="profile.html"><i class="fas fa-user"></i> Profil</a>
-                <a href="settings.html"><i class="fas fa-cog"></i> Inställningar</a>
-                <a href="#" id="toggleThemeBtn"><i class="fas fa-moon"></i> <span>Mörkt läge</span></a>
-                <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logga ut</a>
-              </div>
-            </div>
+  <header class="app-header">
+    <div class="container header-container">
+      <div class="logo-container">
+        <a href="index.html" class="logo">
+          <img src="img/gobet-logo.svg" alt="GoBet" class="logo-image">
+        </a>
+      </div>
+      
+      <button class="mobile-menu-toggle" aria-label="Öppna meny">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="fas fa-home"></i>
+              <span>Hem</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="friends.html" class="nav-link">
+              <i class="fas fa-user-friends"></i>
+              <span>Vänner</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="wheel.html" class="nav-link">
+              <i class="fas fa-dharmachakra"></i>
+              <span>Lyckohjul</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="create-bet.html" class="nav-link">
+              <i class="fas fa-plus-circle"></i>
+              <span>Skapa Bet</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="bets.html" class="nav-link">
+              <i class="fas fa-dice"></i>
+              <span>Vadslagningar</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="shop.html" class="nav-link">
+              <i class="fas fa-store"></i>
+              <span>Butik</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="leaderboard.html" class="nav-link">
+              <i class="fas fa-trophy"></i>
+              <span>Topplista</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="user-area">
+        <div class="balance-display">
+          <div class="coin-icon">
+            <i class="fas fa-coins"></i>
           </div>
+          <span class="balance-amount">2,500</span>
         </div>
+        
+        <button class="btn btn-primary login-button">
+          <i class="fas fa-sign-in-alt"></i>
+          Logga in
+        </button>
       </div>
-    </header>
-
-    <!-- Hero Sektion -->
-    <section class="hero wheel-hero">
-      <div class="container">
-        <div class="hero-content">
-          <h1>Snurra på Lyckohjulet</h1>
-          <p>Testa din tur och vinn fantastiska priser! Premiumprenumeranter får fler gratissnurr och bättre vinstchanser.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Wheel Section -->
-    <section class="wheel-section">
-      <div class="container">
+    </div>
+  </header>
+  
+  <main class="main-content">
+    <div class="container">
+      <section class="page-header">
         <div class="section-header">
-          <h2><i class="fas fa-dharmachakra"></i> Lyckohjulet</h2>
-          <p>Snurra hjulet och vinn stora priser!</p>
+          <h1 class="section-title">Lyckohjulet</h1>
         </div>
-        
+        <p class="section-description">
+          Snurra hjulet och vinn priser! Du kan vinna GoCoins, bonussnurr, vadhändelser, och mycket mer.
+        </p>
+      </section>
+      
+      <section class="wheel-main-section">
         <div class="wheel-container">
-          <div class="wheel-stats">
-            <div class="wheel-stat">
-              <i class="fas fa-calendar-alt"></i>
-              <div class="stat-info">
-                <span class="stat-value">3</span>
-                <span class="stat-label">Snurr kvar</span>
+          <div class="wheel-section">
+            <div class="wheel-graphic-container">
+              <img src="img/wheel-fortune.svg" alt="Lyckohjul" class="wheel-graphic" id="wheel">
+              <img src="img/wheel-pointer.svg" alt="Pil" class="wheel-pointer">
+            </div>
+            
+            <div class="wheel-controls">
+              <h2 class="wheel-title">Testa din tur!</h2>
+              <p class="wheel-description">
+                Snurra på lyckohjulet för att vinna priser! Du kan få GoCoin-bonusar, gratisspel, och unika belöningar. Varje användare har tre gratissnurr per dag.
+              </p>
+              
+              <div class="wheel-status">
+                <div class="spins-left">
+                  <i class="fas fa-sync-alt spins-icon"></i>
+                  <span>3 snurr kvar idag</span>
+                </div>
+                <div class="timer">
+                  <i class="fas fa-clock timer-icon"></i>
+                  <span>Återställs om: 12:34:56</span>
+                </div>
+              </div>
+              
+              <div class="wheel-action">
+                <button class="wheel-button login-button" id="spinButton">
+                  <i class="fas fa-play"></i>
+                  Snurra hjulet
+                </button>
+              </div>
+              
+              <div class="upgrade-message">
+                <i class="fas fa-crown upgrade-icon"></i>
+                <p class="upgrade-text">
+                  Premium-medlemmar får fem extra snurr per dag och högre vinstchanser.
+                </p>
+                <a href="premium.html" class="upgrade-link">Uppgradera</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="wheel-result" id="wheelResult">
+            <i class="fas fa-coins result-icon"></i>
+            <h3 class="result-title">Grattis! Du har vunnit 1000 GoCoins!</h3>
+            <p class="result-description">Dina mynt har lagts till i ditt konto.</p>
+            <button class="btn btn-primary login-button">
+              <i class="fas fa-sync-alt"></i>
+              Snurra igen
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <section class="prizes-section">
+        <div class="wheel-container">
+          <h2 class="section-title">Möjliga vinster</h2>
+          <div class="prize-grid">
+            <div class="prize-item">
+              <div class="prize-icon">
+                <i class="fas fa-coins"></i>
+              </div>
+              <div class="prize-info">
+                <div class="prize-name">1000 GoCoins</div>
+                <div class="prize-odds">Chans: 15%</div>
               </div>
             </div>
             
-            <div class="wheel-stat">
-              <i class="fas fa-clock"></i>
-              <div class="stat-info">
-                <span class="stat-value">4d 12h</span>
-                <span class="stat-label">Tills nästa gratis</span>
+            <div class="prize-item">
+              <div class="prize-icon">
+                <i class="fas fa-coins"></i>
+              </div>
+              <div class="prize-info">
+                <div class="prize-name">500 GoCoins</div>
+                <div class="prize-odds">Chans: 20%</div>
+              </div>
+            </div>
+            
+            <div class="prize-item">
+              <div class="prize-icon">
+                <i class="fas fa-coins"></i>
+              </div>
+              <div class="prize-info">
+                <div class="prize-name">250 GoCoins</div>
+                <div class="prize-odds">Chans: 25%</div>
+              </div>
+            </div>
+            
+            <div class="prize-item">
+              <div class="prize-icon">
+                <i class="fas fa-sync-alt"></i>
+              </div>
+              <div class="prize-info">
+                <div class="prize-name">Extra snurr</div>
+                <div class="prize-odds">Chans: 10%</div>
+              </div>
+            </div>
+            
+            <div class="prize-item">
+              <div class="prize-icon">
+                <i class="fas fa-ticket-alt"></i>
+              </div>
+              <div class="prize-info">
+                <div class="prize-name">Gratis vadslagning</div>
+                <div class="prize-odds">Chans: 10%</div>
+              </div>
+            </div>
+            
+            <div class="prize-item">
+              <div class="prize-icon">
+                <i class="fas fa-percentage"></i>
+              </div>
+              <div class="prize-info">
+                <div class="prize-name">+10% Vinstboost</div>
+                <div class="prize-odds">Chans: 5%</div>
+              </div>
+            </div>
+            
+            <div class="prize-item">
+              <div class="prize-icon">
+                <i class="fas fa-crown"></i>
+              </div>
+              <div class="prize-info">
+                <div class="prize-name">1 Dag Premium</div>
+                <div class="prize-odds">Chans: 1%</div>
+              </div>
+            </div>
+            
+            <div class="prize-item">
+              <div class="prize-icon">
+                <i class="fas fa-question"></i>
+              </div>
+              <div class="prize-info">
+                <div class="prize-name">Överraskning</div>
+                <div class="prize-odds">Chans: 5%</div>
               </div>
             </div>
           </div>
-          
-          <!-- Visa lyckohjulet med SVG-bilden -->
-          <div class="wheel-wrapper">
-            <img src="img/wheel-illustration.svg" alt="Lyckohjul" class="wheel-image">
-            <div class="wheel-pointer"></div>
+          <div class="premium-section" style="margin-top: 2rem; text-align: right;">
+            <a href="premium.html" class="premium-link">
+              <i class="fas fa-star"></i>
+              Premium-medlemmar har 2x högre chans att vinna topppriser!
+            </a>
+          </div>
+        </div>
+      </section>
+      
+      <section class="history-section">
+        <div class="wheel-container">
+          <div class="section-header">
+            <h2 class="section-title">Dina senaste snurr</h2>
+            <span class="premium-badge">
+              <i class="fas fa-crown"></i>
+              Premium
+            </span>
           </div>
           
-          <!-- Prize Legend -->
-          <div class="prize-legend">
-            <h3>Möjliga Vinster</h3>
-            <div class="legend-items">
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #ff7e47;">
-                  <i class="fas fa-coins"></i>
-                </div>
-                <div class="legend-text">50 GoCoins</div>
+          <div class="history-list">
+            <div class="history-item">
+              <div class="history-prize">
+                <i class="fas fa-coins history-prize-icon"></i>
+                <span class="history-prize-name">1000 GoCoins</span>
               </div>
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #ffcc00;">
-                  <i class="fas fa-coins"></i>
-                </div>
-                <div class="legend-text">100 GoCoins</div>
+              <div class="history-date">Idag, 14:32</div>
+            </div>
+            
+            <div class="history-item">
+              <div class="history-prize">
+                <i class="fas fa-sync-alt history-prize-icon"></i>
+                <span class="history-prize-name">Extra snurr</span>
               </div>
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #28a745;">
-                  <i class="fas fa-coins"></i>
-                </div>
-                <div class="legend-text">200 GoCoins</div>
+              <div class="history-date">Idag, 14:30</div>
+            </div>
+            
+            <div class="history-item">
+              <div class="history-prize">
+                <i class="fas fa-coins history-prize-icon"></i>
+                <span class="history-prize-name">250 GoCoins</span>
               </div>
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #007bff;">
-                  <i class="fas fa-crown"></i>
-                </div>
-                <div class="legend-text">Premium 1 dag</div>
+              <div class="history-date">Idag, 14:28</div>
+            </div>
+            
+            <div class="history-item">
+              <div class="history-prize">
+                <i class="fas fa-coins history-prize-icon"></i>
+                <span class="history-prize-name">500 GoCoins</span>
               </div>
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #6f42c1;">
-                  <i class="fas fa-crown"></i>
-                </div>
-                <div class="legend-text">Premium+ 1 dag</div>
+              <div class="history-date">Igår, 19:15</div>
+            </div>
+            
+            <div class="history-item">
+              <div class="history-prize">
+                <i class="fas fa-percentage history-prize-icon"></i>
+                <span class="history-prize-name">+10% Vinstboost</span>
               </div>
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #e83e8c;">
-                  <i class="fas fa-user-circle"></i>
-                </div>
-                <div class="legend-text">Ny Avatar</div>
-              </div>
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #dc3545;">
-                  <i class="fas fa-gift"></i>
-                </div>
-                <div class="legend-text">Specialitem</div>
-              </div>
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #6c757d;">
-                  <i class="fas fa-times-circle"></i>
-                </div>
-                <div class="legend-text">Ingen vinst</div>
-              </div>
+              <div class="history-date">Igår, 19:12</div>
             </div>
           </div>
           
-          <div class="wheel-instructions">
-            <h4><i class="fas fa-info-circle"></i> Så fungerar lyckohjulet</h4>
-            <ul>
-              <li>Klicka på <strong>Snurra Hjulet</strong> för att använda en av dina dagliga gratissnurr.</li>
-              <li>Du får nya gratissnurr varje dag baserat på din prenumerationsplan.</li>
-              <li>Du kan köpa extra snurr när som helst med dina GoCoins.</li>
-              <li>Pilen visar vad du vinner när hjulet stannar.</li>
-              <li>Vinster läggs automatiskt till på ditt konto!</li>
+          <div class="text-center" style="margin-top: 1.5rem;">
+            <button class="btn btn-outline login-button">
+              <i class="fas fa-history"></i>
+              Visa all historik
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <section class="premium-wheel-section">
+        <div class="cta-card">
+          <div class="cta-content">
+            <h2 class="cta-title">Premium Lyckohjul</h2>
+            <p class="cta-description">
+              Uppgradera till Premium och få tillgång till ett exklusivt lyckohjul med mycket större priser! Premium-användare får också fler dagliga snurr och bättre vinstchanser.
+            </p>
+            <button class="btn btn-primary btn-lg login-button">
+              <i class="fas fa-crown"></i>
+              Uppgradera till Premium
+            </button>
+          </div>
+          <div class="cta-image">
+            <img src="img/premium-wheel.svg" alt="Premium lyckohjul" class="premium-wheel-image">
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <footer class="app-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="img/gobet-logo.svg" alt="GoBet" class="footer-logo-image">
+          </a>
+          <p class="footer-tagline">Skapa spännande vadslagningar med dina vänner och vinn tillsammans.</p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Plattform</h3>
+            <ul class="footer-links-list">
+              <li><a href="index.html">Hem</a></li>
+              <li><a href="features.html">Funktioner</a></li>
+              <li><a href="pricing.html">Priser</a></li>
+              <li><a href="faq.html">Vanliga frågor</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Bets</h3>
+            <ul class="footer-links-list">
+              <li><a href="bets.html">Utforska bets</a></li>
+              <li><a href="create-bet.html">Skapa bet</a></li>
+              <li><a href="my-bets.html">Mina bets</a></li>
+              <li><a href="how-to.html">Hur fungerar det</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Konto</h3>
+            <ul class="footer-links-list">
+              <li><a href="#" class="login-button">Logga in</a></li>
+              <li><a href="register.html">Skapa konto</a></li>
+              <li><a href="forgot-password.html">Glömt lösenord</a></li>
+              <li><a href="premium.html">Premium</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Företag</h3>
+            <ul class="footer-links-list">
+              <li><a href="about.html">Om oss</a></li>
+              <li><a href="blog.html">Blogg</a></li>
+              <li><a href="contact.html">Kontakta oss</a></li>
+              <li><a href="careers.html">Karriär</a></li>
             </ul>
           </div>
         </div>
-        
-        <!-- Premium Plans -->
-        <div class="wheel-plan-info">
-          <h3>Bli Premium och få fler fördelar</h3>
-          <div class="plan-comparison">
-            <div class="plan-item">
-              <div class="plan-name">Gratis</div>
-              <div class="plan-benefit">
-                <i class="fas fa-check"></i>
-                <span>1 gratissnurr per dag</span>
-              </div>
-              <div class="plan-benefit">
-                <i class="fas fa-check"></i>
-                <span>Standardvinster</span>
-              </div>
-              <div class="plan-benefit">
-                <i class="fas fa-check"></i>
-                <span>Extra snurr för 50 GoCoins</span>
-              </div>
-            </div>
-            
-            <div class="plan-item featured">
-              <div class="plan-name">Premium</div>
-              <div class="plan-benefit">
-                <i class="fas fa-check"></i>
-                <span>3 gratissnurr per dag</span>
-              </div>
-              <div class="plan-benefit">
-                <i class="fas fa-check"></i>
-                <span>Ökad chans till stora vinster</span>
-              </div>
-              <div class="plan-benefit">
-                <i class="fas fa-check"></i>
-                <span>Extra snurr för 30 GoCoins</span>
-              </div>
-              <div class="plan-benefit">
-                <i class="fas fa-check"></i>
-                <span>Exklusiva vinster</span>
-              </div>
-            </div>
-            
-            <div class="plan-item">
-              <div class="plan-name">Premium Plus</div>
-              <div class="plan-benefit">
-                <i class="fas fa-check"></i>
-                <span>5 gratissnurr per dag</span>
-              </div>
-              <div class="plan-benefit">
-                <i class="fas fa-check"></i>
-                <span>Högst chans till stora vinster</span>
-              </div>
-              <div class="plan-benefit">
-                <i class="fas fa-check"></i>
-                <span>Extra snurr för 20 GoCoins</span>
-              </div>
-              <div class="plan-benefit">
-                <i class="fas fa-check"></i>
-                <span>Premiumvinster varje vecka</span>
-              </div>
-              <div class="plan-benefit">
-                <i class="fas fa-check"></i>
-                <span>Fler exklusiva belöningar</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Recent Winners -->
-        <div class="recent-winners">
-          <h2 class="section-title">Senaste Vinnarna</h2>
-          <div class="winners-grid">
-            <div class="winner-card">
-              <div class="winner-avatar">
-                <img src="img/avatar2.jpg" alt="Winner Avatar">
-              </div>
-              <div class="winner-info">
-                <div class="winner-name">JasperPlays</div>
-                <div class="winner-prize">200 GoCoins</div>
-                <div class="winner-time">10 minuter sedan</div>
-              </div>
-            </div>
-            
-            <div class="winner-card">
-              <div class="winner-avatar">
-                <img src="img/avatar3.jpg" alt="Winner Avatar">
-              </div>
-              <div class="winner-info">
-                <div class="winner-name">ElsaGaming</div>
-                <div class="winner-prize">Premium 1 dag</div>
-                <div class="winner-time">25 minuter sedan</div>
-              </div>
-            </div>
-            
-            <div class="winner-card">
-              <div class="winner-avatar">
-                <img src="img/avatar4.jpg" alt="Winner Avatar">
-              </div>
-              <div class="winner-info">
-                <div class="winner-name">MasterBlaster</div>
-                <div class="winner-prize">Specialitem</div>
-                <div class="winner-time">45 minuter sedan</div>
-              </div>
-            </div>
-            
-            <div class="winner-card">
-              <div class="winner-avatar">
-                <img src="img/avatar5.jpg" alt="Winner Avatar">
-              </div>
-              <div class="winner-info">
-                <div class="winner-name">Scorpionite</div>
-                <div class="winner-prize">100 GoCoins</div>
-                <div class="winner-time">1 timme sedan</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-    </section>
-    
-    <!-- Footer -->
-    <footer class="site-footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-brand">
-            <img src="img/logo-footer.png" alt="GoBet Logo" class="footer-logo">
-            <p>GoBet är plattformen där du kan skapa och delta i vadslagningar med dina vänner. Allt i en rolig och säker miljö.</p>
-            
-            <div class="social-links">
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-discord"></i></a>
-            </div>
-          </div>
-          
-          <div class="footer-links">
-            <div class="footer-links-column">
-              <h3>Snabblänkar</h3>
-              <ul>
-                <li><a href="index.html">Hem</a></li>
-                <li><a href="bets.html">Vadslagningar</a></li>
-                <li><a href="wheel.html">Lyckohjul</a></li>
-                <li><a href="shop.html">Butik</a></li>
-                <li><a href="leaderboard.html">Topplista</a></li>
-              </ul>
-            </div>
-            
-            <div class="footer-links-column">
-              <h3>Support</h3>
-              <ul>
-                <li><a href="faq.html">Vanliga frågor</a></li>
-                <li><a href="contact.html">Kontakta oss</a></li>
-                <li><a href="terms.html">Användarvillkor</a></li>
-                <li><a href="privacy.html">Integritetspolicy</a></li>
-              </ul>
-            </div>
-            
-            <div class="footer-links-column">
-              <h3>Konto</h3>
-              <ul>
-                <li><a href="profile.html">Min profil</a></li>
-                <li><a href="settings.html">Inställningar</a></li>
-                <li><a href="premium.html">Premium</a></li>
-                <li><a href="history.html">Historik</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      
+      <div class="footer-bottom">
+        <div class="copyright">&copy; 2023 GoBet. Alla rättigheter förbehållna.</div>
         
-        <div class="footer-bottom">
-          <p>&copy; 2023 GoBet. Alla rättigheter förbehållna.</p>
-          <div class="footer-bottom-links">
-            <a href="cookies.html">Cookies</a>
-            <a href="privacy.html">Integritet</a>
-            <a href="terms.html">Användarvillkor</a>
-          </div>
-        </div>
-      </div>
-    </footer>
-    
-    <!-- Prize Modal -->
-    <div class="modal fade" id="prizeModal" tabindex="-1" aria-labelledby="prizeModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="prizeModalLabel">Du vann!</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Stäng"></button>
-          </div>
-          <div class="modal-body">
-            <!-- Content will be inserted by JS -->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Awesome!</button>
-          </div>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Discord">
+            <i class="fab fa-discord"></i>
+          </a>
         </div>
       </div>
     </div>
-    
-    <!-- Login Warning Modal -->
-    <div class="modal fade" id="loginWarningModal" tabindex="-1" aria-labelledby="loginWarningModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="loginWarningModalLabel">Inloggning krävs</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Stäng"></button>
-          </div>
-          <div class="modal-body">
-            <p>Du måste vara inloggad för att använda lyckohjulet.</p>
-            <p>Logga in för att få tillgång till gratissnurr och fantastiska priser!</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Stäng</button>
-            <a href="login.html" class="btn btn-primary">Logga in</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap Bundle med Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Egna script -->
+  </footer>
+  
   <script src="js/main.js"></script>
-  <script src="js/wheel.js"></script>
+  <script src="js/login-modal.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const wheel = document.getElementById('wheel');
+      const spinButton = document.getElementById('spinButton');
+      const wheelResult = document.getElementById('wheelResult');
+      
+      let isSpinning = false;
+      
+      spinButton.addEventListener('click', function() {
+        if (isSpinning) return;
+        
+        isSpinning = true;
+        spinButton.disabled = true;
+        
+        // Simulera spinning
+        const randomDegrees = 1440 + Math.floor(Math.random() * 360);
+        wheel.style.transition = 'transform 5s cubic-bezier(0.1, 0.7, 0.1, 1)';
+        wheel.style.transform = `rotate(${randomDegrees}deg)`;
+        
+        // Visa resultat efter spinning
+        setTimeout(() => {
+          wheelResult.style.display = 'block';
+          isSpinning = false;
+          spinButton.disabled = false;
+        }, 5500);
+      });
+    });
+  </script>
 </body>
 </html> 

@@ -3,341 +3,764 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vänlista - GoBet</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/plans.css">
-  <link rel="stylesheet" href="css/friends.css">
-  <!-- Lägg till Google Fonts: Inter och Poppins -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-  <!-- Lägg till moderna ikoner med Font Awesome -->
+  <title>GoBet - Vänner</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/images.css">
+  <link rel="stylesheet" href="css/bet-cards.css">
+  <link rel="stylesheet" href="css/login-modal.css">
+  <style>
+    /* Vänner-specifika stilar */
+    .friends-container {
+      background-color: var(--surface-color);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--box-shadow);
+      padding: 2rem;
+      overflow: hidden;
+      border: 1px solid rgba(var(--primary-rgb), 0.1);
+      margin-bottom: 2rem;
+    }
+    
+    .friend-card {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-color);
+      margin-bottom: 1rem;
+      transition: var(--transition);
+      background-color: var(--surface-color);
+    }
+    
+    .friend-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--box-shadow);
+      border-color: rgba(var(--primary-rgb), 0.2);
+    }
+    
+    .friend-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 1rem;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .friend-info {
+      flex: 1;
+    }
+    
+    .friend-username {
+      font-weight: 600;
+      color: var(--text-color);
+      margin-bottom: 0.25rem;
+      font-size: 1.125rem;
+    }
+    
+    .friend-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-light);
+      font-size: 0.875rem;
+    }
+    
+    .status-icon {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #4CAF50;
+    }
+    
+    .status-icon.offline {
+      background-color: var(--text-muted);
+    }
+    
+    .friend-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.875rem;
+    }
+    
+    .friend-stat {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--text-light);
+    }
+    
+    .friend-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .friend-btn {
+      background-color: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: 0.5rem;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .friend-btn:hover {
+      background-color: rgba(var(--primary-rgb), 0.05);
+      color: var(--primary-color);
+      border-color: rgba(var(--primary-rgb), 0.1);
+    }
+    
+    .invite-btn {
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+    }
+    
+    .invite-btn:hover {
+      background-color: var(--primary-dark);
+      color: #fff;
+    }
+    
+    .tabs-container {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+    }
+    
+    .tab-button {
+      padding: 0.5rem 1.25rem;
+      background-color: var(--surface-light);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .tab-button:hover {
+      background-color: rgba(var(--primary-rgb), 0.05);
+    }
+    
+    .tab-button.active {
+      background-color: var(--primary-color);
+      color: #fff;
+      border-color: var(--primary-color);
+    }
+    
+    .search-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-size: 0.9375rem;
+      transition: var(--transition);
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+    
+    .notification-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      background-color: var(--accent-color);
+      color: #fff;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0 6px;
+    }
+    
+    .friend-activity {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-light);
+      font-size: 0.875rem;
+      margin-top: 0.35rem;
+    }
+    
+    .activity-icon {
+      color: var(--primary-color);
+    }
+    
+    .friend-request {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-color);
+      margin-bottom: 1rem;
+      background-color: rgba(var(--primary-rgb), 0.03);
+    }
+    
+    .request-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .request-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .accept-btn {
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .accept-btn:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .decline-btn {
+      background-color: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-light);
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .decline-btn:hover {
+      background-color: #FFEBEE;
+      color: #F44336;
+      border-color: #F44336;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+    
+    .empty-icon {
+      font-size: 3rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    
+    .empty-text {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+    
+    .section-description {
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      max-width: 800px;
+    }
+  </style>
 </head>
 <body>
-  <div class="app">
-    <!-- Header -->
-    <header class="header">
-      <div class="container">
+  <header class="app-header">
+    <div class="container header-container">
+      <div class="logo-container">
         <a href="index.html" class="logo">
-          <i class="fa-solid fa-dice logo-icon"></i>
-          <h1>GoBet</h1>
+          <img src="img/gobet-logo.svg" alt="GoBet" class="logo-image">
         </a>
+      </div>
+      
+      <button class="mobile-menu-toggle" aria-label="Öppna meny">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="fas fa-home"></i>
+              <span>Hem</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="friends.html" class="nav-link">
+              <i class="fas fa-user-friends"></i>
+              <span>Vänner</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="wheel.html" class="nav-link">
+              <i class="fas fa-dharmachakra"></i>
+              <span>Lyckohjul</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="create-bet.html" class="nav-link">
+              <i class="fas fa-plus-circle"></i>
+              <span>Skapa Bet</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="bets.html" class="nav-link">
+              <i class="fas fa-dice"></i>
+              <span>Vadslagningar</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="shop.html" class="nav-link">
+              <i class="fas fa-store"></i>
+              <span>Butik</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="leaderboard.html" class="nav-link">
+              <i class="fas fa-trophy"></i>
+              <span>Topplista</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="user-area">
+        <div class="balance-display">
+          <div class="coin-icon">
+            <i class="fas fa-coins"></i>
+          </div>
+          <span class="balance-amount">2,500</span>
+        </div>
         
-        <button class="mobile-menu-toggle" id="mobileMenuToggle">
-          <i class="fa-solid fa-bars"></i>
+        <button class="btn btn-primary login-button">
+          <i class="fas fa-sign-in-alt"></i>
+          Logga in
         </button>
-        
-        <nav class="main-nav" id="mainNav">
-          <ul>
-            <li><a href="index.html"><i class="fa-solid fa-trophy"></i> Bets</a></li>
-            <li><a href="index.html#friend-bets"><i class="fa-solid fa-users"></i> Vänner</a></li>
-            <li><a href="index.html#giveaways"><i class="fa-solid fa-gift"></i> Giveaways</a></li>
-            <li><a href="create-bet.html"><i class="fa-solid fa-plus"></i> Skapa Bet</a></li>
-            <li><a href="plans.html"><i class="fa-solid fa-crown"></i> Planer</a></li>
-            <li><a href="friends.html" class="active"><i class="fa-solid fa-user-group"></i> Vänlista</a></li>
-          </ul>
-        </nav>
-        
-        <div class="user-area">
-          <div class="balance">
-            <i class="fa-solid fa-coins"></i>
-            <span>5,000 GoCoins</span>
-          </div>
-          
-          <div class="user-menu">
-            <button class="user-menu-btn">
-              <img src="images/avatar.jpg" alt="Avatar" id="userAvatar">
-              <span class="username" id="userDisplayName">Användare</span>
-              <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </div>
+  </header>
+  
+  <main class="main-content">
+    <div class="container">
+      <section class="page-header">
+        <div class="section-header">
+          <h1 class="section-title">Dina vänner</h1>
+        </div>
+        <p class="section-description">
+          Hantera dina vänner, bjud in nya vänner och se vilka av dem som är online för att utmana till vadslagningar.
+        </p>
+      </section>
+      
+      <section class="friends-main-section">
+        <div class="friends-container">
+          <div class="tabs-container">
+            <button class="tab-button active">
+              <i class="fas fa-user-friends"></i>
+              Dina vänner
             </button>
-            <div class="user-dropdown">
-              <ul>
-                <li><a href="profile.html"><i class="fa-solid fa-user"></i> Min Profil</a></li>
-                <li><a href="#"><i class="fa-solid fa-wallet"></i> Plånbok</a></li>
-                <li><a href="#"><i class="fa-solid fa-trophy"></i> Mina Bets</a></li>
-                <li><a href="settings.html"><i class="fa-solid fa-gear"></i> Inställningar</a></li>
-                <li class="divider"></li>
-                <li><a href="#" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i> Logga ut</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- Main content -->
-    <main class="main-content">
-      <div class="container">
-        <!-- Hero section -->
-        <section class="hero">
-          <div class="hero-content">
-            <h2>Dina vänner på GoBet</h2>
-            <p>Hitta och lägg till vänner för att dela bets, skapa privata utmaningar, och ha kul tillsammans!</p>
-          </div>
-        </section>
-
-        <!-- Friends section -->
-        <section class="friends-section">
-          <div class="section-header">
-            <h2>Vänner</h2>
-            <div class="search-container">
-              <div class="search-box">
-                <input type="text" id="friendSearch" placeholder="Sök vänner...">
-                <i class="fa-solid fa-search"></i>
-              </div>
-              <button class="btn btn-primary btn-add-friend">
-                <i class="fa-solid fa-user-plus"></i> Lägg till vän
-              </button>
-            </div>
+            <button class="tab-button">
+              <i class="fas fa-bell"></i>
+              Förfrågningar
+              <span class="notification-badge">2</span>
+            </button>
+            <button class="tab-button">
+              <i class="fas fa-search"></i>
+              Hitta vänner
+            </button>
+            <button class="tab-button">
+              <i class="fas fa-users"></i>
+              Grupper
+            </button>
           </div>
           
-          <!-- Friends list -->
-          <div class="friends-tabs">
-            <button class="friend-tab active" data-tab="all-friends">Alla vänner</button>
-            <button class="friend-tab" data-tab="online-friends">Online</button>
-            <button class="friend-tab" data-tab="pending-friends">Väntande förfrågningar</button>
+          <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Sök bland dina vänner...">
           </div>
           
-          <div class="friends-container">
-            <div class="friend-list" id="all-friends">
-              <!-- Sample friend items -->
-              <div class="friend-item glass-card">
-                <div class="friend-avatar">
-                  <img src="https://ui-avatars.com/api/?name=Gaming+King&background=ff7e47&color=fff" alt="Friend">
-                  <span class="status-indicator online"></span>
+          <div class="friends-list">
+            <div class="friend-card">
+              <img src="img/avatar-premium1.jpg" alt="Friend 1" class="friend-avatar">
+              <div class="friend-info">
+                <div class="friend-username">JohanS</div>
+                <div class="friend-status">
+                  <span class="status-icon"></span>
+                  Online
                 </div>
-                <div class="friend-info">
-                  <div class="friend-name">GamingKing</div>
-                  <div class="friend-status">Online • Spelar CS:GO</div>
-                </div>
-                <div class="friend-actions">
-                  <button class="btn-icon" title="Skicka meddelande">
-                    <i class="fa-solid fa-envelope"></i>
-                  </button>
-                  <button class="btn-icon" title="Skapa bet med vän">
-                    <i class="fa-solid fa-trophy"></i>
-                  </button>
-                  <button class="btn-icon" title="Mer alternativ">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                  </button>
+                <div class="friend-activity">
+                  <i class="fas fa-dice activity-icon"></i>
+                  Deltar i "Champions League Final" vadslagning
                 </div>
               </div>
-              
-              <div class="friend-item glass-card">
-                <div class="friend-avatar">
-                  <img src="https://ui-avatars.com/api/?name=Football+Fan&background=00c2cb&color=fff" alt="Friend">
-                  <span class="status-indicator away"></span>
+              <div class="friend-stats">
+                <div class="friend-stat">
+                  <i class="fas fa-trophy"></i>
+                  <span>78% vinst</span>
                 </div>
-                <div class="friend-info">
-                  <div class="friend-name">FootballFan</div>
-                  <div class="friend-status">Away • Senast online: 2 timmar sedan</div>
-                </div>
-                <div class="friend-actions">
-                  <button class="btn-icon" title="Skicka meddelande">
-                    <i class="fa-solid fa-envelope"></i>
-                  </button>
-                  <button class="btn-icon" title="Skapa bet med vän">
-                    <i class="fa-solid fa-trophy"></i>
-                  </button>
-                  <button class="btn-icon" title="Mer alternativ">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                  </button>
+                <div class="friend-stat">
+                  <i class="fas fa-coins"></i>
+                  <span>12,500</span>
                 </div>
               </div>
-              
-              <div class="friend-item glass-card">
-                <div class="friend-avatar">
-                  <img src="https://ui-avatars.com/api/?name=Tech+Guru&background=4e32a0&color=fff" alt="Friend">
-                  <span class="status-indicator offline"></span>
-                </div>
-                <div class="friend-info">
-                  <div class="friend-name">TechGuru</div>
-                  <div class="friend-status">Offline • Senast online: 2 dagar sedan</div>
-                </div>
-                <div class="friend-actions">
-                  <button class="btn-icon" title="Skicka meddelande">
-                    <i class="fa-solid fa-envelope"></i>
-                  </button>
-                  <button class="btn-icon" title="Skapa bet med vän">
-                    <i class="fa-solid fa-trophy"></i>
-                  </button>
-                  <button class="btn-icon" title="Mer alternativ">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                  </button>
-                </div>
+              <div class="friend-actions">
+                <button class="friend-btn invite-btn">
+                  <i class="fas fa-dice"></i>
+                </button>
+                <button class="friend-btn">
+                  <i class="fas fa-envelope"></i>
+                </button>
+                <button class="friend-btn">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
               </div>
             </div>
             
-            <div class="friend-list" id="online-friends" style="display: none;">
-              <!-- Endast online vänner visas här -->
-              <div class="friend-item glass-card">
-                <div class="friend-avatar">
-                  <img src="https://ui-avatars.com/api/?name=Gaming+King&background=ff7e47&color=fff" alt="Friend">
-                  <span class="status-indicator online"></span>
+            <div class="friend-card">
+              <img src="img/avatar-premium2.jpg" alt="Friend 2" class="friend-avatar">
+              <div class="friend-info">
+                <div class="friend-username">SportsFan42</div>
+                <div class="friend-status">
+                  <span class="status-icon"></span>
+                  Online
                 </div>
-                <div class="friend-info">
-                  <div class="friend-name">GamingKing</div>
-                  <div class="friend-status">Online • Spelar CS:GO</div>
+                <div class="friend-activity">
+                  <i class="fas fa-chart-line activity-icon"></i>
+                  Vann senast "Oscarsgalan 2023" med 3.5x vinst
                 </div>
-                <div class="friend-actions">
-                  <button class="btn-icon" title="Skicka meddelande">
-                    <i class="fa-solid fa-envelope"></i>
-                  </button>
-                  <button class="btn-icon" title="Skapa bet med vän">
-                    <i class="fa-solid fa-trophy"></i>
-                  </button>
-                  <button class="btn-icon" title="Mer alternativ">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                  </button>
+              </div>
+              <div class="friend-stats">
+                <div class="friend-stat">
+                  <i class="fas fa-trophy"></i>
+                  <span>72% vinst</span>
                 </div>
+                <div class="friend-stat">
+                  <i class="fas fa-coins"></i>
+                  <span>32,100</span>
+                </div>
+              </div>
+              <div class="friend-actions">
+                <button class="friend-btn invite-btn">
+                  <i class="fas fa-dice"></i>
+                </button>
+                <button class="friend-btn">
+                  <i class="fas fa-envelope"></i>
+                </button>
+                <button class="friend-btn">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
               </div>
             </div>
             
-            <div class="friend-list" id="pending-friends" style="display: none;">
-              <!-- Väntande vänförfrågningar -->
-              <div class="friend-item glass-card pending">
-                <div class="friend-avatar">
-                  <img src="https://ui-avatars.com/api/?name=Bet+Master&background=6643b5&color=fff" alt="Friend">
+            <div class="friend-card">
+              <img src="img/avatar-premium3.jpg" alt="Friend 3" class="friend-avatar">
+              <div class="friend-info">
+                <div class="friend-username">LuckyCharm</div>
+                <div class="friend-status">
+                  <span class="status-icon"></span>
+                  Online
                 </div>
-                <div class="friend-info">
-                  <div class="friend-name">BetMaster</div>
-                  <div class="friend-status">Skickade dig en vänförfrågan</div>
+                <div class="friend-activity">
+                  <i class="fas fa-plus-circle activity-icon"></i>
+                  Skapade "Melodifestivalen 2024" vadslagning
                 </div>
-                <div class="friend-actions">
-                  <button class="btn-icon accept" title="Acceptera">
-                    <i class="fa-solid fa-check"></i>
-                  </button>
-                  <button class="btn-icon decline" title="Avvisa">
-                    <i class="fa-solid fa-xmark"></i>
-                  </button>
+              </div>
+              <div class="friend-stats">
+                <div class="friend-stat">
+                  <i class="fas fa-trophy"></i>
+                  <span>69% vinst</span>
                 </div>
+                <div class="friend-stat">
+                  <i class="fas fa-coins"></i>
+                  <span>28,400</span>
+                </div>
+              </div>
+              <div class="friend-actions">
+                <button class="friend-btn invite-btn">
+                  <i class="fas fa-dice"></i>
+                </button>
+                <button class="friend-btn">
+                  <i class="fas fa-envelope"></i>
+                </button>
+                <button class="friend-btn">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="friend-card">
+              <img src="img/avatar-premium4.jpg" alt="Friend 4" class="friend-avatar">
+              <div class="friend-info">
+                <div class="friend-username">BettingQueen</div>
+                <div class="friend-status">
+                  <span class="status-icon offline"></span>
+                  Offline
+                </div>
+                <div class="friend-activity">
+                  <i class="fas fa-history activity-icon"></i>
+                  Senast online för 3 timmar sedan
+                </div>
+              </div>
+              <div class="friend-stats">
+                <div class="friend-stat">
+                  <i class="fas fa-trophy"></i>
+                  <span>65% vinst</span>
+                </div>
+                <div class="friend-stat">
+                  <i class="fas fa-coins"></i>
+                  <span>18,700</span>
+                </div>
+              </div>
+              <div class="friend-actions">
+                <button class="friend-btn invite-btn">
+                  <i class="fas fa-dice"></i>
+                </button>
+                <button class="friend-btn">
+                  <i class="fas fa-envelope"></i>
+                </button>
+                <button class="friend-btn">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="friend-card">
+              <img src="img/avatar-tech.svg" alt="Friend 5" class="friend-avatar">
+              <div class="friend-info">
+                <div class="friend-username">GameMaster</div>
+                <div class="friend-status">
+                  <span class="status-icon offline"></span>
+                  Offline
+                </div>
+                <div class="friend-activity">
+                  <i class="fas fa-history activity-icon"></i>
+                  Senast online för 1 dag sedan
+                </div>
+              </div>
+              <div class="friend-stats">
+                <div class="friend-stat">
+                  <i class="fas fa-trophy"></i>
+                  <span>61% vinst</span>
+                </div>
+                <div class="friend-stat">
+                  <i class="fas fa-coins"></i>
+                  <span>14,300</span>
+                </div>
+              </div>
+              <div class="friend-actions">
+                <button class="friend-btn invite-btn">
+                  <i class="fas fa-dice"></i>
+                </button>
+                <button class="friend-btn">
+                  <i class="fas fa-envelope"></i>
+                </button>
+                <button class="friend-btn">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
               </div>
             </div>
           </div>
-        </section>
-        
-        <!-- Add Friend Modal -->
-        <div class="modal" id="addFriendModal">
-          <div class="modal-content glass-card">
-            <div class="modal-header">
-              <h3>Lägg till vän</h3>
-              <button class="close-modal">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Ange användarnamn eller e-post för den vän du vill lägga till:</p>
-              <div class="form-group">
-                <input type="text" id="friendUsername" class="form-control" placeholder="Användarnamn eller e-post">
-              </div>
-              <div class="form-group">
-                <input type="text" id="friendMessage" class="form-control" placeholder="Meddelande (valfritt)">
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-outline" id="cancelAddFriend">Avbryt</button>
-              <button class="btn btn-primary" id="confirmAddFriend">Skicka förfrågan</button>
-            </div>
-          </div>
         </div>
-        
-        <!-- Friend Actions Modal -->
-        <div class="modal" id="friendActionsModal">
-          <div class="modal-content glass-card">
-            <div class="modal-header">
-              <h3>Vänalternativ</h3>
-              <button class="close-modal">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
+      </section>
+      
+      <section class="friend-requests-section" style="display: none;">
+        <div class="friends-container">
+          <h2 class="section-title">Vänförfrågningar (2)</h2>
+          
+          <div class="friend-requests-list">
+            <div class="friend-request">
+              <div class="request-info">
+                <img src="img/avatar-premium1.jpg" alt="Friend request 1" class="friend-avatar">
+                <div>
+                  <div class="friend-username">BetMaster88</div>
+                  <div class="friend-activity">
+                    <i class="fas fa-user-plus activity-icon"></i>
+                    Skickade vänförfrågan för 2 dagar sedan
+                  </div>
+                </div>
+              </div>
+              <div class="request-actions">
+                <button class="accept-btn">Acceptera</button>
+                <button class="decline-btn">Avböj</button>
+              </div>
             </div>
-            <div class="modal-body">
-              <div class="friend-action-list">
-                <button class="friend-action-item">
-                  <i class="fa-solid fa-user-check"></i>
-                  <span>Visa profil</span>
-                </button>
-                <button class="friend-action-item">
-                  <i class="fa-solid fa-trophy"></i>
-                  <span>Skapa bet</span>
-                </button>
-                <button class="friend-action-item">
-                  <i class="fa-solid fa-gift"></i>
-                  <span>Skicka gåva</span>
-                </button>
-                <button class="friend-action-item">
-                  <i class="fa-solid fa-bell"></i>
-                  <span>Notifikationsinställningar</span>
-                </button>
-                <button class="friend-action-item danger">
-                  <i class="fa-solid fa-user-minus"></i>
-                  <span>Ta bort vän</span>
-                </button>
-                <button class="friend-action-item danger">
-                  <i class="fa-solid fa-ban"></i>
-                  <span>Blockera användare</span>
-                </button>
+            
+            <div class="friend-request">
+              <div class="request-info">
+                <img src="img/avatar-premium2.jpg" alt="Friend request 2" class="friend-avatar">
+                <div>
+                  <div class="friend-username">ProBettor</div>
+                  <div class="friend-activity">
+                    <i class="fas fa-user-plus activity-icon"></i>
+                    Skickade vänförfrågan för 5 dagar sedan
+                  </div>
+                </div>
+              </div>
+              <div class="request-actions">
+                <button class="accept-btn">Acceptera</button>
+                <button class="decline-btn">Avböj</button>
               </div>
             </div>
           </div>
         </div>
-        
-        <!-- Success Message -->
-        <div class="success-message" id="successMessage">
-          <i class="fa-solid fa-check-circle"></i>
-          <span id="successMessageText">Vänförfrågan skickad!</span>
-        </div>
-      </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-logo">
-            <i class="fa-solid fa-dice"></i>
-            <h2>GoBet</h2>
-            <p>Den ultimata plattformen för att skapa och delta i betting-utmaningar med dina vänner. Vinn stora priser och ha kul tillsammans!</p>
-            <div class="social-icons">
-              <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
-              <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
-              <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
-              <a href="#" class="social-icon"><i class="fa-brands fa-discord"></i></a>
-            </div>
+      </section>
+      
+      <section class="find-friends-section" style="display: none;">
+        <div class="friends-container">
+          <h2 class="section-title">Hitta nya vänner</h2>
+          
+          <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Sök efter användare...">
           </div>
           
-          <div class="footer-links">
-            <h3>Snabblänkar</h3>
-            <ul>
-              <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Hem</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Om oss</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Hur det fungerar</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Villkor</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Integritetspolicy</a></li>
-              <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Kontakta oss</a></li>
+          <div class="empty-state">
+            <i class="fas fa-search empty-icon"></i>
+            <p class="empty-text">Sök efter användarnamn för att hitta nya vänner.</p>
+          </div>
+        </div>
+      </section>
+      
+      <section class="groups-section" style="display: none;">
+        <div class="friends-container">
+          <h2 class="section-title">Dina grupper</h2>
+          
+          <div class="empty-state">
+            <i class="fas fa-users empty-icon"></i>
+            <p class="empty-text">Du är inte med i några grupper än.</p>
+            <button class="btn btn-primary">
+              <i class="fas fa-plus"></i>
+              Skapa grupp
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <section class="invite-friends-section">
+        <div class="cta-card">
+          <div class="cta-content">
+            <h2 class="cta-title">Bjud in dina vänner!</h2>
+            <p class="cta-description">
+              Få fler vänner att delta i dina vadslagningar. För varje vän som registrerar sig via din länk får du 500 bonuspoäng.
+            </p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <button class="btn btn-primary btn-lg login-button">
+                <i class="fas fa-user-plus"></i>
+                Bjud in vänner
+              </button>
+              <button class="btn btn-outline btn-lg login-button">
+                <i class="fas fa-share-alt"></i>
+                Dela din länk
+              </button>
+            </div>
+          </div>
+          <div class="cta-image">
+            <img src="img/friends-betting.svg" alt="Vänner som spelar tillsammans" class="friends-image">
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <footer class="app-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="img/gobet-logo.svg" alt="GoBet" class="footer-logo-image">
+          </a>
+          <p class="footer-tagline">Skapa spännande vadslagningar med dina vänner och vinn tillsammans.</p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Plattform</h3>
+            <ul class="footer-links-list">
+              <li><a href="index.html">Hem</a></li>
+              <li><a href="features.html">Funktioner</a></li>
+              <li><a href="pricing.html">Priser</a></li>
+              <li><a href="faq.html">Vanliga frågor</a></li>
             </ul>
           </div>
           
-          <div class="footer-social">
-            <h3>Kontakt</h3>
-            <ul>
-              <li><a href="#"><i class="fa-solid fa-envelope"></i> support@gobet.com</a></li>
-              <li><a href="#"><i class="fa-solid fa-phone"></i> +46 123 456 789</a></li>
-              <li><a href="#"><i class="fa-solid fa-location-dot"></i> Stockholm, Sverige</a></li>
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Bets</h3>
+            <ul class="footer-links-list">
+              <li><a href="bets.html">Utforska bets</a></li>
+              <li><a href="create-bet.html">Skapa bet</a></li>
+              <li><a href="my-bets.html">Mina bets</a></li>
+              <li><a href="how-to.html">Hur fungerar det</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Konto</h3>
+            <ul class="footer-links-list">
+              <li><a href="#" class="login-button">Logga in</a></li>
+              <li><a href="register.html">Skapa konto</a></li>
+              <li><a href="forgot-password.html">Glömt lösenord</a></li>
+              <li><a href="premium.html">Premium</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Företag</h3>
+            <ul class="footer-links-list">
+              <li><a href="about.html">Om oss</a></li>
+              <li><a href="blog.html">Blogg</a></li>
+              <li><a href="contact.html">Kontakta oss</a></li>
+              <li><a href="careers.html">Karriär</a></li>
             </ul>
           </div>
         </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="copyright">&copy; 2023 GoBet. Alla rättigheter förbehållna.</div>
         
-        <div class="footer-bottom">
-          <p>&copy; 2023 GoBet. Alla rättigheter reserverade.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Discord">
+            <i class="fab fa-discord"></i>
+          </a>
         </div>
       </div>
-    </footer>
-  </div>
-
-  <!-- JavaScript -->
-  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    </div>
+  </footer>
+  
   <script src="js/main.js"></script>
-  <script src="js/friends.js"></script>
+  <script src="js/login-modal.js"></script>
+  <script src="js/navigation.js"></script>
 </body>
 </html> 

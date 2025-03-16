@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoBet - Utforska vadslagningar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/images.css">
+  <link rel="stylesheet" href="css/bet-cards.css">
+  <link rel="stylesheet" href="css/login-modal.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="container header-container">
+      <div class="logo-container">
+        <a href="index.html" class="logo">
+          <img src="img/gobet-logo.svg" alt="GoBet" class="logo-image">
+        </a>
+      </div>
+      
+      <button class="mobile-menu-toggle" aria-label="Öppna meny">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="fas fa-home"></i>
+              <span>Hem</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="friends.html" class="nav-link">
+              <i class="fas fa-user-friends"></i>
+              <span>Vänner</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="wheel.html" class="nav-link">
+              <i class="fas fa-dharmachakra"></i>
+              <span>Lyckohjul</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="create-bet.html" class="nav-link">
+              <i class="fas fa-plus-circle"></i>
+              <span>Skapa Bet</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="bets.html" class="nav-link">
+              <i class="fas fa-dice"></i>
+              <span>Vadslagningar</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="shop.html" class="nav-link">
+              <i class="fas fa-store"></i>
+              <span>Butik</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="leaderboard.html" class="nav-link">
+              <i class="fas fa-trophy"></i>
+              <span>Topplista</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="user-area">
+        <div class="balance-display">
+          <div class="coin-icon">
+            <i class="fas fa-coins"></i>
+          </div>
+          <span class="balance-amount">2,500</span>
+        </div>
+        
+        <button class="btn btn-primary login-button">
+          <i class="fas fa-sign-in-alt"></i>
+          Logga in
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <main class="main-content">
+    <div class="container">
+      <section class="page-header">
+        <div class="section-header">
+          <h1 class="section-title">Utforska vadslagningar</h1>
+          <button class="btn btn-primary create-bet-btn">
+            <i class="fas fa-plus"></i>
+            Skapa ny vadslagning
+          </button>
+        </div>
+        <p class="section-description">
+          Hitta spännande vadslagningar om allt från sport och politik till underhållning och spel. Delta och vinn med dina vänner!
+        </p>
+      </section>
+      
+      <section class="bet-filters-section">
+        <div class="bet-controls">
+          <div class="bet-filters">
+            <button class="filter-button active">Alla</button>
+            <button class="filter-button">
+              <i class="fas fa-futbol"></i>
+              Sport
+            </button>
+            <button class="filter-button">
+              <i class="fas fa-film"></i>
+              Nöje
+            </button>
+            <button class="filter-button">
+              <i class="fas fa-landmark"></i>
+              Politik
+            </button>
+            <button class="filter-button">
+              <i class="fas fa-gamepad"></i>
+              Spel
+            </button>
+            <button class="filter-button">
+              <i class="fas fa-random"></i>
+              Övrigt
+            </button>
+          </div>
+          
+          <div class="bet-sort">
+            <label for="sort-bets">Sortera efter:</label>
+            <select id="sort-bets" class="sort-select">
+              <option value="popular">Popularitet</option>
+              <option value="newest">Nyast</option>
+              <option value="amount">Högst belopp</option>
+              <option value="deadline">Deadline</option>
+            </select>
+          </div>
+        </div>
+      </section>
+      
+      <section class="active-bets-section">
+        <div class="bet-cards-grid">
+          <!-- Bet Card 1 -->
+          <div class="bet-card sport">
+            <div class="bet-card-header">
+              <div class="bet-type-badge sport">
+                <i class="fas fa-futbol"></i>
+                Sport
+              </div>
+              <div class="bet-status pending">Pågående</div>
+            </div>
+            <div class="bet-card-body">
+              <h3 class="bet-title">Champions League Final</h3>
+              <p class="bet-description">Vem kommer att vinna årets Champions League final mellan Barcelona och Bayern München?</p>
+              <div class="bet-details">
+                <div class="bet-participants">
+                  <span class="participants-count"><i class="fas fa-users"></i> 24 deltagare</span>
+                </div>
+                <div class="bet-pool">
+                  <span class="pool-amount"><i class="fas fa-coins"></i> 12,000</span>
+                </div>
+              </div>
+              <div class="bet-options">
+                <div class="bet-option">
+                  <span class="option-name">Barcelona</span>
+                  <div class="option-stats">
+                    <span class="option-odds">1.5x</span>
+                  </div>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Bayern München</span>
+                  <div class="option-stats">
+                    <span class="option-odds">2.8x</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bet-actions">
+                <div class="bet-footer-details">
+                  <div class="bet-creator">
+                    <img src="img/avatar.jpg" alt="Skapad av" class="creator-avatar">
+                    <span>JohanS</span>
+                  </div>
+                  <div class="bet-deadline">
+                    <i class="far fa-clock"></i>
+                    <span>Slutar om 3 dagar</span>
+                  </div>
+                </div>
+                <div class="bet-actions-buttons">
+                  <button class="btn-join-bet login-button">
+                    <i class="fas fa-dice"></i>
+                    Delta
+                  </button>
+                  <a href="bet-details.html" class="btn-details">
+                    <i class="fas fa-info-circle"></i>
+                    Detaljer
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bet Card 2 -->
+          <div class="bet-card entertainment">
+            <div class="wta-badge">
+              <i class="fas fa-crown"></i>
+              Winner Takes All
+            </div>
+            <div class="bet-card-header">
+              <div class="bet-type-badge entertainment">
+                <i class="fas fa-film"></i>
+                Nöje
+              </div>
+              <div class="bet-status active">Aktiv</div>
+            </div>
+            <div class="bet-card-body">
+              <h3 class="bet-title">Oscarsgalan 2023</h3>
+              <p class="bet-description">Vilken film vinner Oscar för Bästa Film vid nästa Oscarsgala?</p>
+              <div class="bet-details">
+                <div class="bet-participants">
+                  <span class="participants-count"><i class="fas fa-users"></i> 48 deltagare</span>
+                </div>
+                <div class="bet-pool">
+                  <span class="pool-amount"><i class="fas fa-coins"></i> 24,000</span>
+                </div>
+              </div>
+              <div class="bet-options">
+                <div class="bet-option">
+                  <span class="option-name">Dune: Part Two</span>
+                  <div class="option-stats">
+                    <span class="option-odds">2.1x</span>
+                  </div>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Killers of the Flower Moon</span>
+                  <div class="option-stats">
+                    <span class="option-odds">1.8x</span>
+                  </div>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Oppenheimer</span>
+                  <div class="option-stats">
+                    <span class="option-odds">1.5x</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bet-actions">
+                <div class="bet-footer-details">
+                  <div class="bet-creator">
+                    <img src="img/avatar-tech.svg" alt="Skapad av" class="creator-avatar">
+                    <span>FilmFan22</span>
+                  </div>
+                  <div class="bet-deadline">
+                    <i class="far fa-clock"></i>
+                    <span>Slutar om 1 månad</span>
+                  </div>
+                </div>
+                <div class="bet-actions-buttons">
+                  <button class="btn-join-bet login-button">
+                    <i class="fas fa-dice"></i>
+                    Delta
+                  </button>
+                  <a href="bet-details.html" class="btn-details">
+                    <i class="fas fa-info-circle"></i>
+                    Detaljer
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bet Card 3 -->
+          <div class="bet-card games">
+            <div class="premium-badge">
+              <i class="fas fa-star"></i>
+            </div>
+            <div class="bet-card-header">
+              <div class="bet-type-badge games">
+                <i class="fas fa-gamepad"></i>
+                Spel
+              </div>
+              <div class="bet-status pending">Pågående</div>
+            </div>
+            <div class="bet-card-body">
+              <h3 class="bet-title">CS:GO Turnering</h3>
+              <p class="bet-description">Vilket lag vinner den kommande IEM Katowice CS:GO turneringen?</p>
+              <div class="bet-details">
+                <div class="bet-participants">
+                  <span class="participants-count"><i class="fas fa-users"></i> 36 deltagare</span>
+                </div>
+                <div class="bet-pool">
+                  <span class="pool-amount"><i class="fas fa-coins"></i> 18,000</span>
+                </div>
+              </div>
+              <div class="bet-options">
+                <div class="bet-option">
+                  <span class="option-name">Natus Vincere</span>
+                  <div class="option-stats">
+                    <span class="option-odds">1.6x</span>
+                  </div>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Astralis</span>
+                  <div class="option-stats">
+                    <span class="option-odds">2.0x</span>
+                  </div>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Team Liquid</span>
+                  <div class="option-stats">
+                    <span class="option-odds">2.3x</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bet-actions">
+                <div class="bet-footer-details">
+                  <div class="bet-creator">
+                    <img src="img/avatar-gaming.svg" alt="Skapad av" class="creator-avatar">
+                    <span>GameMaster</span>
+                  </div>
+                  <div class="bet-deadline">
+                    <i class="far fa-clock"></i>
+                    <span>Slutar om 2 veckor</span>
+                  </div>
+                </div>
+                <div class="bet-actions-buttons">
+                  <button class="btn-join-bet login-button">
+                    <i class="fas fa-dice"></i>
+                    Delta
+                  </button>
+                  <a href="bet-details.html" class="btn-details">
+                    <i class="fas fa-info-circle"></i>
+                    Detaljer
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bet Card 4 -->
+          <div class="bet-card politics">
+            <div class="bet-card-header">
+              <div class="bet-type-badge politics">
+                <i class="fas fa-landmark"></i>
+                Politik
+              </div>
+              <div class="bet-status pending">Pågående</div>
+            </div>
+            <div class="bet-card-body">
+              <h3 class="bet-title">Sveriges Riksdagsval 2026</h3>
+              <p class="bet-description">Vilket parti kommer att få flest röster i riksdagsvalet 2026?</p>
+              <div class="bet-details">
+                <div class="bet-participants">
+                  <span class="participants-count"><i class="fas fa-users"></i> 52 deltagare</span>
+                </div>
+                <div class="bet-pool">
+                  <span class="pool-amount"><i class="fas fa-coins"></i> 26,000</span>
+                </div>
+              </div>
+              <div class="bet-options">
+                <div class="bet-option">
+                  <span class="option-name">Socialdemokraterna</span>
+                  <div class="option-stats">
+                    <span class="option-odds">1.8x</span>
+                  </div>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Moderaterna</span>
+                  <div class="option-stats">
+                    <span class="option-odds">2.1x</span>
+                  </div>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Annat parti</span>
+                  <div class="option-stats">
+                    <span class="option-odds">3.5x</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bet-actions">
+                <div class="bet-footer-details">
+                  <div class="bet-creator">
+                    <img src="img/avatar-tech.svg" alt="Skapad av" class="creator-avatar">
+                    <span>PolitikProffen</span>
+                  </div>
+                  <div class="bet-deadline">
+                    <i class="far fa-clock"></i>
+                    <span>Slutar om 6 månader</span>
+                  </div>
+                </div>
+                <div class="bet-actions-buttons">
+                  <button class="btn-join-bet login-button">
+                    <i class="fas fa-dice"></i>
+                    Delta
+                  </button>
+                  <a href="bet-details.html" class="btn-details">
+                    <i class="fas fa-info-circle"></i>
+                    Detaljer
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bet Card 5 -->
+          <div class="bet-card other">
+            <div class="bet-card-header">
+              <div class="bet-type-badge other">
+                <i class="fas fa-random"></i>
+                Övrigt
+              </div>
+              <div class="bet-status active">Aktiv</div>
+            </div>
+            <div class="bet-card-body">
+              <h3 class="bet-title">Vädret i Stockholm midsommarafton</h3>
+              <p class="bet-description">Hur blir vädret i Stockholm på midsommarafton 2024?</p>
+              <div class="bet-details">
+                <div class="bet-participants">
+                  <span class="participants-count"><i class="fas fa-users"></i> 28 deltagare</span>
+                </div>
+                <div class="bet-pool">
+                  <span class="pool-amount"><i class="fas fa-coins"></i> 14,000</span>
+                </div>
+              </div>
+              <div class="bet-options">
+                <div class="bet-option">
+                  <span class="option-name">Soligt</span>
+                  <div class="option-stats">
+                    <span class="option-odds">3.0x</span>
+                  </div>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Regn</span>
+                  <div class="option-stats">
+                    <span class="option-odds">1.5x</span>
+                  </div>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Växlande molnighet</span>
+                  <div class="option-stats">
+                    <span class="option-odds">2.2x</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bet-actions">
+                <div class="bet-footer-details">
+                  <div class="bet-creator">
+                    <img src="img/avatar.jpg" alt="Skapad av" class="creator-avatar">
+                    <span>VädergudEN</span>
+                  </div>
+                  <div class="bet-deadline">
+                    <i class="far fa-clock"></i>
+                    <span>Slutar om 2 månader</span>
+                  </div>
+                </div>
+                <div class="bet-actions-buttons">
+                  <button class="btn-join-bet login-button">
+                    <i class="fas fa-dice"></i>
+                    Delta
+                  </button>
+                  <a href="bet-details.html" class="btn-details">
+                    <i class="fas fa-info-circle"></i>
+                    Detaljer
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bet Card 6 -->
+          <div class="bet-card entertainment">
+            <div class="bet-card-header">
+              <div class="bet-type-badge entertainment">
+                <i class="fas fa-film"></i>
+                Nöje
+              </div>
+              <div class="bet-status pending">Pågående</div>
+            </div>
+            <div class="bet-card-body">
+              <h3 class="bet-title">Melodifestivalen 2024</h3>
+              <p class="bet-description">Vem kommer att representera Sverige i Eurovision Song Contest 2024?</p>
+              <div class="bet-details">
+                <div class="bet-participants">
+                  <span class="participants-count"><i class="fas fa-users"></i> 65 deltagare</span>
+                </div>
+                <div class="bet-pool">
+                  <span class="pool-amount"><i class="fas fa-coins"></i> 32,500</span>
+                </div>
+              </div>
+              <div class="bet-options">
+                <div class="bet-option">
+                  <span class="option-name">Benjamin Ingrosso</span>
+                  <div class="option-stats">
+                    <span class="option-odds">2.4x</span>
+                  </div>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Dotter</span>
+                  <div class="option-stats">
+                    <span class="option-odds">1.9x</span>
+                  </div>
+                </div>
+                <div class="bet-option">
+                  <span class="option-name">Annan artist</span>
+                  <div class="option-stats">
+                    <span class="option-odds">1.6x</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bet-actions">
+                <div class="bet-footer-details">
+                  <div class="bet-creator">
+                    <img src="img/avatar-tech.svg" alt="Skapad av" class="creator-avatar">
+                    <span>MelodiMästaren</span>
+                  </div>
+                  <div class="bet-deadline">
+                    <i class="far fa-clock"></i>
+                    <span>Slutar om 3 månader</span>
+                  </div>
+                </div>
+                <div class="bet-actions-buttons">
+                  <button class="btn-join-bet login-button">
+                    <i class="fas fa-dice"></i>
+                    Delta
+                  </button>
+                  <a href="bet-details.html" class="btn-details">
+                    <i class="fas fa-info-circle"></i>
+                    Detaljer
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="pagination-section">
+        <div class="pagination">
+          <a href="#" class="pagination-prev disabled">
+            <i class="fas fa-chevron-left"></i>
+            Föregående
+          </a>
+          <div class="pagination-numbers">
+            <a href="#" class="pagination-number active">1</a>
+            <a href="#" class="pagination-number">2</a>
+            <a href="#" class="pagination-number">3</a>
+            <span class="pagination-dots">...</span>
+            <a href="#" class="pagination-number">8</a>
+          </div>
+          <a href="#" class="pagination-next">
+            Nästa
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <footer class="app-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="img/gobet-logo.svg" alt="GoBet" class="footer-logo-image">
+          </a>
+          <p class="footer-tagline">Skapa spännande vadslagningar med dina vänner och vinn tillsammans.</p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Plattform</h3>
+            <ul class="footer-links-list">
+              <li><a href="index.html">Hem</a></li>
+              <li><a href="features.html">Funktioner</a></li>
+              <li><a href="pricing.html">Priser</a></li>
+              <li><a href="faq.html">Vanliga frågor</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Bets</h3>
+            <ul class="footer-links-list">
+              <li><a href="bets.html">Utforska bets</a></li>
+              <li><a href="create-bet.html">Skapa bet</a></li>
+              <li><a href="my-bets.html">Mina bets</a></li>
+              <li><a href="how-to.html">Hur fungerar det</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Konto</h3>
+            <ul class="footer-links-list">
+              <li><a href="#" class="login-button">Logga in</a></li>
+              <li><a href="register.html">Skapa konto</a></li>
+              <li><a href="forgot-password.html">Glömt lösenord</a></li>
+              <li><a href="premium.html">Premium</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h3 class="footer-links-title">Företag</h3>
+            <ul class="footer-links-list">
+              <li><a href="about.html">Om oss</a></li>
+              <li><a href="blog.html">Blogg</a></li>
+              <li><a href="contact.html">Kontakta oss</a></li>
+              <li><a href="careers.html">Karriär</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="copyright">&copy; 2023 GoBet. Alla rättigheter förbehållna.</div>
+        
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Discord">
+            <i class="fab fa-discord"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="js/main.js"></script>
+  <script src="js/login-modal.js"></script>
+  <script src="js/navigation.js"></script>
+</body>
+</html> 
