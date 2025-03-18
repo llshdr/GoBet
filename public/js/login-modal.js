@@ -3,134 +3,115 @@
  * Hanterar inloggningsmodalen som visas på alla sidor.
  */
 
-// Skapa login-modalen direkt när skriptet laddas
-const loginModalHTML = `
-  <div class="login-modal" id="loginModal">
-    <div class="login-modal-overlay"></div>
-    <div class="login-modal-container">
-      <div class="login-modal-header">
-        <h2>Logga in</h2>
-        <button class="login-modal-close" aria-label="Stäng">×</button>
-      </div>
-      <div class="login-modal-body">
-        <form class="auth-form" id="loginForm">
-          <div class="form-group">
-            <label class="form-label" for="loginEmail">E-postadress</label>
-            <div class="form-input-icon">
-              <i class="fas fa-envelope input-icon"></i>
-              <input type="email" id="loginEmail" class="form-input" required>
+// Login-modal
+document.addEventListener('DOMContentLoaded', function() {
+    // Skapa modal-strukturen
+    const modalHTML = `
+        <div class="modal" id="loginModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Logga in</h2>
+                    <button class="close-button" aria-label="Stäng">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="loginEmail">E-post</label>
+                            <input type="email" id="loginEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Lösenord</label>
+                            <div class="password-input">
+                                <input type="password" id="loginPassword" name="password" required>
+                                <button type="button" class="toggle-password" aria-label="Visa/dölj lösenord">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="rememberMe" name="rememberMe">
+                                <span>Kom ihåg mig</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Logga in
+                        </button>
+                        <div class="social-login">
+                            <p>Eller logga in med</p>
+                            <div class="social-buttons">
+                                <button type="button" class="btn btn-social btn-google">
+                                    <i class="fab fa-google"></i>
+                                    Google
+                                </button>
+                                <button type="button" class="btn btn-social btn-facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                    Facebook
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="loginPassword">Lösenord</label>
-            <div class="form-input-icon">
-              <i class="fas fa-lock input-icon"></i>
-              <input type="password" id="loginPassword" class="form-input" required>
-              <button type="button" class="password-toggle" aria-label="Visa/dölj lösenord">
-                <i class="fas fa-eye"></i>
-              </button>
-            </div>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" id="rememberMe">
-            <label for="rememberMe">Kom ihåg mig</label>
-          </div>
-          <button type="submit" class="auth-button" id="loginSubmit">
-            <i class="fas fa-sign-in-alt"></i>
-            Logga in
-          </button>
-          <div class="auth-divider">eller</div>
-          <div class="social-login">
-            <button type="button" class="social-button google-login">
-              <i class="fab fa-google"></i>
-              Google
-            </button>
-            <button type="button" class="social-button facebook-login">
-              <i class="fab fa-facebook"></i>
-              Facebook
-            </button>
-          </div>
-          <div class="auth-redirect">
-            <a href="#" class="forgot-password">Glömt lösenord?</a>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-`;
+        </div>
+    `;
 
-// Kontrollera om modalen redan finns i DOM:en
-if (!document.getElementById('loginModal')) {
-  // Lägg till modalen i DOM:en när skriptet laddas
-  document.body.insertAdjacentHTML('beforeend', loginModalHTML);
-}
+    // Lägg till modal i body
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-// Hämta DOM-element
-const loginModal = document.getElementById('loginModal');
-const loginForm = document.getElementById('loginForm');
-const passwordInput = document.getElementById('loginPassword');
-const passwordToggle = loginModal.querySelector('.password-toggle');
-const closeButton = loginModal.querySelector('.login-modal-close');
-const overlay = loginModal.querySelector('.login-modal-overlay');
+    // Hämta modal-element
+    const modal = document.getElementById('loginModal');
+    const closeButton = modal.querySelector('.close-button');
+    const loginForm = document.getElementById('loginForm');
+    const togglePasswordButton = modal.querySelector('.toggle-password');
+    const passwordInput = modal.querySelector('#loginPassword');
 
-// Funktion för att öppna modalen
-function openLoginModal() {
-  // Spara nuvarande sidans scroll-position
-  const scrollY = window.scrollY;
-  
-  loginModal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  document.body.style.position = 'fixed';
-  document.body.style.top = `-${scrollY}px`;
-  document.body.style.width = '100%';
-}
+    // Funktion för att öppna modalen
+    window.openLoginModal = function() {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    };
 
-// Funktion för att stänga modalen
-function closeLoginModal() {
-  loginModal.classList.remove('open');
-  
-  // Återställ scroll-position
-  const scrollY = document.body.style.top;
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.overflow = '';
-  document.body.style.width = '';
-  window.scrollTo(0, parseInt(scrollY || '0') * -1);
-}
+    // Funktion för att stänga modalen
+    window.closeLoginModal = function() {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+    };
 
-// Hantera stängning av modalen
-closeButton.addEventListener('click', closeLoginModal);
-overlay.addEventListener('click', closeLoginModal);
+    // Event listeners
+    closeButton.addEventListener('click', closeLoginModal);
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeLoginModal();
+        }
+    });
 
-// Hantera lösenordsvisning
-passwordToggle.addEventListener('click', () => {
-  const type = passwordInput.type === 'password' ? 'text' : 'password';
-  passwordInput.type = type;
-  passwordToggle.querySelector('i').className = `fas fa-${type === 'password' ? 'eye' : 'eye-slash'}`;
+    // Toggle password visibility
+    togglePasswordButton.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('fa-eye');
+        this.querySelector('i').classList.toggle('fa-eye-slash');
+    });
+
+    // Hantera formulärinlämning
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        
+        if (!email || !password) {
+            alert('Vänligen fyll i både e-post och lösenord');
+            return;
+        }
+        
+        // Här kan du lägga till logik för att hantera inloggning
+        // För nu visar vi bara ett meddelande
+        alert('Inloggad!');
+        closeLoginModal();
+    });
 });
-
-// Hantera formulärinlämning
-loginForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  
-  const submitButton = loginForm.querySelector('button[type="submit"]');
-  submitButton.disabled = true;
-  submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loggar in...';
-  
-  try {
-    // Simulera backend-anrop
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Simulera framgångsrik inloggning
-    window.location.reload();
-  } catch (error) {
-    alert('Ett fel uppstod. Försök igen senare.');
-  } finally {
-    submitButton.disabled = false;
-    submitButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Logga in';
-  }
-});
-
-// Exportera funktioner för användning i andra filer
-window.openLoginModal = openLoginModal;
-window.closeLoginModal = closeLoginModal;
