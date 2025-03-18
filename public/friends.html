@@ -356,10 +356,16 @@
           <span class="balance-amount">2,500</span>
         </div>
         
-        <button class="btn btn-primary login-button">
-          <i class="fas fa-sign-in-alt"></i>
-          Logga in
-        </button>
+        <div class="top-menu">
+          <button type="button" class="login-btn" onclick="openLoginModal()">
+            <i class="fas fa-user"></i>
+            <span>Logga in</span>
+          </button>
+          <button type="button" class="register-btn" onclick="openRegisterModal()">
+            <i class="fas fa-user-plus"></i>
+            <span>Skapa konto</span>
+          </button>
+        </div>
       </div>
     </div>
   </header>

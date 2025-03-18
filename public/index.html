@@ -144,7 +144,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <button type="button" class="nav-link" onclick="openCreateBetModal()">
+            <button type="button" class="nav-link" onclick="checkLoginAndOpenCreateBet()">
               <i class="fas fa-plus-circle"></i>
               <span>Skapa Bet</span>
             </button>
@@ -175,14 +175,16 @@
           <i class="fas fa-coins"></i>
           <span>0 GoCoins</span>
         </div>
-        <button type="button" class="register-button" onclick="openRegisterModal()">
-          <i class="fas fa-user-plus"></i>
-          <span>Skapa konto</span>
-        </button>
-        <button type="button" class="login-button" onclick="openLoginModal()">
-          <i class="fas fa-sign-in-alt"></i>
-          <span>Logga in</span>
-        </button>
+        <div class="top-menu">
+          <button type="button" class="login-btn" onclick="openLoginModal()">
+            <i class="fas fa-user"></i>
+            <span>Logga in</span>
+          </button>
+          <button type="button" class="register-btn" onclick="openRegisterModal()">
+            <i class="fas fa-user-plus"></i>
+            <span>Skapa konto</span>
+          </button>
+        </div>
       </div>
     </div>
   </header>

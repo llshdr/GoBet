@@ -100,18 +100,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Hantera formulärinlämning
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
-        
-        if (!email || !password) {
+        const rememberMe = document.getElementById('rememberMe').checked;
+
+        // Här kan vi lägga till riktig autentisering
+        // För nu använder vi en enkel simulering
+        if (email && password) {
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userEmail', email);
+            if (rememberMe) {
+                localStorage.setItem('rememberMe', 'true');
+            }
+            closeLoginModal();
+            alert('Inloggning lyckades!');
+        } else {
             alert('Vänligen fyll i både e-post och lösenord');
-            return;
         }
-        
-        // Här kan du lägga till logik för att hantera inloggning
-        // För nu visar vi bara ett meddelande
-        alert('Inloggad!');
-        closeLoginModal();
     });
 });
