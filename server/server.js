@@ -1,3 +1,8 @@
+/**
+ * GoBet - Express Server
+ * Huvudapplikationsfilen för backend
+ */
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -5,10 +10,16 @@ const path = require('path');
 const dotenv = require('dotenv');
 const http = require('http');
 const socketIo = require('socket.io');
+const morgan = require('morgan');
+const helmet = require('helmet');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const { testConnection } = require('./config/db');
 
 // Routes
 const userRoutes = require('./routes/userRoutes');
 const friendRoutes = require('./routes/friendRoutes');
+const authRoutes = require('./routes/auth');
 
 // Ladda miljövariabler
 dotenv.config();
@@ -23,10 +34,30 @@ const io = socketIo(server, {
   }
 });
 
+// Testa databasanslutning
+testConnection();
+
 // Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(helmet()); // Säkerhetsheaders
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  credentials: true // Tillåt cookies med CORS
+}));
+app.use(express.json()); // Tolka JSON-data
+app.use(express.urlencoded({ extended: true })); // Tolka URL-encoded data
+app.use(cookieParser()); // Tolka cookies
+app.use(morgan('dev')); // Loggning
+
+// Sessionskonfiguration
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'gobet_session_secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    secure: process.env.NODE_ENV === 'production', 
+    maxAge: parseInt(process.env.SESSION_EXPIRE || 86400000) // 24h
+  }
+}));
 
 // Anslut till MongoDB
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/gobet', {
@@ -42,6 +73,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/gobet', {
 // API-rutter
 app.use('/api/users', userRoutes);
 app.use('/api/friends', friendRoutes);
+app.use('/api/auth', authRoutes);
 
 // Temporära demo-API för frontend-utveckling
 app.get('/api/bets/public', (req, res) => {
@@ -162,8 +194,47 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
 });
 
+// Root-rutt för att kolla att servern är igång
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'GoBet API är redo!',
+    version: '1.0.0'
+  });
+});
+
+// Hantera 404
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Resursen kunde inte hittas'
+  });
+});
+
+// Felhantering
+app.use((err, req, res, next) => {
+  console.error('Serverfel:', err.stack);
+  
+  res.status(500).json({
+    success: false,
+    message: 'Ett serverfel inträffade',
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
+});
+
 // Starta servern
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log(`GoBet-servern körs på port ${PORT}`);
+  console.log(`
+  🚀 GoBet API-server igång på port ${PORT}!
+  
+  🌍 ${process.env.NODE_ENV === 'production' ? 'Produktionsläge' : 'Utvecklingsläge'}
+  
+  Tillgängliga rutter:
+  - GET  / - API-status
+  - POST /api/auth/register - Registrera användare
+  - POST /api/auth/login - Logga in
+  - POST /api/auth/logout - Logga ut
+  - GET  /api/auth/me - Hämta inloggad användare
+  `);
 }); 

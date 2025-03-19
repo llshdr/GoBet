@@ -1,76 +1,139 @@
 # GoBet
 
-En social plattform för att skapa och delta i betting-utmaningar med dina vänner.
+GoBet är en plattform för vänskapliga vadslagningar med virtuell valuta.
 
-## Funktioner
+## Installation
 
-- Skapa och delta i bets med vänner
-- Betta med GoCoins eller in-game-föremål
-- Winner-takes-all bets, turneringsbets och mer
-- Lyckohjul med priser
-- Vänlista
-- Användarprofiler
-- Olika prenumerationsplaner
+### Förutsättningar
 
-## E-postverifiering
+För att köra GoBet behöver du:
 
-GoBet använder nu en äkta e-postverifiering för nya användare. När en användare registrerar sig skickas en 6-siffrig verifikationskod till deras e-postadress.
+- Node.js (v14 eller senare)
+- MySQL (v8 eller senare)
 
-### Konfigurera e-post (med SendGrid)
+### Steg för att installera
 
-För att konfigurera e-postutskick, följ dessa steg:
-
-1. Registrera dig för ett [SendGrid-konto](https://sendgrid.com/) (du får 100 gratis mail per dag)
-2. Skapa en API-nyckel i SendGrid-dashboarden
-3. Kopiera API-nyckeln och lägg till den i `.env.local` och i Vercel-miljövariablerna:
-   ```
-   EMAIL_PASSWORD=din_sendgrid_api_nyckel
-   ```
-
-4. (Valfritt) Verifiera din egen domän i SendGrid för bättre leveransgrad
-
-### Andra e-posttjänster
-
-Vill du använda en annan e-posttjänst? Ändra följande i `.env.local` och på Vercel:
-
-```
-EMAIL_HOST=din_smtp_server
-EMAIL_PORT=din_smtp_port
-EMAIL_USER=din_smtp_användare
-EMAIL_PASSWORD=ditt_smtp_lösenord
-EMAIL_FROM=din_från_adress
+1. Klona repot:
+```bash
+git clone https://github.com/llshdr/GoBet.git
+cd GoBet
 ```
 
-## Driftsätta på Vercel
+2. Installera frontend-beroenden:
+```bash
+npm install
+```
 
-1. Pusha dina ändringar till GitHub
-2. Koppla Vercel till ditt GitHub-repository
-3. Lägg till följande miljövariabel i Vercel:
-   - `EMAIL_PASSWORD`: Din SendGrid API-nyckel
+3. Installera backend-beroenden:
+```bash
+cd server
+npm install
+```
 
-Vercel kommer automatiskt att bygga och driftsätta din applikation med både frontend och serverless functions.
+4. Konfigurera MySQL:
+   - Skapa en databas och användare för GoBet
+   - Uppdatera inställningarna i `server/.env`
 
-## Lokal utveckling
+```
+DB_HOST=localhost
+DB_USER=gobet_user
+DB_PASSWORD=ditt_lösenord
+DB_NAME=gobet
+```
 
-1. Klona repository:
-   ```
-   git clone https://github.com/yourusername/gobet.git
-   ```
+5. Kör databas-setup:
+```bash
+npm run setup-db
+```
 
-2. Installera beroenden:
-   ```
-   npm install
-   ```
+Detta kommer att skapa databasen, tabellerna och lägga till exempeldata.
 
-3. Skapa en `.env.local` fil med dina e-postinställningar
+## Starta applikationen
 
-4. Starta utvecklingsservern:
-   ```
-   npm run dev
-   ```
+### Utvecklingsläge
 
-5. Öppna [http://localhost:3000](http://localhost:3000) i din webbläsare
+1. Starta backend-servern:
+```bash
+cd server
+npm run dev
+```
+
+2. Öppna en annan terminal och starta frontend-servern:
+```bash
+npm run dev
+```
+
+3. Besök applikationen på http://localhost:3000
+
+### Produktionsläge
+
+1. Bygg frontend:
+```bash
+npm run build
+```
+
+2. Starta servern:
+```bash
+cd server
+npm start
+```
+
+## Inloggningsuppgifter för testanvändare
+
+Du kan använda följande inloggningsuppgifter för att testa:
+
+- Admin: `admin@gobet.com` / `admin123`
+- Testanvändare: `kalle@exempel.se` / `password123`
+
+## API-dokumentation
+
+### Autentisering
+
+#### Registrera användare
+```
+POST /api/auth/register
+```
+
+Parametrar:
+- `username`: Användarnamn
+- `email`: E-post
+- `password`: Lösenord
+- `firstName`: (valfritt) Förnamn
+- `lastName`: (valfritt) Efternamn
+
+#### Logga in
+```
+POST /api/auth/login
+```
+
+Parametrar:
+- `email`: E-post
+- `password`: Lösenord
+
+#### Logga ut
+```
+POST /api/auth/logout
+```
+
+#### Hämta inloggad användare
+```
+GET /api/auth/me
+```
+
+## Utveckling
+
+### Mappstruktur
+
+- `public/` - Frontend-filer
+  - `css/` - Stilmallar
+  - `js/` - JavaScript-filer
+  - `images/` - Bilder
+- `server/` - Backend-kod
+  - `config/` - Konfigurationsfiler
+  - `controllers/` - API-controllers
+  - `middleware/` - Middleware-funktioner
+  - `routes/` - API-rutter
 
 ## Licens
 
-Detta projekt är licensierat under MIT-licensen. 
+Denna programvara är skyddad av upphovsrätt. 

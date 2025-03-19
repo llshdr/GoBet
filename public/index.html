@@ -107,6 +107,8 @@
       line-height: 1.6;
     }
   </style>
+  <script src="js/auth.js" defer></script>
+  <script src="js/main.js" defer></script>
 </head>
 <body>
   <header class="app-header">
@@ -196,7 +198,7 @@
           <h1 class="hero-title">Satsa bland vänner, vinn tillsammans</h1>
           <p class="hero-subtitle">Skapa och delta i roliga vadslagningar med dina vänner. Enkelt, kul och socialt!</p>
           <div class="action-buttons">
-            <button type="button" class="btn btn-primary btn-lg" onclick="openCreateBetModal()">
+            <button type="button" class="btn btn-primary btn-lg" onclick="checkLoginAndOpenCreateBet()">
               <i class="fas fa-dice"></i>
               Skapa din första bet
             </button>
@@ -532,11 +534,25 @@
     </div>
   </footer>
   
-  <!-- Scripts -->
-  <script src="js/main.js"></script>
-  <script src="js/login-modal.js"></script>
-  <script src="js/register-modal.js"></script>
-  <script src="js/create-bet-modal.js"></script>
-  <script src="js/navigation.js"></script>
+  <div id="modals-container">
+    <!-- Login och register-modaler kommer att inkluderas här -->
+  </div>
+
+  <script>
+    // Ladda in modaler dynamiskt
+    document.addEventListener('DOMContentLoaded', function() {
+      const modalsContainer = document.getElementById('modals-container');
+      
+      // Ladda in login-modal.html
+      fetch('login-modal.html')
+        .then(response => response.text())
+        .then(html => {
+          modalsContainer.innerHTML = html;
+        })
+        .catch(error => {
+          console.error('Kunde inte ladda modaler:', error);
+        });
+    });
+  </script>
 </body>
 </html> 

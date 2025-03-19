@@ -711,12 +711,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function checkLoginAndOpenCreateBet() {
-    // Här kan vi lägga till en kontroll för att se om användaren är inloggad
-    // För nu använder vi localStorage som en enkel lösning
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const isLoggedIn = localStorage.getItem('gobet_logged_in') === 'true';
     
     if (!isLoggedIn) {
-        alert('Du måste logga in för att skapa ett bet!');
+        showNotification('Du måste logga in för att skapa ett bet!', 'warning');
         openLoginModal();
         return;
     }
