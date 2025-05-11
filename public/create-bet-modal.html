@@ -1,0 +1,228 @@
+<!-- Create Bet Modal -->
+<div id="create-bet-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Skapa nytt vad</h2>
+      <span class="close" onclick="closeCreateBetModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>Skapa ett nytt vad och bjud in dina vänner att delta!</p>
+      
+      <form id="create-bet-form">
+        <div class="form-group">
+          <label for="bet-title">Titel</label>
+          <input type="text" id="bet-title" name="title" placeholder="T.ex. Vem vinner matchen ikväll?" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="bet-description">Beskrivning</label>
+          <textarea id="bet-description" name="description" rows="3" placeholder="Beskriv vadet i mer detalj..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="bet-options">Alternativ (kommaseparerade)</label>
+          <input type="text" id="bet-options" name="options" placeholder="T.ex. Lag A, Lag B, Oavgjort" required>
+          <small class="text-muted">Ange minst två alternativ, separerade med kommatecken.</small>
+        </div>
+        
+        <div class="form-group">
+          <label for="bet-amount">Insats (GoCoins)</label>
+          <input type="number" id="bet-amount" name="amount" min="5" value="10" required>
+          <small class="text-muted">Minimum insats är 5 GoCoins.</small>
+        </div>
+        
+        <div class="form-group">
+          <label for="bet-end-date">Slutdatum</label>
+          <input type="datetime-local" id="bet-end-date" name="endDate" required>
+          <small class="text-muted">Vadet stängs automatiskt vid detta datum och tidpunkt.</small>
+        </div>
+        
+        <div class="form-group">
+          <label for="bet-invite-friends">Bjud in vänner (valfritt)</label>
+          <select id="bet-invite-friends" name="invitedFriends" multiple>
+            <!-- Detta kommer att fyllas dynamiskt med JavaScript -->
+          </select>
+          <small class="text-muted">Håll ner Ctrl (Windows) eller Cmd (Mac) för att välja flera vänner.</small>
+        </div>
+        
+        <div class="form-group">
+          <div class="checkbox-wrapper">
+            <input type="checkbox" id="bet-private" name="isPrivate">
+            <label for="bet-private">Privat vad (endast inbjudna kan delta)</label>
+          </div>
+        </div>
+        
+        <div id="create-bet-error" class="form-error"></div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Skapa vad</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Create Bet Modal CSS -->
+<style>
+  .checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+  }
+  
+  .checkbox-wrapper input[type="checkbox"] {
+    margin-right: 0.5rem;
+    width: auto;
+  }
+  
+  .checkbox-wrapper label {
+    margin-bottom: 0;
+  }
+  
+  .text-muted {
+    color: var(--text-light);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: block;
+  }
+  
+  textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--surface-light);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    resize: vertical;
+    font-family: inherit;
+  }
+  
+  textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+    outline: none;
+  }
+  
+  select[multiple] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--surface-light);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    min-height: 120px;
+  }
+  
+  select[multiple]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+    outline: none;
+  }
+  
+  select[multiple] option {
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+    border-radius: var(--border-radius-sm);
+  }
+  
+  select[multiple] option:checked {
+    background-color: rgba(var(--primary-rgb), 0.1);
+    color: var(--primary-color);
+  }
+</style>
+
+<!-- Create Bet Modal JavaScript -->
+<script>
+  // Öppna create bet modal
+  function openCreateBetModal() {
+    document.getElementById('create-bet-modal').style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Förhindra scrollning på bakgrunden
+    
+    // Sätta min-datum till idag plus 1 timme
+    const now = new Date();
+    now.setHours(now.getHours() + 1);
+    const minDateTime = now.toISOString().slice(0, 16);
+    document.getElementById('bet-end-date').min = minDateTime;
+    
+    // Sätta default värde till idag plus 24 timmar
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const defaultDateTime = tomorrow.toISOString().slice(0, 16);
+    document.getElementById('bet-end-date').value = defaultDateTime;
+    
+    // Hämta och visa vänlista (exempel - skulle ersättas med riktig API-anrop)
+    loadFriendsList();
+  }
+  
+  // Stäng create bet modal
+  function closeCreateBetModal() {
+    document.getElementById('create-bet-modal').style.display = 'none';
+    document.body.style.overflow = ''; // Återaktivera scrollning
+  }
+  
+  // Exempel på funktion för att ladda vänlista
+  function loadFriendsList() {
+    const friendSelector = document.getElementById('bet-invite-friends');
+    
+    // Rensa befintliga alternativ
+    friendSelector.innerHTML = '';
+    
+    // Detta skulle ersättas med ett API-anrop till servern för att hämta vänlista
+    // Exempel på data för demonstration
+    const mockFriends = [
+      { id: 1, username: 'Sven123' },
+      { id: 2, username: 'AnnaB' },
+      { id: 3, username: 'JohanL' },
+      { id: 4, username: 'LisaK' },
+      { id: 5, username: 'MikaelS' }
+    ];
+    
+    // Lägg till vänner till select-listan
+    mockFriends.forEach(friend => {
+      const option = document.createElement('option');
+      option.value = friend.id;
+      option.textContent = friend.username;
+      friendSelector.appendChild(option);
+    });
+  }
+  
+  // Hantera formulärinskickning
+  document.getElementById('create-bet-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const formData = new FormData(this);
+    const betData = {
+      title: formData.get('title'),
+      description: formData.get('description'),
+      options: formData.get('options').split(',').map(option => option.trim()),
+      amount: Number(formData.get('amount')),
+      endDate: formData.get('endDate'),
+      isPrivate: formData.get('isPrivate') === 'on',
+      invitedFriends: Array.from(document.getElementById('bet-invite-friends').selectedOptions).map(option => option.value)
+    };
+    
+    // Validera att det finns minst två alternativ
+    if (betData.options.length < 2) {
+      document.getElementById('create-bet-error').textContent = 'Du måste ange minst två alternativ.';
+      return;
+    }
+    
+    // Validera att titeln inte är tom
+    if (!betData.title.trim()) {
+      document.getElementById('create-bet-error').textContent = 'Du måste ange en titel.';
+      return;
+    }
+    
+    // Detta skulle ersättas med ett API-anrop till servern för att skapa vadet
+    console.log('Skapa vad:', betData);
+    
+    // Visa bekräftelse och stäng modal (bara för demonstration)
+    alert('Vadet har skapats!');
+    closeCreateBetModal();
+    this.reset();
+  });
+</script> 

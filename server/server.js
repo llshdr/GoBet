@@ -15,6 +15,7 @@ const helmet = require('helmet');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const { testConnection } = require('./config/db');
+const { isLoggedIn } = require('./middleware/auth');
 
 // Routes
 const userRoutes = require('./routes/userRoutes');
@@ -35,10 +36,10 @@ const io = socketIo(server, {
 });
 
 // Testa databasanslutning
-testConnection();
+testConnection().catch(console.error);
 
 // Middleware
-app.use(helmet()); // Säkerhetsheaders
+app.use(helmet({ contentSecurityPolicy: false })); // Säkerhetsheaders, CSP av för enklare utveckling
 app.use(cors({
   origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
   credentials: true // Tillåt cookies med CORS
@@ -55,7 +56,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: { 
     secure: process.env.NODE_ENV === 'production', 
-    maxAge: parseInt(process.env.SESSION_EXPIRE || 86400000) // 24h
+    httpOnly: true,
+    maxAge: parseInt(process.env.SESSION_EXPIRE || 30 * 24 * 60 * 60 * 1000) // 30 dagar default
   }
 }));
 
@@ -191,20 +193,20 @@ io.on('connection', (socket) => {
 
 // Servera frontend för alla övriga rutter
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
 // Root-rutt för att kolla att servern är igång
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.json({
     success: true,
-    message: 'GoBet API är redo!',
-    version: '1.0.0'
+    message: 'GoBet API är igång',
+    timestamp: new Date().toISOString()
   });
 });
 
-// Hantera 404
-app.use((req, res) => {
+// Hantera 404 för API-rutter
+app.use('/api/*', (req, res) => {
   res.status(404).json({
     success: false,
     message: 'Resursen kunde inte hittas'
@@ -213,28 +215,25 @@ app.use((req, res) => {
 
 // Felhantering
 app.use((err, req, res, next) => {
-  console.error('Serverfel:', err.stack);
+  console.error('Server error:', err);
   
-  res.status(500).json({
-    success: false,
-    message: 'Ett serverfel inträffade',
-    error: process.env.NODE_ENV === 'development' ? err.message : undefined
-  });
+  // Kontrollera om det är en API-route
+  if (req.originalUrl.startsWith('/api')) {
+    const statusCode = err.statusCode || 500;
+    res.status(statusCode).json({
+      success: false,
+      message: err.message || 'Ett serverfel inträffade',
+      error: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
+  } else {
+    // För icke-API routes, visa ett enkelt felmeddelande
+    res.status(500).send('Ett serverfel inträffade');
+  }
 });
 
 // Starta servern
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-  console.log(`
-  🚀 GoBet API-server igång på port ${PORT}!
-  
-  🌍 ${process.env.NODE_ENV === 'production' ? 'Produktionsläge' : 'Utvecklingsläge'}
-  
-  Tillgängliga rutter:
-  - GET  / - API-status
-  - POST /api/auth/register - Registrera användare
-  - POST /api/auth/login - Logga in
-  - POST /api/auth/logout - Logga ut
-  - GET  /api/auth/me - Hämta inloggad användare
-  `);
+  console.log(`Server igång på port ${PORT}`);
+  console.log(`API tillgänglig på http://localhost:${PORT}/api`);
 }); 

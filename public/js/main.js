@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialisera komponenter
     initUserMenu();
-    checkLoginStatus();
+    checkAuthStatus();
     initMobileMenu();
     initTabs();
     initOptions();
@@ -20,171 +20,395 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Ladda demo-data (ersätts senare med API-anrop)
     loadDemoData();
+    
+    // Registrera event listeners för modaler
+    setupModalListeners();
+    
+    // Registrera logga ut-knapp event listener
+    setupLogoutButton();
+    
+    // Sätt upp "skapa vad"-knapp
+    setupCreateBetButton();
 });
 
 /**
- * Kontrollera användarens inloggningsstatus
+ * Kontrollera inloggningsstatus och uppdatera UI
  */
-function checkLoginStatus() {
-    const isLoggedIn = localStorage.getItem('gobet_logged_in') === 'true';
-    const userData = JSON.parse(localStorage.getItem('gobet_user') || '{}');
-    
-    // Uppdatera användarmenyn
-    updateUserMenu(isLoggedIn, userData);
-    
-    // Hantera åtkomstrestriktioner för inloggningskrävande sidor
-    handleAccessRestrictions(isLoggedIn);
-    
-    // Initiera utloggningsknapp
-    initLogout();
-}
-
-/**
- * Uppdatera användarmenyn baserat på inloggningsstatus
- */
-function updateUserMenu(isLoggedIn, userData) {
-    const userMenuButton = document.querySelector('.user-menu-btn');
-    const userAvatar = document.getElementById('userAvatar');
-    const userDisplayName = document.getElementById('userDisplayName');
-    const userPlanBadge = document.querySelector('.user-plan-badge');
-    const balanceDisplay = document.querySelector('.balance span');
-    const loginButtons = document.querySelectorAll('.login-button');
-    
-    if (!userMenuButton && !loginButtons.length) return;
-    
-    if (isLoggedIn && userData) {
-        // Användaren är inloggad, visa användarinformation
-        if (userAvatar && userData.avatar) {
-            userAvatar.src = userData.avatar;
-            userAvatar.alt = userData.username || 'Avatar';
+async function checkAuthStatus() {
+    try {
+        // Hämta token från localStorage
+        const token = localStorage.getItem('token');
+        
+        // Om ingen token, uppdatera UI för utloggad användare
+        if (!token) {
+            updateUIForLoggedOutUser();
+            return;
         }
         
-        if (userDisplayName) {
-            userDisplayName.textContent = userData.displayName || userData.firstName + ' ' + userData.lastName || userData.username || 'Användare';
-        }
-        
-        // Visa användarmenyn och dölj inloggningsknappar
-        if (userMenuButton) userMenuButton.style.display = 'flex';
-        loginButtons.forEach(button => {
-            button.style.display = 'none';
+        // Anropa API:et för att verifiera token och hämta användarinfo
+        const response = await fetch('/api/auth/me', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         });
         
-        if (userPlanBadge) {
-            const plan = localStorage.getItem('gobet_user_plan') || 'free';
-            userPlanBadge.className = 'user-plan-badge ' + plan;
-            userPlanBadge.textContent = plan === 'free' ? 'Gratis' : 
-                                     plan === 'premium' ? 'Premium' : 'Premium+';
+        // Om anropet misslyckas, rensa token och uppdatera UI
+        if (!response.ok) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            updateUIForLoggedOutUser();
+            return;
         }
         
-        if (balanceDisplay) {
-            const coins = localStorage.getItem('gobet_user_coins') || '5000';
-            balanceDisplay.textContent = `${coins} GoCoins`;
-        }
-    } else {
-        // Användaren är inte inloggad, visa inloggningslänk
-        if (userMenuButton) userMenuButton.style.display = 'none';
-        loginButtons.forEach(button => {
-            button.style.display = 'flex';
-        });
+        // Uppdatera user info
+        const data = await response.json();
+        localStorage.setItem('user', JSON.stringify(data.user));
         
-        if (userAvatar) {
-            userAvatar.src = "https://ui-avatars.com/api/?name=Gäst&background=6c757d&color=fff";
-            userAvatar.alt = "Gäst";
-        }
+        // Uppdatera UI för inloggad användare
+        updateUIForLoggedInUser(data.user);
         
-        if (userDisplayName) {
-            userDisplayName.textContent = "Gäst";
-        }
-        
-        if (userPlanBadge) {
-            userPlanBadge.className = 'user-plan-badge guest';
-            userPlanBadge.textContent = 'Inte inloggad';
-        }
-        
-        if (balanceDisplay) {
-            balanceDisplay.textContent = '0 GoCoins';
-        }
+    } catch (error) {
+        console.error('Auth check error:', error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        updateUIForLoggedOutUser();
     }
 }
 
 /**
- * Hantera åtkomstrestriktioner baserat på inloggningsstatus
+ * Uppdatera UI baserat på utloggad användare
  */
-function handleAccessRestrictions(isLoggedIn) {
-    // Lista över sidor som kräver inloggning
-    const restrictedPages = [
-        'profile.html',
-        'create-bet.html',
-        'wheel.html'
-    ];
+function updateUIForLoggedOutUser() {
+    // Visa "logga in" och "skapa konto" knappar
+    const loginButtons = document.querySelectorAll('.login-btn, .auth-button[data-action="login"]');
+    const registerButtons = document.querySelectorAll('.register-btn, .auth-button[data-action="register"]');
     
-    // Kontrollera om aktuell sida kräver inloggning
-    const currentPage = window.location.pathname.split('/').pop();
-    const requiresLogin = restrictedPages.some(page => currentPage.includes(page));
-    
-    if (requiresLogin && !isLoggedIn) {
-        // Om sidan kräver inloggning men användaren inte är inloggad,
-        // visa en varning och begränsa funktionalitet
-        showLoginWarning();
-        restrictFunctionality();
-    }
-}
-
-/**
- * Visa varning om att användaren måste logga in
- */
-function showLoginWarning() {
-    // Skapa varningselement om det inte redan finns
-    if (!document.getElementById('loginWarning')) {
-        const warning = document.createElement('div');
-        warning.id = 'loginWarning';
-        warning.className = 'login-warning';
-        warning.innerHTML = `
-            <div class="warning-content">
-                <i class="fa-solid fa-lock"></i>
-                <h3>Inloggning krävs</h3>
-                <p>Du måste vara inloggad för att använda denna funktionalitet.</p>
-                <a href="login.html" class="btn btn-primary">Logga in</a>
-            </div>
-        `;
-        
-        // Lägg till varningen i huvudinnehållet
-        const mainContent = document.querySelector('.main-content');
-        if (mainContent) {
-            mainContent.prepend(warning);
-        } else {
-            document.body.prepend(warning);
-        }
-    }
-}
-
-/**
- * Begränsa funktionalitet för icke inloggade användare
- */
-function restrictFunctionality() {
-    // Inaktivera interaktiva element
-    const interactiveElements = document.querySelectorAll('button:not(.btn-primary), .btn-join, #spinButton, #buySpinButton, input[type="submit"]');
-    
-    interactiveElements.forEach(element => {
-        element.disabled = true;
-        element.classList.add('disabled');
-        
-        // Lägg till tooltip
-        element.setAttribute('title', 'Logga in för att använda denna funktion');
-        
-        // Lägg till klickhändelse som visar inloggningsmeddelande
-        element.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            alert('Du måste logga in för att använda denna funktion.');
-        });
+    loginButtons.forEach(button => {
+        button.style.display = 'inline-flex';
     });
     
-    // Dölj känsligt innehåll
-    const sensitiveContent = document.querySelectorAll('.wheel-of-fortune, .bet-card:not(:first-child), .create-bet-form');
+    registerButtons.forEach(button => {
+        button.style.display = 'inline-flex';
+    });
     
-    sensitiveContent.forEach(element => {
-        element.classList.add('blurred');
+    // Dölj element som kräver inloggning
+    const loggedInElements = document.querySelectorAll('.requires-auth, .logged-in-only');
+    loggedInElements.forEach(element => {
+        element.style.display = 'none';
+    });
+    
+    // Dölj användarmenyn om den finns
+    const userMenu = document.querySelector('.user-menu');
+    if (userMenu) {
+        userMenu.style.display = 'none';
+    }
+    
+    // Dölj saldovisning
+    const balanceElements = document.querySelectorAll('.balance-display, .balance-amount');
+    balanceElements.forEach(element => {
+        element.textContent = '0';
+        element.parentElement.style.display = 'none';
+    });
+    
+    // Dölj logga ut-knapp
+    const logoutButtons = document.querySelectorAll('.logout-btn, .auth-button[data-action="logout"]');
+    logoutButtons.forEach(button => {
+        button.style.display = 'none';
+    });
+    
+    // Visa element endast för utloggade
+    const loggedOutElements = document.querySelectorAll('.logged-out-only');
+    loggedOutElements.forEach(element => {
+        element.style.display = '';
+    });
+    
+    // Dölj "skapa vad"-knapp
+    const createBetButtons = document.querySelectorAll('.create-bet-button');
+    createBetButtons.forEach(button => {
+        button.style.display = 'none';
+    });
+}
+
+/**
+ * Uppdatera UI baserat på inloggad användare
+ */
+function updateUIForLoggedInUser(user) {
+    // Dölj "logga in" och "skapa konto" knappar
+    const loginButtons = document.querySelectorAll('.login-btn, .auth-button[data-action="login"]');
+    const registerButtons = document.querySelectorAll('.register-btn, .auth-button[data-action="register"]');
+    
+    loginButtons.forEach(button => {
+        button.style.display = 'none';
+    });
+    
+    registerButtons.forEach(button => {
+        button.style.display = 'none';
+    });
+    
+    // Visa element som kräver inloggning
+    const loggedInElements = document.querySelectorAll('.requires-auth, .logged-in-only');
+    loggedInElements.forEach(element => {
+        element.style.display = '';
+    });
+    
+    // Visa användarmenyn om den finns
+    const userMenu = document.querySelector('.user-menu');
+    if (userMenu) {
+        userMenu.style.display = 'flex';
+        
+        // Uppdatera användarnamn
+        const usernameElements = userMenu.querySelectorAll('.username');
+        usernameElements.forEach(element => {
+            element.textContent = user.username;
+        });
+    }
+    
+    // Uppdatera saldovisning
+    const balanceElements = document.querySelectorAll('.balance-display, .balance-amount');
+    balanceElements.forEach(element => {
+        element.textContent = user.balance || 0;
+        if (element.parentElement) {
+            element.parentElement.style.display = '';
+        }
+    });
+    
+    // Visa logga ut-knapp
+    const logoutButtons = document.querySelectorAll('.logout-btn, .auth-button[data-action="logout"]');
+    logoutButtons.forEach(button => {
+        button.style.display = 'inline-flex';
+    });
+    
+    // Dölj element endast för utloggade
+    const loggedOutElements = document.querySelectorAll('.logged-out-only');
+    loggedOutElements.forEach(element => {
+        element.style.display = 'none';
+    });
+    
+    // Visa "skapa vad"-knapp
+    const createBetButtons = document.querySelectorAll('.create-bet-button');
+    createBetButtons.forEach(button => {
+        button.style.display = 'inline-flex';
+    });
+}
+
+/**
+ * Sätt upp event listeners för modaler
+ */
+function setupModalListeners() {
+    // Login form submission
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Visa loading state
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = 'Loggar in...';
+            submitBtn.disabled = true;
+            
+            const errorEl = document.getElementById('login-error');
+            if (errorEl) errorEl.textContent = '';
+            
+            const email = loginForm.querySelector('[name="email"]').value;
+            const password = loginForm.querySelector('[name="password"]').value;
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Fel användarnamn eller lösenord');
+                }
+                
+                // Spara token och användarinfo
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                
+                // Stäng modal
+                if (typeof closeLoginModal === 'function') {
+                    closeLoginModal();
+                }
+                
+                // Uppdatera UI
+                updateUIForLoggedInUser(data.user);
+                
+                // Återställ formulär
+                loginForm.reset();
+                
+            } catch (error) {
+                if (errorEl) {
+                    errorEl.textContent = error.message || 'Inloggning misslyckades';
+                }
+                console.error('Login error:', error);
+            } finally {
+                // Återställ knapp
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+    
+    // Register form submission
+    const registerForm = document.getElementById('register-form');
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Visa loading state
+            const submitBtn = registerForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = 'Skapar konto...';
+            submitBtn.disabled = true;
+            
+            const errorEl = document.getElementById('register-error');
+            if (errorEl) errorEl.textContent = '';
+            
+            const username = registerForm.querySelector('[name="username"]').value;
+            const email = registerForm.querySelector('[name="email"]').value;
+            const password = registerForm.querySelector('[name="password"]').value;
+            const confirmPassword = registerForm.querySelector('[name="confirmPassword"]').value;
+            
+            // Enkel validering
+            if (password !== confirmPassword) {
+                if (errorEl) errorEl.textContent = 'Lösenorden matchar inte';
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Registreringen misslyckades');
+                }
+                
+                // Stäng register-modal
+                if (typeof closeRegisterModal === 'function') {
+                    closeRegisterModal();
+                }
+                
+                // Visa success-meddelande i login-modal
+                if (typeof openLoginModal === 'function') {
+                    openLoginModal();
+                    
+                    const loginErrorEl = document.getElementById('login-error');
+                    if (loginErrorEl) {
+                        loginErrorEl.style.color = 'green';
+                        loginErrorEl.textContent = 'Konto skapat! Du kan nu logga in.';
+                    }
+                }
+                
+                // Återställ formulär
+                registerForm.reset();
+                
+            } catch (error) {
+                if (errorEl) {
+                    errorEl.textContent = error.message || 'Registreringen misslyckades';
+                }
+                console.error('Register error:', error);
+            } finally {
+                // Återställ knapp
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+}
+
+/**
+ * Sätt upp logga ut-knapp
+ */
+function setupLogoutButton() {
+    // Hitta alla logga ut-knappar
+    const logoutButtons = document.querySelectorAll('.logout-btn, [data-action="logout"]');
+    
+    logoutButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            try {
+                // Hämta token
+                const token = localStorage.getItem('token');
+                
+                if (token) {
+                    // Anropa server för utloggning
+                    await fetch('/api/auth/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                }
+                
+                // Rensa lokal lagring
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                
+                // Uppdatera UI
+                updateUIForLoggedOutUser();
+                
+                // Ladda om sidan (valfritt)
+                // window.location.reload();
+                
+            } catch (error) {
+                console.error('Logout error:', error);
+                
+                // Rensa även vid fel
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                updateUIForLoggedOutUser();
+            }
+        });
+    });
+}
+
+/**
+ * Sätt upp skapa vad-knapp
+ */
+function setupCreateBetButton() {
+    const createBetButtons = document.querySelectorAll('.create-bet-button, [data-action="create-bet"]');
+    
+    createBetButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Kontrollera om användaren är inloggad
+            if (!localStorage.getItem('token')) {
+                // Visa login-modal om inte inloggad
+                if (typeof openLoginModal === 'function') {
+                    openLoginModal();
+                    
+                    const loginErrorEl = document.getElementById('login-error');
+                    if (loginErrorEl) {
+                        loginErrorEl.textContent = 'Du måste vara inloggad för att skapa vad';
+                    }
+                }
+                return;
+            }
+            
+            // Visa skapa vad-modal om inloggad
+            if (typeof openCreateBetModal === 'function') {
+                openCreateBetModal();
+            }
+        });
     });
 }
 
@@ -210,30 +434,6 @@ function initUserMenu() {
                     dropdown.classList.remove('active');
                 }
             }
-        });
-    }
-}
-
-/**
- * Initialisera utloggningsknappen
- */
-function initLogout() {
-    const logoutBtn = document.getElementById('logoutBtn');
-    
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // Rensa användardata från localStorage
-            localStorage.removeItem('gobet_logged_in');
-            localStorage.removeItem('gobet_user');
-            localStorage.removeItem('gobet_remaining_spins');
-            
-            // Visa bekräftelsemeddelande
-            alert('Du har loggats ut.');
-            
-            // Omdirigera till startsidan
-            window.location.href = 'index.html';
         });
     }
 }
