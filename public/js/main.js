@@ -128,6 +128,12 @@ function updateUIForLoggedOutUser() {
     createBetButtons.forEach(button => {
         button.style.display = 'none';
     });
+
+    // Dölj hemsektionen för utloggade användare
+    const homeSection = document.querySelector('.active-bets-section');
+    if (homeSection) {
+        homeSection.style.display = 'none';
+    }
 }
 
 /**
@@ -190,6 +196,12 @@ function updateUIForLoggedInUser(user) {
     createBetButtons.forEach(button => {
         button.style.display = 'inline-flex';
     });
+
+    // Visa hemsektionen för inloggade användare
+    const homeSection = document.querySelector('.active-bets-section');
+    if (homeSection) {
+        homeSection.style.display = 'block';
+    }
 }
 
 /**

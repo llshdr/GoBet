@@ -1,97 +1,136 @@
-// Skapa bet-modal
-document.addEventListener('DOMContentLoaded', function() {
-    // Skapa modal-strukturen
-    const modalHTML = `
-        <div class="modal" id="createBetModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Skapa ny bet</h2>
-                    <button class="close-button" aria-label="Stäng">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="createBetForm" class="auth-form">
-                        <div class="form-group">
-                            <label for="betTitle">Titel</label>
-                            <input type="text" id="betTitle" name="betTitle" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="betDescription">Beskrivning</label>
-                            <textarea id="betDescription" name="betDescription" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="betType">Typ av bet</label>
-                            <select id="betType" name="betType" required>
-                                <option value="sport">Sport</option>
-                                <option value="entertainment">Nöje</option>
-                                <option value="games">Spel</option>
-                                <option value="other">Annat</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="betAmount">Insats (GoCoins)</label>
-                            <input type="number" id="betAmount" name="betAmount" min="100" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="betDeadline">Deadline</label>
-                            <input type="datetime-local" id="betDeadline" name="betDeadline" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="betOptions">Alternativ (ett per rad)</label>
-                            <textarea id="betOptions" name="betOptions" placeholder="Alternativ 1&#10;Alternativ 2&#10;Alternativ 3" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="wta" name="wta">
-                                <span>Winner Takes All</span>
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <i class="fas fa-plus-circle"></i>
-                            Skapa bet
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    `;
+/**
+ * GoBet - Create Bet Modal
+ * Script för att skapa nya vadslagningar
+ */
 
-    // Lägg till modal i body
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
+// Funktioner för att öppna och stänga create-bet-modalen
+function openCreateBetModal() {
+  const modal = document.getElementById('create-bet-modal');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.classList.add('modal-open');
+  }
+}
 
-    // Hämta modal-element
-    const modal = document.getElementById('createBetModal');
-    const closeButton = modal.querySelector('.close-button');
-    const createBetForm = document.getElementById('createBetForm');
+function closeCreateBetModal() {
+  const modal = document.getElementById('create-bet-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.classList.remove('modal-open');
+  }
+}
 
-    // Funktion för att öppna modalen
-    window.openCreateBetModal = function() {
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-    };
+// Kontrollera om användaren är inloggad innan create-bet öppnas
+function checkLoginAndOpenCreateBet() {
+  // Kontrollera om Auth är tillgängligt
+  if (window.Auth && typeof window.Auth.isLoggedIn === 'function') {
+    if (window.Auth.isLoggedIn()) {
+      openCreateBetModal();
+    } else {
+      // Öppna login-modal istället
+      if (typeof openLoginModal === 'function') {
+        openLoginModal();
+      }
+    }
+  } else {
+    // Fallback om Auth inte är tillgängligt
+    openCreateBetModal();
+  }
+}
 
-    // Funktion för att stänga modalen
-    window.closeCreateBetModal = function() {
-        modal.classList.remove('show');
-        document.body.style.overflow = '';
-    };
-
-    // Event listeners
-    closeButton.addEventListener('click', closeCreateBetModal);
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closeCreateBetModal();
-        }
-    });
-
-    // Hantera formulärinlämning
-    createBetForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Här kan du lägga till logik för att hantera skapande av bet
-        // För nu visar vi bara ett meddelande
-        alert('Bet skapad!');
+// Initialisering av modal-händelser
+document.addEventListener('DOMContentLoaded', () => {
+  // Stäng-knappar
+  const closeButtons = document.querySelectorAll('.create-bet-modal .close-modal, .create-bet-modal .cancel-btn');
+  closeButtons.forEach(button => {
+    button.addEventListener('click', closeCreateBetModal);
+  });
+  
+  // Stäng om användaren klickar utanför modalen
+  const modal = document.getElementById('create-bet-modal');
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
         closeCreateBetModal();
+      }
     });
+  }
+  
+  // Hantera skapande av vadslagning
+  const createBetForm = document.getElementById('create-bet-form');
+  if (createBetForm) {
+    createBetForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Kontrollera om användaren är inloggad
+      if (window.Auth && typeof window.Auth.isLoggedIn === 'function' && !window.Auth.isLoggedIn()) {
+        if (typeof openLoginModal === 'function') {
+          openLoginModal();
+        }
+        return;
+      }
+      
+      // Samla in formulärdata
+      const formData = new FormData(createBetForm);
+      const betData = {
+        title: formData.get('bet-title'),
+        description: formData.get('bet-description'),
+        type: formData.get('bet-type'),
+        options: [],
+        deadline: formData.get('bet-deadline'),
+        private: formData.get('bet-private') === 'on',
+        winnerTakesAll: formData.get('winner-takes-all') === 'on'
+      };
+      
+      // Hämta alla alternativ
+      const optionInputs = createBetForm.querySelectorAll('.bet-option-input');
+      optionInputs.forEach(input => {
+        if (input.value.trim()) {
+          betData.options.push(input.value.trim());
+        }
+      });
+      
+      try {
+        // Skicka till API (simulerat för nu)
+        console.log('Skapar vadslagning:', betData);
+        
+        // Visa bekräftelse och stäng modal
+        alert('Vadslagning skapad!');
+        closeCreateBetModal();
+        
+        // Återställ formuläret
+        createBetForm.reset();
+      } catch (error) {
+        console.error('Fel vid skapande av vadslagning:', error);
+      }
+    });
+  }
+  
+  // Hantera dynamiskt tillägg av alternativ
+  const addOptionButton = document.getElementById('add-option-btn');
+  const optionsContainer = document.getElementById('bet-options-container');
+  
+  if (addOptionButton && optionsContainer) {
+    addOptionButton.addEventListener('click', () => {
+      const optionCount = optionsContainer.querySelectorAll('.bet-option-group').length;
+      if (optionCount < 10) { // Max 10 alternativ
+        const newOption = document.createElement('div');
+        newOption.className = 'bet-option-group';
+        newOption.innerHTML = `
+          <input type="text" class="bet-option-input" placeholder="Alternativ ${optionCount + 1}">
+          <button type="button" class="remove-option-btn">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+        
+        // Lägg till händelse för att ta bort alternativ
+        const removeButton = newOption.querySelector('.remove-option-btn');
+        removeButton.addEventListener('click', () => {
+          newOption.remove();
+        });
+        
+        optionsContainer.appendChild(newOption);
+      }
+    });
+  }
 }); 

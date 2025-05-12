@@ -108,88 +108,12 @@
     }
   </style>
   <script src="js/auth.js" defer></script>
+  <script src="js/include-html.js" defer></script>
   <script src="js/main.js" defer></script>
 </head>
 <body>
-  <header class="app-header">
-    <div class="container header-container">
-      <div class="logo-container">
-        <a href="index.html" class="logo">
-          <img src="img/gobet-logo.svg" alt="GoBet" class="logo-image">
-        </a>
-      </div>
-      
-      <button class="mobile-menu-toggle" aria-label="Öppna meny">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      
-      <nav class="main-nav">
-        <ul class="nav-list">
-          <li class="nav-item active">
-            <a href="index.html" class="nav-link">
-              <i class="fas fa-home"></i>
-              <span>Hem</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="friends.html" class="nav-link">
-              <i class="fas fa-user-friends"></i>
-              <span>Vänner</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="wheel.html" class="nav-link">
-              <i class="fas fa-dharmachakra"></i>
-              <span>Lyckohjul</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <button type="button" class="nav-link" onclick="checkLoginAndOpenCreateBet()">
-              <i class="fas fa-plus-circle"></i>
-              <span>Skapa Bet</span>
-            </button>
-          </li>
-          <li class="nav-item">
-            <a href="bets.html" class="nav-link">
-              <i class="fas fa-dice"></i>
-              <span>Vadslagningar</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="shop.html" class="nav-link">
-              <i class="fas fa-store"></i>
-              <span>Butik</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="leaderboard.html" class="nav-link">
-              <i class="fas fa-trophy"></i>
-              <span>Topplista</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      
-      <div class="user-area">
-        <div class="user-balance">
-          <i class="fas fa-coins"></i>
-          <span>0 GoCoins</span>
-        </div>
-        <div class="top-menu">
-          <button type="button" class="login-btn" onclick="openLoginModal()">
-            <i class="fas fa-user"></i>
-            <span>Logga in</span>
-          </button>
-          <button type="button" class="register-btn" onclick="openRegisterModal()">
-            <i class="fas fa-user-plus"></i>
-            <span>Skapa konto</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
+  <!-- Gemensam header - laddas med include-html.js -->
+  <div data-include="header.html"></div>
   
   <main class="main-content">
     <div class="container">
@@ -237,7 +161,7 @@
         </div>
       </section>
       
-      <section class="active-bets-section">
+      <section class="active-bets-section logged-in-only">
         <div class="section-header">
           <h2 class="section-title">Populära bets just nu</h2>
           <a href="bets.html" class="see-more-link">Se alla <i class="fas fa-chevron-right"></i></a>
@@ -460,79 +384,8 @@
     </div>
   </main>
   
-  <footer class="app-footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-brand">
-          <a href="index.html" class="footer-logo">
-            <img src="img/gobet-logo.svg" alt="GoBet" class="footer-logo-image">
-          </a>
-          <p class="footer-tagline">Skapa spännande vadslagningar med dina vänner och vinn tillsammans.</p>
-        </div>
-        
-        <div class="footer-links">
-          <div class="footer-links-column">
-            <h3 class="footer-links-title">Plattform</h3>
-            <ul class="footer-links-list">
-              <li><a href="index.html">Hem</a></li>
-              <li><a href="features.html">Funktioner</a></li>
-              <li><a href="pricing.html">Priser</a></li>
-              <li><a href="faq.html">Vanliga frågor</a></li>
-            </ul>
-          </div>
-          
-          <div class="footer-links-column">
-            <h3 class="footer-links-title">Bets</h3>
-            <ul class="footer-links-list">
-              <li><a href="bets.html">Utforska bets</a></li>
-              <li><a href="create-bet.html">Skapa bet</a></li>
-              <li><a href="my-bets.html">Mina bets</a></li>
-              <li><a href="how-to.html">Hur fungerar det</a></li>
-            </ul>
-          </div>
-          
-          <div class="footer-links-column">
-            <h3 class="footer-links-title">Konto</h3>
-            <ul class="footer-links-list">
-              <li><a href="#" class="login-button">Logga in</a></li>
-              <li><a href="register.html">Skapa konto</a></li>
-              <li><a href="forgot-password.html">Glömt lösenord</a></li>
-              <li><a href="premium.html">Premium</a></li>
-            </ul>
-          </div>
-          
-          <div class="footer-links-column">
-            <h3 class="footer-links-title">Företag</h3>
-            <ul class="footer-links-list">
-              <li><a href="about.html">Om oss</a></li>
-              <li><a href="blog.html">Blogg</a></li>
-              <li><a href="contact.html">Kontakta oss</a></li>
-              <li><a href="careers.html">Karriär</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      
-      <div class="footer-bottom">
-        <div class="copyright">&copy; 2023 GoBet. Alla rättigheter förbehållna.</div>
-        
-        <div class="footer-social">
-          <a href="#" class="social-link" aria-label="Facebook">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="#" class="social-link" aria-label="Twitter">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#" class="social-link" aria-label="Instagram">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="#" class="social-link" aria-label="Discord">
-            <i class="fab fa-discord"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <!-- Gemensam footer - laddas med include-html.js -->
+  <div data-include="footer.html"></div>
   
   <div id="modals-container">
     <!-- Login och register-modaler kommer att inkluderas här -->

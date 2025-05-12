@@ -1,0 +1,145 @@
+<header class="app-header">
+  <div class="container header-container">
+    <div class="logo-container">
+      <a href="index.html" class="logo">
+        <img src="img/gobet-logo.svg" alt="GoBet" class="logo-image">
+      </a>
+    </div>
+    
+    <button class="mobile-menu-toggle" aria-label="Öppna meny">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    
+    <nav class="main-nav">
+      <ul class="nav-list">
+        <li class="nav-item" id="nav-home">
+          <a href="index.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            <span>Hem</span>
+          </a>
+        </li>
+        <li class="nav-item" id="nav-friends">
+          <a href="friends.html" class="nav-link">
+            <i class="fas fa-user-friends"></i>
+            <span>Vänner</span>
+          </a>
+        </li>
+        <li class="nav-item" id="nav-wheel">
+          <a href="wheel.html" class="nav-link">
+            <i class="fas fa-dharmachakra"></i>
+            <span>Lyckohjul</span>
+          </a>
+        </li>
+        <li class="nav-item" id="nav-create-bet">
+          <button type="button" class="nav-link" onclick="checkLoginAndOpenCreateBet()">
+            <i class="fas fa-plus-circle"></i>
+            <span>Skapa Bet</span>
+          </button>
+        </li>
+        <li class="nav-item" id="nav-bets">
+          <a href="bets.html" class="nav-link">
+            <i class="fas fa-dice"></i>
+            <span>Vadslagningar</span>
+          </a>
+        </li>
+        <li class="nav-item" id="nav-shop">
+          <a href="shop.html" class="nav-link">
+            <i class="fas fa-store"></i>
+            <span>Butik</span>
+          </a>
+        </li>
+        <li class="nav-item" id="nav-leaderboard">
+          <a href="leaderboard.html" class="nav-link">
+            <i class="fas fa-trophy"></i>
+            <span>Topplista</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="user-area">
+      <div class="balance-display">
+        <i class="fas fa-coins"></i>
+        <span class="balance-amount">0</span> GoCoins
+      </div>
+      <div class="top-menu">
+        <!-- Knappar för utloggad användare -->
+        <button type="button" class="login-btn" onclick="openLoginModal()">
+          <i class="fas fa-user"></i>
+          <span>Logga in</span>
+        </button>
+        <button type="button" class="register-btn" onclick="openRegisterModal()">
+          <i class="fas fa-user-plus"></i>
+          <span>Skapa konto</span>
+        </button>
+        
+        <!-- Användarmeny för inloggad användare -->
+        <div class="user-menu">
+          <div class="user-info">
+            <img src="img/avatar.jpg" alt="Profilbild" class="user-avatar">
+            <span class="username">Användare</span>
+          </div>
+          <button class="user-menu-toggle">
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="user-dropdown">
+            <a href="profile.html" class="dropdown-item">
+              <i class="fas fa-user"></i>
+              Min profil
+            </a>
+            <a href="my-bets.html" class="dropdown-item">
+              <i class="fas fa-list"></i>
+              Mina bets
+            </a>
+            <a href="settings.html" class="dropdown-item">
+              <i class="fas fa-cog"></i>
+              Inställningar
+            </a>
+            <button type="button" id="logoutBtn" class="dropdown-item logout">
+              <i class="fas fa-sign-out-alt"></i>
+              Logga ut
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Markera aktuell sida i navigeringen
+  document.addEventListener('DOMContentLoaded', function() {
+    const currentPath = window.location.pathname;
+    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    // Ta bort "active" klass från alla nav-items
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.remove('active');
+    });
+    
+    // Lägg till "active" klass till rätt nav-item
+    switch(filename) {
+      case '':
+      case 'index.html':
+        document.getElementById('nav-home').classList.add('active');
+        break;
+      case 'friends.html':
+        document.getElementById('nav-friends').classList.add('active');
+        break;
+      case 'wheel.html':
+        document.getElementById('nav-wheel').classList.add('active');
+        break;
+      case 'bets.html':
+        document.getElementById('nav-bets').classList.add('active');
+        break;
+      case 'shop.html':
+        document.getElementById('nav-shop').classList.add('active');
+        break;
+      case 'leaderboard.html':
+        document.getElementById('nav-leaderboard').classList.add('active');
+        break;
+    }
+  });
+</script> 

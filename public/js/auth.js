@@ -3,334 +3,226 @@
  * Klientbibliotek för autentisering mot GoBet API
  */
 
-// API URL för auth requests
-const API_URL = '/api/auth';
+// Autentiseringshantering för GoBet
+const API_URL = '/api';
 
-// Hjälpfunktion för att göra API-anrop
-async function fetchAPI(url, options = {}) {
-  try {
-    // Lägg till token i Authorization header om den finns i localStorage
-    const token = localStorage.getItem('token');
-    if (token) {
-      options.headers = {
-        ...options.headers,
-        'Authorization': `Bearer ${token}`
-      };
+// Hjälpfunktion för att hantera API-anrop
+async function fetchAPI(endpoint, options = {}) {
+    try {
+        const response = await fetch(`${API_URL}${endpoint}`, {
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Ett fel uppstod');
+        }
+        
+        return data;
+    } catch (error) {
+        console.error('API Error:', error);
+        throw error;
     }
-    
-    const response = await fetch(url, {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-      }
-    });
-    
-    const data = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(data.message || 'Något gick fel');
-    }
-    
-    return data;
-  } catch (error) {
-    console.error('API Error:', error);
-    throw error;
-  }
 }
 
-// Auth object med metoder för auth-hantering
-const Auth = {
-  /**
-   * Registrera en ny användare
-   * @param {string} username - Användarens användarnamn
-   * @param {string} email - Användarens e-post
-   * @param {string} password - Användarens lösenord
-   * @returns {Promise<Object>} API-svar
-   */
-  async register(username, email, password) {
+// Registrera ny användare
+async function registerUser(userData) {
     try {
-      const data = await fetchAPI(`${API_URL}/register`, {
-        method: 'POST',
-        body: JSON.stringify({ username, email, password })
-      });
-      
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  },
-  
-  /**
-   * Logga in en användare
-   * @param {string} email - Användarens e-post
-   * @param {string} password - Användarens lösenord
-   * @returns {Promise<Object>} API-svar
-   */
-  async login(email, password) {
-    try {
-      const data = await fetchAPI(`${API_URL}/login`, {
-        method: 'POST',
-        body: JSON.stringify({ email, password })
-      });
-      
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  },
-  
-  /**
-   * Logga ut användaren
-   * @returns {Promise<Object>} API-svar
-   */
-  async logout() {
-    try {
-      await fetchAPI(`${API_URL}/logout`, {
-        method: 'POST'
-      });
-      
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      
-      // Uppdatera UI
-      this.updateAuthUI();
-    } catch (error) {
-      console.error('Utloggningsfel:', error);
-      // Rensa lokal lagring även vid fel
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-    }
-  },
-  
-  /**
-   * Hämta inloggad användare
-   * @returns {Promise<Object>} API-svar
-   */
-  async getUser() {
-    try {
-      const data = await fetchAPI(`${API_URL}/me`);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      return data.user;
-    } catch (error) {
-      console.error('Fel vid hämtning av användare:', error);
-      return null;
-    }
-  },
-  
-  /**
-   * Kontrollera om användaren är inloggad
-   * @returns {boolean} true om användaren är inloggad
-   */
-  isLoggedIn() {
-    return localStorage.getItem('token') !== null && localStorage.getItem('user') !== null;
-  },
-  
-  /**
-   * Hämta användarinfo från lokal lagring
-   * @returns {Object|null} Användarinfo eller null om inte inloggad
-   */
-  getCurrentUser() {
-    const userJson = localStorage.getItem('user');
-    return userJson ? JSON.parse(userJson) : null;
-  },
-  
-  /**
-   * Uppdatera UI baserat på inloggningsstatus
-   */
-  updateAuthUI() {
-    const isLoggedIn = this.isLoggedIn();
-    const currentUser = this.getCurrentUser();
-    
-    // Elemnent som ska visas/döljas när inloggad/utloggad
-    const authButtons = document.querySelectorAll('.auth-button');
-    const userElements = document.querySelectorAll('.user-element');
-    const createBetButton = document.querySelector('.create-bet-button');
-    
-    if (isLoggedIn && currentUser) {
-      // Dölj login/register knappar
-      authButtons.forEach(button => {
-        button.style.display = 'none';
-      });
-      
-      // Visa användarspecifika element
-      userElements.forEach(element => {
-        element.style.display = 'block';
+        const data = await fetchAPI('/auth/register', {
+            method: 'POST',
+            body: JSON.stringify(userData)
+        });
         
-        // Uppdatera användarnamn om elementet har username-klass
-        if (element.classList.contains('username')) {
-          element.textContent = currentUser.username;
-        }
+        // Spara token och användardata
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
         
-        // Uppdatera saldo om elementet har balance-klass
-        if (element.classList.contains('balance')) {
-          element.textContent = `${currentUser.balance || 0} GoCoins`;
-        }
-      });
-      
-      // Visa skapa bet knapp om den finns
-      if (createBetButton) {
-        createBetButton.style.display = 'block';
-      }
-    } else {
-      // Visa login/register knappar
-      authButtons.forEach(button => {
-        button.style.display = 'inline-flex';
-      });
-      
-      // Dölj användarspecifika element
-      userElements.forEach(element => {
-        element.style.display = 'none';
-      });
-      
-      // Dölj skapa bet knapp om den finns
-      if (createBetButton) {
-        createBetButton.style.display = 'none';
-      }
+        return data;
+    } catch (error) {
+        throw error;
     }
-  }
-};
+}
 
-// Hantera login-formulär
+// Logga in användare
+async function loginUser(credentials) {
+    try {
+        const data = await fetchAPI('/auth/login', {
+            method: 'POST',
+            body: JSON.stringify(credentials)
+        });
+        
+        // Spara token och användardata
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+// Logga ut användare
+function logoutUser() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/';
+}
+
+// Kontrollera om användaren är inloggad
+function isLoggedIn() {
+    return !!localStorage.getItem('token');
+}
+
+// Hämta nuvarande användare
+function getCurrentUser() {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+}
+
+// Hämta auth token
+function getAuthToken() {
+    return localStorage.getItem('token');
+}
+
+// Uppdatera UI baserat på inloggningsstatus
+function updateAuthUI() {
+    const user = getCurrentUser();
+    const isUserLoggedIn = isLoggedIn();
+    
+    // Uppdatera knappar och menyer
+    const loginButtons = document.querySelectorAll('.login-btn, .auth-button[data-action="login"]');
+    const registerButtons = document.querySelectorAll('.register-btn, .auth-button[data-action="register"]');
+    const userMenu = document.querySelector('.user-menu');
+    const balanceDisplay = document.querySelector('.balance-display');
+    const homeSection = document.querySelector('.active-bets-section'); // Home-sektionen
+
+    if (isUserLoggedIn && user) {
+        // Visa användarmenyn och dölj inloggningsknappar
+        loginButtons.forEach(btn => btn.style.display = 'none');
+        registerButtons.forEach(btn => btn.style.display = 'none');
+        
+        if (userMenu) {
+            userMenu.style.display = 'flex';
+            const usernameElement = userMenu.querySelector('.username');
+            if (usernameElement) {
+                usernameElement.textContent = user.username;
+            }
+        }
+        
+        if (balanceDisplay) {
+            balanceDisplay.style.display = 'flex';
+            const balanceAmount = balanceDisplay.querySelector('.balance-amount');
+            if (balanceAmount) {
+                balanceAmount.textContent = user.balance || '0';
+            }
+        }
+
+        // Visa home-sektionen för inloggade användare
+        if (homeSection) {
+            homeSection.style.display = 'block';
+        }
+    } else {
+        // Visa inloggningsknappar och dölj användarmenyn
+        loginButtons.forEach(btn => btn.style.display = 'inline-flex');
+        registerButtons.forEach(btn => btn.style.display = 'inline-flex');
+        
+        if (userMenu) {
+            userMenu.style.display = 'none';
+        }
+        
+        if (balanceDisplay) {
+            balanceDisplay.style.display = 'none';
+        }
+
+        // Dölj home-sektionen för icke-inloggade användare
+        if (homeSection) {
+            homeSection.style.display = 'none';
+        }
+    }
+}
+
+// Event listeners för formulär
 document.addEventListener('DOMContentLoaded', () => {
-  // Uppdatera UI när sidan laddas
-  Auth.updateAuthUI();
-  
-  // Hämta användare om token finns men user info saknas
-  if (localStorage.getItem('token') && !localStorage.getItem('user')) {
-    Auth.getUser().then(() => {
-      Auth.updateAuthUI();
-    });
-  }
-  
-  // Login form handler
-  const loginForm = document.getElementById('login-form');
-  if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      // Visa en loading indikator
-      const submitButton = loginForm.querySelector('button[type="submit"]');
-      const originalButtonText = submitButton.textContent;
-      submitButton.textContent = 'Loggar in...';
-      submitButton.disabled = true;
-      
-      const errorEl = document.getElementById('login-error');
-      errorEl.textContent = '';
-      
-      const email = loginForm.querySelector('[name="email"]').value;
-      const password = loginForm.querySelector('[name="password"]').value;
-      
-      try {
-        await Auth.login(email, password);
-        
-        // Stäng modal
-        if (typeof closeLoginModal === 'function') {
-          closeLoginModal();
-        }
-        
-        // Uppdatera UI
-        Auth.updateAuthUI();
-        
-        // Återställ formulär
-        loginForm.reset();
-        
-        // Ladda om sidan om användaren omdirigeras
-        if (loginForm.dataset.redirect) {
-          window.location.href = loginForm.dataset.redirect;
-        } else {
-          // Ladda om aktuell sida för att uppdatera allt
-          window.location.reload();
-        }
-      } catch (error) {
-        console.error('Login error:', error);
-        errorEl.textContent = error.message || 'Fel e-post eller lösenord';
-      } finally {
-        // Återställ knappen
-        submitButton.textContent = originalButtonText;
-        submitButton.disabled = false;
-      }
-    });
-  }
-  
-  // Register form handler
-  const registerForm = document.getElementById('register-form');
-  if (registerForm) {
-    registerForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      // Visa en loading indikator
-      const submitButton = registerForm.querySelector('button[type="submit"]');
-      const originalButtonText = submitButton.textContent;
-      submitButton.textContent = 'Skapar konto...';
-      submitButton.disabled = true;
-      
-      const errorEl = document.getElementById('register-error');
-      errorEl.textContent = '';
-      
-      const username = registerForm.querySelector('[name="username"]').value;
-      const email = registerForm.querySelector('[name="email"]').value;
-      const password = registerForm.querySelector('[name="password"]').value;
-      const confirmPassword = registerForm.querySelector('[name="confirmPassword"]').value;
-      
-      // Validera lösenord
-      if (password !== confirmPassword) {
-        errorEl.textContent = 'Lösenorden matchar inte';
-        submitButton.textContent = originalButtonText;
-        submitButton.disabled = false;
-        return;
-      }
-      
-      try {
-        await Auth.register(username, email, password);
-        
-        // Stäng modal
-        if (typeof closeRegisterModal === 'function') {
-          closeRegisterModal();
-        }
-        
-        // Uppdatera UI
-        Auth.updateAuthUI();
-        
-        // Återställ formulär
-        registerForm.reset();
-        
-        // Ladda om sidan om användaren omdirigeras
-        if (registerForm.dataset.redirect) {
-          window.location.href = registerForm.dataset.redirect;
-        } else {
-          // Ladda om aktuell sida för att uppdatera allt
-          window.location.reload();
-        }
-      } catch (error) {
-        console.error('Register error:', error);
-        errorEl.textContent = error.message || 'Ett fel uppstod vid registrering';
-      } finally {
-        // Återställ knappen
-        submitButton.textContent = originalButtonText;
-        submitButton.disabled = false;
-      }
-    });
-  }
-  
-  // Logout handler
-  const logoutButton = document.getElementById('logout-button');
-  if (logoutButton) {
-    logoutButton.addEventListener('click', async (e) => {
-      e.preventDefault();
-      await Auth.logout();
-      
-      // Ladda om sidan efter utloggning
-      window.location.reload();
-    });
-  }
+    // Login form
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            try {
+                await loginUser({ email, password });
+                updateAuthUI();
+                window.location.reload();
+            } catch (error) {
+                const errorElement = document.getElementById('login-error');
+                if (errorElement) {
+                    errorElement.textContent = error.message;
+                }
+            }
+        });
+    }
+    
+    // Register form
+    const registerForm = document.getElementById('register-form');
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                const errorElement = document.getElementById('register-error');
+                if (errorElement) {
+                    errorElement.textContent = 'Lösenorden matchar inte';
+                }
+                return;
+            }
+            
+            try {
+                await registerUser({ username, email, password });
+                updateAuthUI();
+                window.location.reload();
+            } catch (error) {
+                const errorElement = document.getElementById('register-error');
+                if (errorElement) {
+                    errorElement.textContent = error.message;
+                }
+            }
+        });
+    }
+    
+    // Logout button
+    const logoutButton = document.getElementById('logoutBtn');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            logoutUser();
+            updateAuthUI();
+        });
+    }
+    
+    // Initial UI update
+    updateAuthUI();
 });
 
 // Exportera Auth för användning i andra skript
-window.Auth = Auth;
+window.Auth = {
+  register: registerUser,
+  login: loginUser,
+  logout: logoutUser,
+  isLoggedIn: isLoggedIn,
+  getCurrentUser: getCurrentUser,
+  getAuthToken: getAuthToken,
+  updateAuthUI: updateAuthUI
+};
